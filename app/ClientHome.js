@@ -17,7 +17,7 @@ export default function ClientHome({ allPostsData }) {
   return (
     <div className="container">
       <header className="site-header">
-        <h1>个人博客</h1>
+        <h1>linsheng的博客</h1>
         <p className="subtitle">记录技术与思考</p>
       </header>
 
