@@ -177,3 +177,125 @@ body {
   background: var(--code-bg);
   font-weight: 600;
 }
+
+/* 站点样式 */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem 1rem 3rem;
+  }
+}
+
+.site-header {
+  text-align: center;
+  padding: 4rem 0 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.site-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--fg);
+  margin-bottom: 0.6rem;
+}
+
+.site-header .subtitle {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+}
+
+.item-list {
+  list-style: none;
+}
+
+.item-list article {
+  padding: 1.4rem 0;
+}
+
+.item-list article + article {
+  border-top: 1px solid var(--border-light);
+}
+
+.item-list a {
+  text-decoration: none;
+  color: var(--fg);
+  display: block;
+  transition: opacity 0.15s;
+}
+
+.item-list a:hover {
+  opacity: 0.7;
+}
+
+.item-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.item-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+}
+
+.item-description {
+  font-size: 0.9rem;
+  color: var(--fg-soft);
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 3rem 0 1rem;
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* 文章页面样式 */
+.post-header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+.post-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+}
+
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
