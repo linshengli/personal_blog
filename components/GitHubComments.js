@@ -1,34 +1,67 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+// 配置：请在使用前更新这些值
+const GISCUS_CONFIG = {
+  repo: 'linshengli/personal_blog', // 例如：'tbxsx/personal_blogs'
+  repoId: 'R_kgDORbKyMA',
+  category: 'General',
+  categoryId: 'DIC_kwDORbKyMM4C3aHJ',
+};
 
 export default function GitHubComments({ issueTerm }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
-    // Giscus 脚本会在页面加载后自动执行
-    // 这里不需要额外处理，因为 script 标签会在 HTML 中渲染
-  }, []);
+    // 检查配置是否已设置
+    if (!GISCUS_CONFIG.repo || !GISCUS_CONFIG.repoId) {
+      console.log('Giscus 评论系统未配置，请在 components/GitHubComments.js 中设置');
+      return;
+    }
+
+    // 动态加载 Giscus 脚本
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.setAttribute('data-repo', GISCUS_CONFIG.repo);
+    script.setAttribute('data-repo-id', GISCUS_CONFIG.repoId);
+    script.setAttribute('data-category', GISCUS_CONFIG.category);
+    script.setAttribute('data-category-id', GISCUS_CONFIG.categoryId);
+    script.setAttribute('data-mapping', 'term');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'top');
+    script.setAttribute('data-theme', 'preferred_color_scheme');
+    script.setAttribute('data-lang', 'zh-CN');
+    script.setAttribute('data-issue-term', issueTerm);
+
+    script.onload = () => setIsLoaded(true);
+
+    const container = document.querySelector('.giscus-container');
+    if (container) {
+      container.appendChild(script);
+    }
+
+    return () => {
+      if (container && script.parentNode === container) {
+        container.removeChild(script);
+      }
+    };
+  }, [issueTerm]);
+
+  // 如果未配置，不显示评论区
+  if (!GISCUS_CONFIG.repo || !GISCUS_CONFIG.repoId) {
+    return null;
+  }
 
   return (
     <section className="comments-section">
       <h2 className="comments-title">评论</h2>
       <div className="giscus-container" />
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="YOUR_GITHUB_USERNAME/YOUR_REPO_NAME"
-        data-repo-id="YOUR_REPO_ID"
-        data-category="Announcements"
-        data-category-id="YOUR_CATEGORY_ID"
-        data-mapping="term"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-issue-term={issueTerm}
-        crossOrigin="anonymous"
-        async
-      />
+      {!isLoaded && <p style={{ color: 'var(--muted)', textAlign: 'center' }}>加载中...</p>}
     </section>
   );
 }

@@ -8,7 +8,9 @@
       "Bash(npx tailwindcss:*)",
       "Bash(npm run:*)",
       "WebSearch",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(pkill:*)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
