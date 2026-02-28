@@ -444,3 +444,22 @@ body {
   padding-top: 2rem;
   border-top: 1px solid var(--border);
 }
+
+/* KaTeX math styles */
+.katex {
+  font-size: 1em;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+  margin: 1em 0;
+}
+
+/* 深色模式下的 KaTeX 样式调整 */
+@media (prefers-color-scheme: dark) {
+  .katex {
+    color: var(--fg);
+  }
+}
