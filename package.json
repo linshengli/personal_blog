@@ -1,0 +1,27 @@
+{
+  "name": "personal_blogs",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "一个简单的个人博客系统",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.4.27",
+    "gray-matter": "^4.0.3",
+    "next": "^16.1.6",
+    "postcss": "^8.5.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "tailwindcss": "^4.2.1"
+  }
+}
