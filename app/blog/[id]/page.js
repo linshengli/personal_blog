@@ -1,5 +1,4 @@
 import { getAllPostIds, getPostData } from '@/lib/posts';
-import Head from 'next/head';
 import Link from 'next/link';
 import GitHubComments from '@/components/GitHubComments';
 
@@ -8,22 +7,33 @@ export default async function BlogPost({ params }) {
   const postData = await getPostData(id);
 
   if (!postData) {
-    return <div>Article not found</div>;
+    return (
+      <div className="container">
+        <div className="no-results">文章不存在</div>
+      </div>
+    );
   }
 
   return (
     <div className="container">
-      <Head>
-        <title>{postData.title} - 个人博客</title>
-        <meta name="description" content={postData.description || ''} />
-      </Head>
+      <Link href="/" className="back-link">
+        ← 返回首页
+      </Link>
 
-      <header className="post-header">
-        <Link href="/" className="back-link">← 返回首页</Link>
-        <h1 className="post-title">{postData.title}</h1>
-        <div className="post-meta">
+      <header className="article-header">
+        <h1>{postData.title}</h1>
+        <div className="meta">
           <span>{postData.date}</span>
         </div>
+        {postData.tags && postData.tags.length > 0 && (
+          <div className="tags">
+            {postData.tags.map((tag, index) => (
+              <span key={index} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </header>
 
       <article
@@ -34,7 +44,9 @@ export default async function BlogPost({ params }) {
       <GitHubComments issueTerm={id} />
 
       <footer className="post-footer">
-        <Link href="/" className="back-link">← 返回首页</Link>
+        <Link href="/" className="back-link">
+          ← 返回首页
+        </Link>
       </footer>
     </div>
   );
