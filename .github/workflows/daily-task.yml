@@ -1,4 +1,4 @@
-name: Daily Task
+name: Daily Research Task
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # 允许手动触发
 
 jobs:
-  daily-task:
+  daily-research:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run daily script (TypeScript)
+      - name: Run daily research script
         run: npm run daily
-        env:
-          # 在这里添加需要的环境变量
-          # EXAMPLE_VAR: ${{ secrets.EXAMPLE_VAR }}
+
+      - name: Commit and push if there are changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: add daily research log - $(date +%Y-%m-%d)"
+            git push
+          else
+            echo "No changes to commit"
+          fi
