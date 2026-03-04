@@ -19,23 +19,33 @@ export default function KaTeXLoader() {
       }
     };
 
-    // 检查脚本是否已加载
-    const script = document.querySelector('script[src*="katex/auto-render"]');
-    if (script && script.readyState === 'complete') {
-      initializeKatex();
-    } else if (script) {
-      script.addEventListener('load', initializeKatex);
+    // 页面加载完成后渲染
+    if (document.readyState === 'complete') {
+      // 延迟一点确保 KaTeX 脚本已加载
+      setTimeout(initializeKatex, 100);
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(initializeKatex, 100);
+      });
     }
 
-    // 页面加载完成后也尝试渲染（防止脚本已加载但事件已错过）
-    if (document.readyState === 'complete') {
-      initializeKatex();
-    } else {
-      window.addEventListener('load', initializeKatex);
-    }
+    // 防抖：避免频繁触发 KaTeX 渲染
+    let debounceTimer: NodeJS.Timeout;
+    const observer = new MutationObserver(() => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        initializeKatex();
+      }, 500);
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
     return () => {
-      window.removeEventListener('load', initializeKatex);
+      clearTimeout(debounceTimer);
+      observer.disconnect();
     };
   }, []);
 

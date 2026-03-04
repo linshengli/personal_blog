@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:concept.x.fish)",
+      "WebFetch(domain:*)",
       "Bash(curl:*)",
       "Bash(npm init:*)",
       "Bash(npm install:*)",
@@ -13,7 +14,18 @@
       "WebFetch(domain:github.com)",
       "Bash(dig:*)",
       "Bash(ping:*)",
-      "Bash(host:*)"
+      "Bash(host:*)",
+      "WebFetch(domain:spec.modelcontextprotocol.io)",
+      "WebFetch(domain:google.github.io)",
+      "WebFetch(domain:python.langchain.com)",
+      "WebFetch(domain:glin.github.io)",
+      "WebFetch(domain:www.anthropic.com)",
+      "WebFetch(domain:openai.com)",
+      "WebFetch(domain:qwenlm.github.io)",
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:catalyst.bytedance.com)",
+      "Bash(ls:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }

@@ -1,403 +1,302 @@
-# MCP (Model Context Protocol) 概念剖析报告
+# MCP 概念剖析
 
-> 调研日期：2026-03-01
-> 主题：MCP 技术概念与原理
+> 调研日期：2026-03-04
+> 调研主题：Model Context Protocol (MCP)
 
 ---
 
 ## 1. 定义澄清
 
-### 1.1 通行定义
+### 通行定义
 
-**MCP (Model Context Protocol)** 是一个开源的、标准化的协议，用于连接 AI 应用程序与外部系统。它提供了一种统一的方式来暴露数据源、工具和预定义交互模板，使 AI 模型能够访问关键信息并执行任务。
+**Model Context Protocol (MCP)** 是一个开源标准协议，用于连接 AI 应用程序与外部系统。它提供了一种标准化的方式，让 AI 助手（如 Claude、ChatGPT）能够访问外部数据源（本地文件、数据库）、工具（搜索引擎、计算器）和工作流（专用提示词模板）。
 
-MCP 的核心类比是 **"AI 应用的 USB-C 端口"**：正如 USB-C 为电子设备提供标准化连接，MCP 为 AI 应用与外部系统的连接提供了标准化协议。
+MCP 的核心定位类似于 **AI 应用程序的 USB-C 接口**——正如 USB-C 为电子设备提供统一的连接标准，MCP 为 AI 应用程序与外部系统的连接提供统一协议。
 
-MCP 包含三个核心层次：
-- **数据层**：基于 JSON-RPC 2.0 的协议交换，定义消息格式和语义
-- **传输层**：管理通信通道（Stdio/HTTP）和认证机制
-- **原语层**：定义 Tools、Resources、Prompts 三大核心原语
-
-### 1.2 常见误解
+### 常见误解
 
 | 误解 | 正确理解 |
 |------|----------|
-| **误解 1：MCP 是一个 AI 框架或 SDK** | MCP 是**协议规范**，SDK 只是协议的实现。核心是协议本身，而非具体实现 |
-| **误解 2：MCP 等同于 Function Calling** | Function Calling 是 LLM 的内部能力，MCP 是**外部系统与 AI 应用之间的桥梁协议** |
-| **误解 3：MCP 只能用于本地工具调用** | MCP 支持**本地 (Stdio)** 和**远程 (HTTP)** 两种传输，可连接云端服务 |
-| **误解 4：MCP 管理 LLM 如何调用工具** | MCP **不决定** AI 如何使用上下文，只定义如何提供上下文 |
+| "MCP 是一个具体的软件产品" | MCP 是一个协议标准 + 一组 SDK 和参考实现，不是单一软件 |
+| "MCP 只支持本地工具调用" | MCP 支持 STDIO（本地）和 Streamable HTTP（远程）两种传输层，可连接远程服务 |
+| "MCP 包含 LLM 调用逻辑" | MCP 只负责上下文交换协议，不规定 AI 应用如何使用 LLM |
+| "MCP Server 必须本地运行" | MCP Server 可以本地执行（STDIO 传输）或远程部署（HTTP 传输） |
+| "MCP 是 Anthropic 专有技术" | MCP 是开源标准，有跨语言 SDK 和多厂商支持 |
 
-### 1.3 边界辨析
+### 边界辨析
 
-| 概念 | 核心职责 | 与 MCP 的区别 |
-|------|----------|---------------|
-| **Function Calling** | LLM 内部机制，用于生成工具调用请求 | MCP 是**协议层**，Function Calling 是**模型层** |
-| **Plugin (插件)** | 特定平台 (如 ChatGPT) 的扩展机制 | MCP 是**跨平台开放标准**，不绑定特定厂商 |
-| **API 集成** | 点对点的接口调用 | MCP 提供**标准化的发现和协商机制**，支持动态能力发现 |
-| **Agent Framework** | 智能体的编排和执行框架 | MCP 专注于**上下文交换协议**，不涉及 Agent 编排逻辑 |
+| MCP | 相邻概念 | 核心区别 |
+|-----|----------|----------|
+| MCP | OpenAPI/Swagger | OpenAPI 定义 REST API 规范；MCP 定义 AI 上下文交换协议，支持双向通信 |
+| MCP | LangChain Tools | LangChain 是 Python/JS 框架，绑定特定语言；MCP 是语言无关的协议标准 |
+| MCP | gRPC | gRPC 是通用 RPC 框架；MCP 专注于 AI 场景，内置 Tools/Resources/Prompts 语义 |
+| MCP | Function Calling | Function Calling 是 LLM 原生能力；MCP 是独立的协议层，可跨模型复用 |
 
 ---
 
 ## 2. 核心架构
 
-### 2.1 参与者架构图
-
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           MCP Host (AI Application)                          │
-│                        (e.g., Claude Desktop, Claude Code)                   │
-│                                                                              │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐              │
-│  │   MCP Client 1  │  │   MCP Client 2  │  │   MCP Client 3  │              │
-│  │   (Session A)   │  │   (Session B)   │  │   (Session C)   │              │
-│  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘              │
-│           │                    │                    │                        │
-│           │ Dedicated          │ Dedicated          │ Dedicated              │
-│           │ Connection         │ Connection         │ Connection             │
-│           ▼                    ▼                    ▼                        │
-└─────────────────────────────────────────────────────────────────────────────┘
-           │                    │                    │
-           │ Stdio              │ Stdio              │ HTTP                   │
-           │ Transport          │ Transport          │ Transport              │
-           ▼                    ▼                    ▼
-┌──────────────────┐  ┌──────────────────┐  ┌───────────────────────────────┐  │
-│   MCP Server A   │  │   MCP Server B   │  │       MCP Server C            │  │
-│   (Local)        │  │   (Local)        │  │       (Remote)                │  │
-│   Filesystem     │  │   Database       │  │       e.g., Sentry API        │  │
-└──────────────────┘  └──────────────────┘  └───────────────────────────────┘  │
-```
-
-### 2.2 分层架构图
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Application Layer                            │
-│  (AI Host: Claude Desktop, Claude Code, Custom Apps)            │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     Data Layer (Protocol)                        │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │              JSON-RPC 2.0 Message Exchange                │  │
-│  ├───────────────────────────────────────────────────────────┤  │
-│  │  Lifecycle Management │  Capability Negotiation           │  │
-│  ├───────────────────────────────────────────────────────────┤  │
-│  │  Server Primitives           │  Client Primitives         │  │
-│  │  • Tools (list/call)         │  • Sampling (complete)     │  │
-│  │  • Resources (list/read)     │  • Elicitation (request)   │  │
-│  │  • Prompts (list/get)        │  • Logging                 │  │
-│  ├───────────────────────────────────────────────────────────┤  │
-│  │  Notifications │  Progress Tracking │  Tasks (Experimental)│  │
-│  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Transport Layer                               │
-│  ┌─────────────────────────┐  ┌─────────────────────────────┐  │
-│  │   Stdio Transport       │  │   HTTP Transport            │  │
-│  │   (Local IPC)           │  │   (Remote RPC)              │  │
-│  │   • stdin/stdout        │  │   • HTTP POST               │  │
-│  │   • Low latency         │  │   • SSE Streaming           │  │
-│  │   • Single client       │  │   • OAuth/Bearer Auth       │  │
-│  └─────────────────────────┘  └─────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                    MCP 系统架构                               │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │              MCP Host (AI Application)                  │ │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │ │
+│  │  │ MCP Client 1│  │ MCP Client 2│  │ MCP Client 3│     │ │
+│  │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘     │ │
+│  └─────────┼────────────────┼────────────────┼────────────┘ │
+│            │                │                │              │
+│            │ Dedicated      │ Dedicated      │ Dedicated    │
+│            │ Connection     │ Connection     │ Connection   │
+│            ▼                ▼                ▼              │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌────────────────┐ │
+│  │ MCP Server A    │ │ MCP Server B    │ │ MCP Server C   │ │
+│  │ (Local - STDIO) │ │ (Local - STDIO) │ │ (Remote - HTTP)│ │
+│  │ Filesystem      │ │ Database        │ │ Sentry         │ │
+│  └─────────────────┘ └─────────────────┘ └────────────────┘ │
+│                                                              │
+├──────────────────────────────────────────────────────────────┤
+│                      传输层 (Transport)                       │
+│  ┌─────────────────────────┬──────────────────────────────┐ │
+│  │ STDIO Transport         │ Streamable HTTP Transport    │ │
+│  │ - 本地进程通信           │ - 远程 HTTP 通信               │ │
+│  │ - 无网络开销             │ - 支持 OAuth 认证             │ │
+│  └─────────────────────────┴──────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│                      数据层 (Data Layer)                      │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │  JSON-RPC 2.0 协议层                                     │ │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │ │
+│  │  │ Tools        │  │ Resources    │  │ Prompts      │  │ │
+│  │  │ (执行函数)    │  │ (数据源)      │  │ (模板)        │  │ │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘  │ │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │ │
+│  │  │ Sampling     │  │ Elicitation  │  │ Logging      │  │ │
+│  │  │ (LLM 采样)    │  │ (用户输入)    │  │ (日志)        │  │ │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘  │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-### 2.3 数据流向图
+### 组件职责
 
-```
-┌──────────────┐                    ┌──────────────┐
-│  MCP Client  │                    │  MCP Server  │
-│   (Host)     │                    │   (Provider) │
-└──────┬───────┘                    └──────┬───────┘
-       │                                   │
-       │  1. initialize (capabilities)     │
-       │──────────────────────────────────>│
-       │                                   │
-       │  2. initialize response           │
-       │<──────────────────────────────────│
-       │                                   │
-       │  3. notifications/initialized     │
-       │──────────────────────────────────>│
-       │                                   │
-       │  4. tools/list                    │
-       │──────────────────────────────────>│
-       │                                   │
-       │  5. tools list response           │
-       │<──────────────────────────────────│
-       │                                   │
-       │  6. tools/call (name, args)       │
-       │──────────────────────────────────>│
-       │                                   │
-       │  7. tool result (content)         │
-       │<──────────────────────────────────│
-       │                                   │
-       │  8. notifications/tools/list_changed (async)
-       │<──────────────────────────────────│
-```
+| 组件 | 职责 |
+|------|------|
+| **MCP Host** | AI 应用程序（如 Claude Code、VS Code），协调和管理一个或多个 MCP 客户端 |
+| **MCP Client** | 维护与 MCP Server 的连接，获取上下文数据供 Host 使用 |
+| **MCP Server** | 提供上下文数据的程序，可本地或远程部署 |
+| **Tools** | 可执行函数，AI 应用可调用以执行操作（文件操作、API 调用、数据库查询） |
+| **Resources** | 数据源，提供上下文信息（文件内容、数据库记录、API 响应） |
+| **Prompts** | 可复用模板，结构化与 LLM 的交互（系统提示词、few-shot 示例） |
 
 ---
 
 ## 3. 数学形式化
 
-### 3.1 协议通信模型
+### 3.1 MCP 通信模型
 
-MCP 基于 JSON-RPC 2.0 构建，可形式化为以下通信模型：
-
-**定义 1 (MCP 消息三元组)**：每条 MCP 消息可表示为三元组 $M = (method, params, id)$，其中：
-- $method \in \mathcal{M}$ 是方法名，来自预定义的方法集合
-- $params \in \mathcal{P}$ 是参数对象
-- $id \in \mathbb{N} \cup \{\bot\}$ 是请求标识符，$\bot$ 表示通知（无需响应）
-
-**定义 2 (响应映射)**：响应函数 $R: \mathbb{N} \times \mathcal{M} \rightarrow \mathcal{R} \cup \mathcal{E}$ 将请求映射到结果或错误：
-
-$$R(id, method) = \begin{cases}
-(result, \bot) & \text{if success} \\
-(\bot, error) & \text{if failure}
-\end{cases}$$
-
-### 3.2 能力协商形式化
-
-**定义 3 (能力协商)**：初始化握手过程可形式化为能力交集计算：
-
-$$C_{effective} = C_{client} \cap C_{server} = \{(p, f) \mid (p, f) \in C_{client} \land (p, f) \in C_{server}\}$$
+$$
+\text{MCP} = (H, \{C_i\}_{i=1}^n, \{S_j\}_{j=1}^m, \mathcal{T}, \mathcal{D})
+$$
 
 其中：
-- $C_{client} = \{(p_i, f_i) \mid p_i \in Primitives, f_i \in Features\}$
-- $C_{server} = \{(p_j, f_j) \mid p_j \in Primitives, f_j \in Features\}$
-- $Primitives = \{tools, resources, prompts, \dots\}$
-- $Features = \{listChanged, subscribe, \dots\}$
+- $H$：MCP Host 集合
+- $C_i$：第 $i$ 个 MCP Client
+- $S_j$：第 $j$ 个 MCP Server
+- $\mathcal{T}$：传输层协议（STDIO 或 HTTP）
+- $\mathcal{D}$：数据层协议（JSON-RPC 2.0）
 
-**协议版本兼容性**：
+### 3.2 能力协商公式
 
-$$Compatible(v_c, v_s) = \begin{cases}
-true & \text{if } |date(v_c) - date(v_s)| \leq \delta \\
-false & \text{otherwise}
-\end{cases}$$
+初始化阶段的能力协商：
 
-其中 $\delta$ 是协议版本容忍窗口（通常为 0，要求精确匹配）。
+$$
+\text{Capabilities}(C, S) = \text{Capabilities}_C \cap \text{Capabilities}_S
+$$
+
+$$
+\text{Capabilities}_C = \{elicitation, sampling, \dots\}
+$$
+
+$$
+\text{Capabilities}_S = \{tools, resources, prompts, notifications, \dots\}
+$$
 
 ### 3.3 工具调用语义
 
-**定义 4 (工具调用)**：工具调用是一个映射函数 $T: \mathcal{N} \times \mathcal{A} \rightarrow \mathcal{C} \cup \{\bot\}$：
-
-$$T(name, args) = \begin{cases}
-content \in \mathcal{C} & \text{if } name \in \mathcal{N}_{available} \land args \models Schema(name) \\
-\bot & \text{otherwise}
-\end{cases}$$
+$$
+\text{ToolCall}(t, args) \rightarrow \text{Content}[]
+$$
 
 其中：
-- $\mathcal{N}_{available}$ 是可用工具名称集合
-- $Schema(name)$ 是工具的输入 Schema
-- $\models$ 表示 JSON Schema 验证关系
-- $\mathcal{C}$ 是内容对象集合（文本、图像、音频、资源等）
+- $t \in \text{Tools}$：工具名称
+- $args \models \text{inputSchema}(t)$：参数符合输入模式
+- $\text{Content} = \{text, image, resource, \dots\}$：返回内容类型
 
-**工具发现操作**：
+### 3.4 通知效率增益
 
-$$\mathcal{N}_{available} = \bigcup_{s \in Servers} \{t.name \mid t \in tools/list(s)\}$$
+相较于轮询（Polling），通知（Notification）的带宽节省：
 
-### 3.4 资源定位与订阅
+$$
+\text{Efficiency} = \frac{N_{poll} \times T}{N_{notify}} = \frac{\text{轮询次数} \times \text{周期}}{\text{实际通知次数}}
+$$
 
-**定义 5 (资源 URI 空间)**：资源空间 $\mathcal{R}$ 由 URI 唯一标识：
-
-$$\mathcal{R} = \{r \mid r.uri \in \mathcal{U}, r \text{ conforms to RFC 3986}\}$$
-
-**资源读取操作**：
-
-$$Read: \mathcal{U} \rightarrow \mathcal{Content} \cup \{error\}$$
-$$Read(uri) = \begin{cases}
-content & \text{if } uri \in \mathcal{R}_{accessible} \\
-ResourceNotFound & \text{if } uri \notin \mathcal{R} \\
-AccessDenied & \text{if } uri \notin \mathcal{R}_{accessible}
-\end{cases}$$
-
-**订阅机制**：订阅关系可表示为二元组集合 $S \subseteq \mathcal{U} \times \mathcal{C}$：
-
-$$Subscribe(uri, client) \iff (uri, client) \in S$$
-
-资源更新通知：
-
-$$Notify(r) = \{(c, r.updated) \mid (r.uri, c) \in S \land r.modified\_at > t_{last\_sync}\}$$
-
-### 3.5 性能约束模型
-
-**定义 6 (吞吐量约束)**：在给定时间窗口内，MCP 服务器的最大请求处理速率：
-
-$$Throughput_{max} = \min\left(\frac{1}{\sum_{i} P_i \cdot T_i}, \text{RateLimit}_{config}\right)$$
-
-其中：
-- $P_i$ 是第 $i$ 类请求的概率分布
-- $T_i$ 是第 $i$ 类请求的平均处理时间
-- $\text{RateLimit}_{config}$ 是配置的速率限制
-
-**延迟模型**：
-
-$$Latency_{total} = Latency_{transport} + Latency_{protocol} + Latency_{processing}$$
-
-对于不同传输方式：
-$$Latency_{transport} = \begin{cases}
-T_{stdio} \approx O(1) & \text{本地进程间通信} \\
-T_{HTTP} \approx O(RTT) + T_{TLS} & \text{远程 HTTP 调用}
-\end{cases}$$
+典型场景下，$\text{Efficiency} \approx 10-100\times$
 
 ---
 
-## 4. 实现逻辑 (Python 伪代码)
-
-### 4.1 MCP Server 实现
+## 4. 实现逻辑（Python 伪代码）
 
 ```python
+from dataclasses import dataclass
+from typing import Dict, List, Any, Optional
+from enum import Enum
+
+class TransportType(Enum):
+    STDIO = "stdio"
+    STREAMABLE_HTTP = "streamable_http"
+
+@dataclass
+class ServerInfo:
+    name: str
+    version: str
+
+@dataclass
+class ClientInfo:
+    name: str
+    version: str
+
+@dataclass
+class Tool:
+    name: str
+    title: str
+    description: str
+    input_schema: Dict[str, Any]
+
 class MCPServer:
-    """MCP 服务器实现"""
-
+    """MCP 服务器 - 提供上下文数据"""
     def __init__(self, name: str, version: str):
-        self.name = name
-        self.version = version
-        self.protocol_version = "2025-06-18"
-        self.capabilities = {
-            "tools": {"listChanged": True},
-            "resources": {"subscribe": True, "listChanged": True},
-            "prompts": {"listChanged": True},
-        }
-        self.tools: dict[str, ToolDefinition] = {}
-        self.resources: dict[str, ResourceDefinition] = {}
-        self.prompts: dict[str, PromptDefinition] = {}
+        self.info = ServerInfo(name, version)
+        self.tools: Dict[str, Tool] = {}
+        self.resources: Dict[str, Any] = {}
+        self.prompts: Dict[str, Any] = {}
+        self.clients: List[MCPClient] = []
 
-    def register_tool(self, tool: ToolDefinition, handler: callable):
-        """注册一个工具及其处理函数"""
-        self.tools[tool.name] = (tool, handler)
+    def register_tool(self, tool: Tool):
+        """注册工具"""
+        self.tools[tool.name] = tool
+        self._notify_clients("tools/list_changed")
 
-    def register_resource(self, resource: ResourceDefinition, loader: callable):
-        """注册一个资源及其加载函数"""
-        self.resources[resource.uri] = (resource, loader)
+    def call_tool(self, name: str, args: Dict) -> List[Dict]:
+        """执行工具调用"""
+        if name not in self.tools:
+            raise ValueError(f"Unknown tool: {name}")
+        # 执行工具逻辑...
+        return [{"type": "text", "text": "result"}]
 
-    def register_prompt(self, prompt: PromptDefinition, generator: callable):
-        """注册一个提示模板及其生成函数"""
-        self.prompts[prompt.name] = (prompt, generator)
-
-    async def handle_initialize(self, params: dict) -> dict:
-        """处理初始化请求，进行能力协商"""
-        return {
-            "protocolVersion": self.protocol_version,
-            "capabilities": self.capabilities,
-            "serverInfo": {
-                "name": self.name,
-                "version": self.version
-            }
-        }
-
-    async def handle_tools_list(self, params: Optional[dict] = None) -> dict:
-        """处理工具列表请求"""
-        tools_list = [
-            {
-                "name": tool.name,
-                "title": tool.title,
-                "description": tool.description,
-                "inputSchema": tool.input_schema,
-            }
-            for tool, _ in self.tools.values()
-        ]
-        return {"tools": tools_list}
-
-    async def handle_tools_call(self, params: dict) -> dict:
-        """处理工具调用请求"""
-        tool_name = params.get("name")
-        arguments = params.get("arguments", {})
-
-        if tool_name not in self.tools:
-            raise ValueError(f"Unknown tool: {tool_name}")
-
-        tool, handler = self.tools[tool_name]
-        result = await handler(arguments)
-
-        return {
-            "content": [{"type": "text", "text": result}],
-            "isError": False
-        }
-```
-
-### 4.2 MCP Client 实现
-
-```python
 class MCPClient:
-    """MCP 客户端实现"""
+    """MCP 客户端 - 连接服务器获取上下文"""
+    def __init__(self, transport: TransportType, config: Dict):
+        self.transport = transport
+        self.config = config
+        self.session: Optional[MCPSession] = None
+        self.server_capabilities: Dict = {}
 
-    def __init__(self, server_name: str):
-        self.server_name = server_name
-        self.session: Optional[asyncio.StreamRW] = None
-        self._request_id = 0
-        self.server_capabilities: dict = {}
-        self.server_info: dict = {}
+    async def connect(self) -> MCPSession:
+        """建立与服务器的连接"""
+        self.session = MCPSession(self.transport, self.config)
+        await self.session.initialize()
+        return self.session
 
-    async def connect_stdio(self, process: asyncio.subprocess.Process) -> bool:
-        """通过 stdio 连接到本地 MCP 服务器"""
-        self.session = (process.stdin, process.stdout)
-        return await self._initialize()
+class MCPSession:
+    """MCP 会话 - 管理单次连接的完整生命周期"""
+    def __init__(self, transport: TransportType, config: Dict):
+        self.transport = transport
+        self.config = config
+        self.protocol_version = "2025-06-18"
+        self.initialized = False
 
-    async def connect_http(self, url: str, auth_token: Optional[str] = None) -> bool:
-        """通过 HTTP 连接到远程 MCP 服务器"""
-        self.url = url
-        self.headers = {"Authorization": f"Bearer {auth_token}"} if auth_token else {}
-        return await self._initialize()
-
-    async def _initialize(self) -> bool:
-        """执行初始化握手"""
+    async def initialize(self):
+        """初始化连接 - 能力协商"""
+        # 发送 initialize 请求
         request = {
             "jsonrpc": "2.0",
             "id": 1,
             "method": "initialize",
             "params": {
-                "protocolVersion": "2025-06-18",
+                "protocolVersion": self.protocol_version,
                 "capabilities": {"elicitation": {}},
                 "clientInfo": {"name": "example-client", "version": "1.0.0"}
             }
         }
+        response = await self._send(request)
+        self.server_capabilities = response["result"]["capabilities"]
+        self.initialized = True
 
-        response = await self._send_request(request)
-        result = response.get("result", {})
-        self.protocol_version = result.get("protocolVersion")
-        self.server_capabilities = result.get("capabilities", {})
-        self.server_info = result.get("serverInfo", {})
+        # 发送 initialized 通知
+        await self._notify("notifications/initialized")
 
-        await self._send_notification("notifications/initialized")
-        return True
+    async def list_tools(self) -> List[Tool]:
+        """工具发现"""
+        request = {"jsonrpc": "2.0", "id": 2, "method": "tools/list"}
+        response = await self._send(request)
+        return [Tool(**t) for t in response["result"]["tools"]]
 
-    async def call_tool(self, name: str, arguments: dict) -> Any:
-        """调用工具"""
-        response = await self._send_request({
+    async def call_tool(self, name: str, args: Dict) -> List[Dict]:
+        """工具执行"""
+        request = {
             "jsonrpc": "2.0",
-            "id": self._next_id(),
+            "id": 3,
             "method": "tools/call",
-            "params": {"name": name, "arguments": arguments}
-        })
-        return response.get("result", {}).get("content")
-```
+            "params": {"name": name, "arguments": args}
+        }
+        response = await self._send(request)
+        return response["result"]["content"]
 
-### 4.3 MCP Host 集成
-
-```python
 class MCPHost:
-    """MCP Host (AI 应用) 实现"""
+    """MCP Host - AI 应用程序"""
+    def __init__(self):
+        self.sessions: Dict[str, MCPSession] = {}
+        self.available_tools: List[Tool] = []
 
-    def __init__(self, app_name: str):
-        self.app_name = app_name
-        self.clients: dict[str, MCPClient] = {}
-        self.tool_registry: dict[str, str] = {}
+    async def add_server(self, name: str, client: MCPClient):
+        """添加 MCP 服务器"""
+        session = await client.connect()
+        self.sessions[name] = session
 
-    async def add_server(self, config: ServerConfig) -> bool:
-        """添加并连接 MCP 服务器"""
-        client = MCPClient(config.name)
-        # 连接逻辑...
-        self.clients[config.name] = client
-        return True
+        # 发现工具
+        tools = await session.list_tools()
+        self.available_tools.extend(tools)
 
-    async def execute_tool(self, tool_name: str, arguments: dict) -> Any:
+    async def execute_tool(self, name: str, args: Dict) -> List[Dict]:
         """执行工具调用"""
-        server_name = self.tool_registry[tool_name]
-        client = self.clients[server_name]
-        return await client.call_tool(tool_name, arguments)
+        # 找到提供该工具的 session
+        for session_name, session in self.sessions.items():
+            tools = await session.list_tools()
+            if any(t.name == name for t in tools):
+                return await session.call_tool(name, args)
+        raise ValueError(f"Tool not found: {name}")
+
+# 使用示例
+async def main():
+    host = MCPHost()
+
+    # 添加本地文件系统服务器
+    fs_client = MCPClient(TransportType.STDIO, {"command": "mcp-server-filesystem"})
+    await host.add_server("filesystem", fs_client)
+
+    # 添加远程 Sentry 服务器
+    sentry_client = MCPClient(TransportType.STREAMABLE_HTTP, {
+        "url": "https://sentry.io/mcp",
+        "token": "xxx"
+    })
+    await host.add_server("sentry", sentry_client)
+
+    # 执行工具调用
+    result = await host.execute_tool("read_file", {"path": "/path/to/file.txt"})
+    print(result)
 ```
 
 ---
@@ -406,69 +305,47 @@ class MCPHost:
 
 | 指标 | 典型目标值 | 测量方式 | 说明 |
 |------|-----------|---------|------|
-| **连接延迟 (Stdio)** | < 10ms | 端到端基准测试 | 本地进程间通信 |
-| **连接延迟 (HTTP)** | 50-200ms | 端到端基准测试 | 包含 TLS 握手 |
-| **消息延迟 P50 (Stdio)** | 1-5ms | 负载测试 | 单次请求响应 |
-| **消息延迟 P50 (HTTP)** | 100-500ms | 负载测试 | 取决于网络 RTT |
-| **吞吐量 (Stdio)** | 1000-5000 req/s | 压力测试 | 本地高并发 |
-| **吞吐量 (HTTP)** | 100-500 req/s | 压力测试 | 远程 API |
-| **并发连接数** | ~100 (Stdio) / ~1000+ (HTTP) | 连接测试 | HTTP 更适合高并发 |
-| **内存占用** | ~5-10MB (Stdio) / ~2-5MB (HTTP) | 资源监控 | 单客户端消耗 |
+| 连接建立延迟 | < 100ms (STDIO) | 端到端基准测试 | 本地 STDIO 传输无网络开销 |
+| 连接建立延迟 | < 500ms (HTTP) | 端到端基准测试 | 远程 HTTP 传输含网络延迟 |
+| 工具调用延迟 | < 200ms | 单次调用 P95 | 不含工具本身执行时间 |
+| 吞吐量 | > 100 req/s (单连接) | 负载测试 | 取决于传输层和网络条件 |
+| 通知延迟 | < 50ms | 事件触发到接收 | 内部进程通信 |
+| 消息大小上限 | 16MB | 协议限制 | JSON-RPC 消息体 |
 
 ---
 
 ## 6. 扩展性与安全性
 
-### 6.1 扩展性分析
+### 水平扩展
 
-**水平扩展能力**：
-- **服务器实例扩展**：HTTP 传输支持多实例部署，可通过负载均衡扩展
-- **客户端连接扩展**：单 Host 可连接多个独立 Server，无理论上限
-- **协议版本扩展**：支持版本协商，但需向后兼容
-- **原语扩展**：支持自定义原语（如实验性 Tasks）
+| 扩展方式 | 说明 | 限制 |
+|----------|------|------|
+| **多服务器连接** | MCP Host 可同时连接多个 MCP Server | 受客户端资源限制 |
+| **远程 HTTP 服务器** | 单 MCP Server 可服务多个 Client | 需处理并发和认证 |
+| **负载均衡** | 远程服务器可部署多实例 + 负载均衡 | 需会话粘性支持 |
 
-**架构扩展点**：
-1. 自定义 URI Schemes：支持 `file://`, `git://`, `https://` 及自定义方案
-2. 工具输出 Schema：支持结构化输出验证
-3. 任务原语 (实验性)：支持长时间运行的异步任务
-4. 自定义通知类型：服务器可定义领域特定通知
+### 垂直扩展
 
-### 6.2 安全性分析
+| 优化点 | 上限 |
+|--------|------|
+| 单服务器工具数量 | 无协议限制，建议 < 1000 |
+| 单连接并发请求 | 取决于传输层（HTTP/2 支持多路复用） |
+| 单次响应大小 | 16MB（协议限制） |
 
-**安全威胁模型**：
+### 安全考量
 
-| 威胁类型 | 可能性 | 影响 | 缓解措施 |
-|---------|--------|------|---------|
-| 恶意工具注入 | 中 | 高 | 人工确认提示 |
-| 资源越权访问 | 中 | 高 | URI 验证+ACL |
-| 工具参数注入 | 高 | 中 | Schema 验证 |
-| 服务器仿冒 | 低 | 高 | OAuth 认证 |
-| 中间人攻击 | 低 | 高 | TLS 加密 |
-| DoS 攻击 | 中 | 中 | 速率限制 |
-| 数据泄露 | 中 | 高 | 最小权限原则 |
-
-**安全控制措施**：
-
-| 机制 | 适用场景 | 安全级别 |
-|------|----------|---------|
-| **OAuth 2.0** | 远程 HTTP 服务器 | 高 |
-| **Bearer Token** | API 密钥认证 | 中 |
-| **本地 Stdio** | 本地进程通信 | 中 (依赖 OS 权限) |
-| **mTLS** | 企业内网部署 | 高 |
-
-**人工确认机制 (Human-in-the-Loop)**：
-MCP 强烈推荐对敏感操作实施人工确认，包括删除、修改、执行、访问等类别。
+| 风险 | 防护措施 |
+|------|----------|
+| **本地命令注入** | STDIO 传输需验证子进程参数 |
+| **远程认证** | HTTP 传输使用 OAuth 2.0 / Bearer Token |
+| **数据泄露** | 敏感 Resources 需访问控制 |
+| **工具滥用** | 工具调用需权限检查和速率限制 |
+| **中间人攻击** | HTTPS 加密传输，证书验证 |
 
 ---
 
-## 参考文献
+## 7. 参考资源
 
-1. Model Context Protocol Official Documentation. https://modelcontextprotocol.io/
-2. MCP Specification (Revision 2025-06-18). https://spec.modelcontextprotocol.io/
-3. MCP Python SDK. https://github.com/modelcontextprotocol/python-sdk
-4. MCP Reference Servers. https://github.com/modelcontextprotocol/servers
-5. JSON-RPC 2.0 Specification. https://www.jsonrpc.org/
-
----
-
-*报告生成日期：2026-03-01*
+- [MCP 官方文档](https://modelcontextprotocol.io/)
+- [MCP 规范](https://modelcontextprotocol.io/specification/latest/)
+- [MCP GitHub 组织](https://github.com/modelcontextprotocol)

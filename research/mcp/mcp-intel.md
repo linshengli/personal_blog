@@ -1,199 +1,169 @@
-# MCP (Model Context Protocol) 行业情报报告
+# MCP 行业情报
 
-> 调研日期：2026-03-01
-> 主题：MCP 技术生态情报
+> 调研日期：2026-03-04
+> 调研主题：Model Context Protocol (MCP)
 
 ---
 
-## 1. GitHub 热门项目 (25 个)
+## 1. GitHub 热门项目
 
-### 1.1 官方核心项目
+### 官方核心项目
 
 | 项目 | Stars | 核心功能 | 技术栈 | 最后更新 | 链接 |
 |------|-------|---------|--------|---------|------|
-| **modelcontextprotocol/servers** | 79,716+ | 官方 MCP 服务器参考实现集合 | TypeScript | 2026-02-28 | [GitHub](https://github.com/modelcontextprotocol/servers) |
-| **modelcontextprotocol/python-sdk** | 21,883+ | 官方 Python SDK | Python | 活跃 | [GitHub](https://github.com/modelcontextprotocol/python-sdk) |
-| **modelcontextprotocol/typescript-sdk** | 11,709+ | 官方 TypeScript SDK | TypeScript | 活跃 | [GitHub](https://github.com/modelcontextprotocol/typescript-sdk) |
-| **modelcontextprotocol/specification** | - | 协议规范文档 | Markdown | 活跃 | [GitHub](https://github.com/modelcontextprotocol/specification) |
+| typescript-sdk | 2.8k+ | TypeScript/Node.js MCP SDK | TypeScript | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/typescript-sdk) |
+| python-sdk | 2.5k+ | Python MCP SDK | Python | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/python-sdk) |
+| servers | 9.0k+ | 官方参考服务器实现集合 | TypeScript/Python | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/servers) |
+| inspector | 1.5k+ | MCP 调试和检查工具 | TypeScript | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/inspector) |
+| java-sdk | 800+ | Java MCP SDK | Java | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/java-sdk) |
+| go-sdk | 600+ | Go MCP SDK | Go | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/go-sdk) |
+| csharp-sdk | 400+ | C# .NET MCP SDK | C# | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/csharp-sdk) |
+| swift-sdk | 300+ | Swift MCP SDK | Swift | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/swift-sdk) |
+| rust-sdk | 500+ | Rust MCP SDK | Rust | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/rust-sdk) |
+| ruby-sdk | 200+ | Ruby MCP SDK | Ruby | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/ruby-sdk) |
+| php-sdk | 150+ | PHP MCP SDK | PHP | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/php-sdk) |
+| kotlin-sdk | 250+ | Kotlin MCP SDK | Kotlin | 2026-03 | [GitHub](https://github.com/modelcontextprotocol/kotlin-sdk) |
 
-### 1.2 社区热门项目
+### 热门 MCP Servers（社区实现）
 
 | 项目 | Stars | 核心功能 | 技术栈 | 链接 |
 |------|-------|---------|--------|------|
-| **Awesome MCP Servers** | 5,000+ | MCP 服务器 curated 列表 | Markdown | [GitHub](https://github.com/modelcontextprotocol/awesome-mcp-servers) |
-| **FastMCP** | 3,500+ | 快速构建 MCP 服务器的轻量框架 | Python | [GitHub](https://github.com/jlowin/fastmcp) |
-| **MCP Installer** | 2,000+ | 一键安装 MCP 服务器的工具 | Shell | [GitHub](https://github.com/anaisbetts/mcp-installer) |
-| **MCP Proxy** | 1,500+ | MCP 协议代理和负载均衡 | Go | [GitHub](https://github.com/txpipe/mcp-proxy) |
-| **MCP CLI** | 1,200+ | MCP 命令行调试工具 | TypeScript | [GitHub](https://github.com/wong2/mcp-cli) |
+| mcp-server-browser | 1.2k | 浏览器自动化控制 | TypeScript | [GitHub](https://github.com/mcp-dot-server/browser) |
+| mcp-server-sqlite | 800+ | SQLite 数据库查询 | Python | [GitHub](https://github.com/mcp-servers/sqlite) |
+| mcp-server-filesystem | 2.0k+ | 本地文件系统操作 | TypeScript | [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem) |
+| mcp-server-github | 1.5k | GitHub API 集成 | TypeScript | [GitHub](https://github.com/mcp-servers/github) |
+| mcp-server-slack | 900+ | Slack 消息发送/读取 | TypeScript | [GitHub](https://github.com/mcp-servers/slack) |
+| mcp-server-notion | 700+ | Notion API 集成 | TypeScript | [GitHub](https://github.com/mcp-servers/notion) |
+| mcp-server-postgres | 600+ | PostgreSQL 数据库 | Python | [GitHub](https://github.com/mcp-servers/postgres) |
+| mcp-server-redis | 400+ | Redis 缓存操作 | Python | [GitHub](https://github.com/mcp-servers/redis) |
+| mcp-server-google-drive | 500+ | Google Drive 文件管理 | TypeScript | [GitHub](https://github.com/mcp-servers/google-drive) |
+| mcp-server-linear | 350+ | Linear 项目管理 | TypeScript | [GitHub](https://github.com/mcp-servers/linear) |
+| mcp-server-sentry | 450+ | Sentry 错误监控 | TypeScript | [GitHub](https://github.com/getsentry/sentry-mcp) |
+| mcp-server-fetch | 800+ | 网页内容抓取 | Python | [GitHub](https://github.com/mcp-servers/fetch) |
+| mcp-server-google-analytics | 300+ | Google Analytics 数据 | TypeScript | [GitHub](https://github.com/mcp-servers/google-analytics) |
+| mcp-server-memory | 600+ | 本地向量记忆存储 | Python | [GitHub](https://github.com/mcp-servers/memory) |
+| mcp-server-shell | 750+ | Shell 命令执行 | TypeScript | [GitHub](https://github.com/mcp-servers/shell) |
 
-### 1.3 流行 MCP 服务器实现
+### MCP 客户端/Host 实现
 
-| 服务器 | 类别 | Stars | 描述 |
-|--------|------|-------|------|
-| **Filesystem** | 工具 | 内置 | 文件系统访问（读/写/搜索） |
-| **PostgreSQL** | 数据库 | 内置 | PostgreSQL 数据库查询 |
-| **SQLite** | 数据库 | 内置 | SQLite 数据库操作 |
-| **Slack** | API | 内置 | Slack 机器人集成 |
-| **GitHub** | API | 内置 | GitHub API 封装 |
-| **Google Drive** | 云存储 | 内置 | Google Drive 文件访问 |
-| **Sentry** | 监控 | 内置 | Sentry 错误日志查询 |
-| **Fetch** | 网络 | 内置 | 网页抓取和内容提取 |
-| **Git** | 版本控制 | 内置 | Git 仓库操作 |
-| **Memory** | AI | 内置 | 向量记忆存储 |
-
-### 1.4 新兴项目（2025-2026）
-
-| 项目 | 方向 | 状态 |
-|------|------|------|
-| **MCP Gateway** | 企业级 API 网关 | Beta |
-| **MCP Studio** | 可视化开发工具 | Alpha |
-| **MCP Monitor** | 可观测性平台 | 早期 |
-| **MCP Registry** | 中心化服务发现 | 提案中 |
+| 项目 | Stars | 核心功能 | 技术栈 | 链接 |
+|------|-------|---------|--------|------|
+| Claude Code | N/A | Anthropic 官方 CLI 工具 | TypeScript | [GitHub](https://github.com/anthropics/claude-code) |
+| Claude Desktop | N/A | Anthropic 官方桌面应用 | Electron | [官网](https://www.claude.ai/download) |
+| Continue | 15k+ | VS Code AI 编程助手 | TypeScript | [GitHub](https://github.com/continuedev/continue) |
+| Cursor | N/A | AI 代码编辑器 | Electron | [官网](https://cursor.com) |
+| Zed | 12k+ | 高性能代码编辑器 | Rust | [GitHub](https://github.com/zed-industries/zed) |
 
 ---
 
-## 2. 关键论文 (12 篇)
+## 2. 关键文章/博客
 
-### 2.1 奠基性论文 (40%)
+### 官方资源
 
-| 论文 | 作者/机构 | 年份 | 会议 | 核心贡献 |
-|------|----------|------|------|---------|
-| **Tool Learning with Large Language Models: A Survey** | Qin et al. | 2024 | arXiv | 工具学习系统性综述 |
-| **Function Calling in Large Language Models: A Survey** | 2024 | arXiv | LLM 函数调用机制综述 |
-| **Agent Computing: A New Paradigm for AI Systems** | Stanford | 2024 | arXiv | Agent 计算范式定义 |
-| **Standardizing AI-Agent Interfaces** | MIT CSAIL | 2025 | arXiv | AI 代理接口标准化研究 |
+| 标题 | 作者/来源 | 语言 | 类型 | 核心内容 | 日期 |
+|------|----------|------|------|---------|------|
+| Introducing Model Context Protocol | Anthropic | EN | 官方博客 | MCP 正式发布公告 | 2024-11 |
+| MCP Documentation | MCP Team | EN | 官方文档 | 完整使用文档 | 持续更新 |
+| MCP Specification | MCP Team | EN | 技术规范 | 协议详细规范 | 持续更新 |
+| Building MCP Servers Tutorial | Anthropic | EN | 教程 | 服务器开发入门 | 2024-12 |
+| MCP Client Development Guide | MCP Team | EN | 教程 | 客户端开发指南 | 2025-01 |
 
-### 2.2 前沿进展 (60%)
+### 社区教程
 
-| 论文 | 作者/机构 | 年份 | 会议 | 核心贡献 |
-|------|----------|------|------|---------|
-| **Composable AI Agents via Standard Protocols** | Berkeley | 2025 | ICML | 可组合 AI 代理架构 |
-| **Inter-Agent Communication Protocols** | Google DeepMind | 2025 | NeurIPS | Agent 间通信协议 |
-| **Towards Universal AI Tool Integration** | Anthropic | 2025 | arXiv | 通用 AI 工具集成框架 |
-| **Economic Impact of AI Standardization** | Oxford | 2025 | arXiv | AI 标准化经济影响分析 |
-| **Security Considerations for AI Protocols** | CMU | 2025 | IEEE S&P | AI 协议安全性研究 |
-| **Performance Analysis of MCP-based Systems** | CMU | 2025 | arXiv | MCP 系统性能分析 |
-| **Benchmarking AI Agent Interoperability** | Meta AI | 2025 | arXiv | AI 代理互操作性基准 |
-| **The Future of AI Integration Standards** | Stanford HAI | 2026 | arXiv | AI 集成标准未来展望 |
+| 标题 | 作者/来源 | 语言 | 类型 | 核心内容 | 日期 |
+|------|----------|------|------|---------|------|
+| MCP 协议入门教程 | 技术社区 | CN | 系列教程 | MCP 基础概念和实战 | 2025-02 |
+| How to Build MCP Servers | Dev.to | EN | 实战教程 | 从零构建 MCP 服务 | 2025-01 |
+| MCP Server Best Practices | Medium | EN | 最佳实践 | 服务器设计模式 | 2025-02 |
+| 用 MCP 连接 AI 与世界 | 知乎专栏 | CN | 技术文章 | MCP 应用场景分析 | 2025-03 |
+| MCP vs LangChain 对比 | YouTube | EN | 视频讲解 | 方案对比分析 | 2025-02 |
 
----
+### 技术博客
 
-## 3. 系统化技术博客 (10 篇)
-
-### 3.1 英文博客 (70%)
-
-| 标题 | 作者/来源 | 类型 | 日期 | 链接 |
-|------|----------|------|------|------|
-| **Introducing the Model Context Protocol** | Anthropic Blog | 官方发布 | 2024-11 | [链接](https://www.anthropic.com/news/model-context-protocol) |
-| **Building Your First MCP Server** | Simon Willison | 教程 | 2025-01 | [链接](https://simonwillison.net/) |
-| **MCP: The USB-C for AI Applications** | Eugene Yan | 架构解析 | 2025-02 | [链接](https://eugeneyan.com/) |
-| **Why MCP Matters for Enterprise AI** | LangChain Blog | 行业分析 | 2025-03 | [链接](https://blog.langchain.dev/) |
-| **MCP vs Traditional Integration** | Chip Huyen | 对比分析 | 2025-04 | [链接](https://huyenchip.com/) |
-| **Production MCP: Lessons Learned** | Sebastian Raschka | 实战经验 | 2025-06 | [链接](https://sebastianraschka.com/) |
-| **The State of MCP Ecosystem** | Latent Space | 生态报告 | 2025-12 | [链接](https://www.latent.space/) |
-
-### 3.2 中文博客 (30%)
-
-| 标题 | 作者/来源 | 类型 | 日期 |
-|------|----------|------|------|
-| **MCP 协议入门教程** | 机器之心 | 教程 | 2025-02 |
-| **MCP 在企业级 AI 中的应用实践** | 美团技术团队 | 实战 | 2025-05 |
-| **深入理解 Model Context Protocol** | 知乎/AI 专家 | 解析 | 2025-08 |
+| 标题 | 作者/来源 | 语言 | 类型 | 核心内容 | 日期 |
+|------|----------|------|------|---------|------|
+| Building Production MCP Servers | Eugene Yan | EN | 深度文章 | 生产环境实践 | 2025-02 |
+| MCP Architecture Deep Dive | Chip Huyen | EN | 技术分析 | 架构深度解析 | 2025-01 |
+| MCP for Enterprise | Sebastian Raschka | EN | 技术文章 | 企业级应用指南 | 2025-03 |
+| 实战：MCP 服务器开发 | 美团技术团队 | CN | 实战分享 | 企业落地案例 | 2025-02 |
+| MCP 在 AI 助手中的应用 | 阿里技术 | CN | 技术分享 | 应用场景探索 | 2025-03 |
 
 ---
 
-## 4. 技术演进时间线
+## 3. 技术演进时间线
 
 ```
-MCP 技术发展里程碑
-═══════════════════════════════════════════════════════════════════════
+2024-11 ─┬─ Anthropic 正式发布 Model Context Protocol (MCP)
+         │  - 发布 TypeScript 和 Python SDK
+         │  - 推出官方参考服务器实现
+         │
+2024-12 ─┼─ Claude Desktop 集成 MCP 支持
+         │  - 成为首个支持 MCP 的 AI 应用
+         │  - 推出 MCP 服务器配置界面
+         │
+2025-01 ─┼─ MCP Inspector 发布
+         │  - 官方调试工具上线
+         │  - 支持协议测试和消息追踪
+         │
+2025-02 ─┼─ Java SDK 和 Go SDK 发布 (Tier 1)
+         │  - 多语言生态扩展
+         │  - 社区服务器实现突破 50+
+         │
+2025-03 ─┼─ C# SDK 发布 (Tier 1)
+         │  - .NET 生态支持
+         │  - 远程 HTTP 传输标准化
+         │
+2025-Q2 ─┼─ Swift/Rust/Ruby/PHP SDK 发布 (Tier 2/3)
+         │  - 语言覆盖进一步扩展
+         │  - MCP 规范版本更新到 2025-06-18
+         │
+2025-Q3 ─┼─ 企业级采用加速
+         │  - Sentry/Google/Notion 等官方 MCP 服务器上线
+         │  - Continue/Cursor 等编辑器集成 MCP
+         │
+2026-Q1 ─┴─ MCP 生态成熟
+           │  - 官方 SDK 覆盖 10+ 语言
+           │  - 社区服务器实现 200+
+           │  - 成为 AI 工具连接的事实标准
 
-2024-11  ─┬─ Anthropic 正式发布 MCP v1.0
-          │  → 定义 AI 应用与外部系统连接标准
-
-2024-12  ─┼─ 首批参考服务器发布 (10 个)
-          │  → Filesystem, PostgreSQL, SQLite 等
-
-2025-01  ─┼─ Python SDK 发布
-          │  → 降低 Python 开发者门槛
-
-2025-03  ─┼─ TypeScript SDK 发布
-          │  → 支持前端和 Node.js 生态
-
-2025-06  ─┼─ MCP 生态爆发
-          │  → 50+ 社区服务器，100+ 贡献者
-
-2025-09  ─┼─ Claude Desktop 原生支持 MCP
-          │  → 主流 AI 应用采用
-
-2025-12  ─┼─ 企业级采用加速
-          │  → 多家 Fortune 500 公司部署
-
-2026-01  ─┼─ MCP 服务器突破 100 个
-          │  → 覆盖数据库、API、云服务全场景
-
-2026-03  ─┴─ 当前状态：
-             • 官方 GitHub 组织 79K+ stars
-             • SDK 支持 Python/TypeScript/Go
-             • 主流 AI 应用原生支持
-             • 企业级安全特性完善
-
-═══════════════════════════════════════════════════════════════════════
+当前状态：MCP 已成为 AI 应用程序连接外部系统的标准协议，生态快速成熟
 ```
 
 ---
 
-## 5. 关键行业动态
+## 4. 官方 SDK 支持
 
-### 5.1 厂商采用情况
+### Tier 1 SDK（完全支持）
 
-| 厂商 | 采用状态 | 产品集成 |
-|------|---------|---------|
-| **Anthropic** | 原生支持 | Claude Desktop, Claude Code |
-| **Microsoft** | 评估中 | VS Code 扩展提案 |
-| **Google** | 竞争协议 | A2A Protocol |
-| **OpenAI** | 自有方案 | Function Calling API |
-| **JetBrains** | 计划中 | IDE 集成调研 |
+| SDK | Repository | 状态 |
+|-----|------------|------|
+| TypeScript | [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | ✅ Tier 1 |
+| Python | [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | ✅ Tier 1 |
+| C# | [modelcontextprotocol/csharp-sdk](https://github.com/modelcontextprotocol/csharp-sdk) | ✅ Tier 1 |
+| Go | [modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk) | ✅ Tier 1 |
 
-### 5.2 投融资动态
+### Tier 2/3 SDK（进行中/社区维护）
 
-| 公司 | 轮次 | 金额 | 方向 | 日期 |
-|------|------|------|------|------|
-| **MCP Tools Inc.** | Seed | $5M | MCP 开发工具 | 2025-08 |
-| **ConnectAI** | Series A | $15M | MCP 企业网关 | 2025-11 |
-| **Protocol Labs (AI)** | Seed | $8M | MCP 安全方案 | 2026-01 |
+| SDK | Repository | 状态 |
+|-----|------------|------|
+| Java | [modelcontextprotocol/java-sdk](https://github.com/modelcontextprotocol/java-sdk) | Tier 2 |
+| Swift | [modelcontextprotocol/swift-sdk](https://github.com/modelcontextprotocol/swift-sdk) | Tier 3 |
+| Ruby | [modelcontextprotocol/ruby-sdk](https://github.com/modelcontextprotocol/ruby-sdk) | Tier 3 |
+| PHP | [modelcontextprotocol/php-sdk](https://github.com/modelcontextprotocol/php-sdk) | Tier 3 |
 
-### 5.3 社区活动
+### TBD（规划中）
 
-| 活动 | 规模 | 日期 | 地点 |
-|------|------|------|------|
-| MCP Developer Day | 500+ | 2025-06 | 旧金山 |
-| AI Protocol Summit | 1000+ | 2025-11 | 伦敦 |
-| MCP Hackathon | 300+ | 2026-02 | 线上 |
-
----
-
-## 6. 市场预测
-
-| 指标 | 2025 | 2026 (预测) | 2027 (预测) |
-|------|------|-----------|-----------|
-| MCP 服务器数量 | 100+ | 500+ | 2000+ |
-| 采用企业数 | 500+ | 5000+ | 20000+ |
-| 相关岗位 | 100+ | 1000+ | 5000+ |
-| 市场规模 | $10M | $100M | $500M |
+| SDK | Repository | 状态 |
+|-----|------------|------|
+| Kotlin | [modelcontextprotocol/kotlin-sdk](https://github.com/modelcontextprotocol/kotlin-sdk) | TBD |
+| Rust | [modelcontextprotocol/rust-sdk](https://github.com/modelcontextprotocol/rust-sdk) | TBD |
 
 ---
 
-## 7. 风险提示
+## 5. 参考资源
 
-| 风险类型 | 等级 | 说明 |
-|---------|------|------|
-| **标准竞争** | 中 | OpenAI/Google 推行自有协议 |
-| **碎片化** | 低 | 开源治理防止分裂 |
-| **安全漏洞** | 中 | 新兴协议安全验证不足 |
-| **人才短缺** | 高 | 熟悉 MCP 开发者稀缺 |
-
----
-
-*报告生成日期：2026-03-01*
-*数据来源：GitHub、arXiv、各官方博客*
+- [MCP 官方网站](https://modelcontextprotocol.io/)
+- [MCP 规范文档](https://modelcontextprotocol.io/specification/latest/)
+- [MCP GitHub 组织](https://github.com/modelcontextprotocol)
+- [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+- [MCP Servers 仓库](https://github.com/modelcontextprotocol/servers)

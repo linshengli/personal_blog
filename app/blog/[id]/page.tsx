@@ -2,7 +2,13 @@ import { getAllPostIds, getPostData } from '@/lib/posts';
 import Link from 'next/link';
 import GitHubComments from '@/components/GitHubComments';
 
-export default async function BlogPost({ params }) {
+interface BlogPostProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default async function BlogPost({ params }: BlogPostProps) {
   const { id } = await params;
   const postData = await getPostData(id);
 

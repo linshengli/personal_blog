@@ -1,23 +1,16 @@
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import KaTeXLoader from '@/components/KaTeXLoader';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata = {
   title: '个人博客',
   description: '记录技术与思考',
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="zh-CN">
       <head>
@@ -39,7 +32,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         <KaTeXLoader />
         {children}
       </body>

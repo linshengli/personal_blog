@@ -8,13 +8,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "serve": "serve out",
+    "lint": "next lint",
+    "daily": "tsx scripts/daily.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.1",
+    "@anthropic-ai/claude-agent-sdk": "^0.2.63",
     "autoprefixer": "^10.4.27",
     "gray-matter": "^4.0.3",
     "next": "^16.1.6",
@@ -31,6 +34,14 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "tailwindcss": "^4.2.1",
+    "tsx": "^4.19.3",
     "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "25.3.3",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "^19.2.14",
+    "serve": "^14.2.5",
+    "typescript": "5.9.3"
   }
 }

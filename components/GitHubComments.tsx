@@ -10,9 +10,28 @@ const GISCUS_CONFIG = {
   categoryId: 'DIC_kwDORbKyMM4C3aHJ',
 };
 
-export default function GitHubComments({ issueTerm }) {
+interface GitHubCommentsProps {
+  issueTerm: string;
+}
+
+interface RenderMathInElementOptions {
+  delimiters: {
+    left: string;
+    right: string;
+    display: boolean;
+  }[];
+  throwOnError: boolean;
+}
+
+declare global {
+  interface Window {
+    renderMathInElement: (element: HTMLElement, options: RenderMathInElementOptions) => void;
+  }
+}
+
+export default function GitHubComments({ issueTerm }: GitHubCommentsProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // 检查配置是否已设置
