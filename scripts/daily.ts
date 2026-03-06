@@ -94,7 +94,8 @@ async function runDailyTask() {
     console.log(`Validation: ${allPassed ? 'all passed' : 'some failed'}`);
     console.log('===========================================\n');
 
-    if (succeeded.length === 0) {
+    const runnableCount = researchResults.length;
+    if (runnableCount > 0 && succeeded.length === 0) {
       throw new Error('All topic research failed');
     }
   } catch (error) {

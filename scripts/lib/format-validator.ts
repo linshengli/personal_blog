@@ -60,7 +60,7 @@ export function validateResearchFile(entry: TopicEntry): ValidationResult {
 }
 
 export function validateAllResearch(entries: TopicEntry[]): ValidationResult[] {
-  const completed = entries.filter(e => e.status === 'completed');
+  const completed = entries.filter(e => e.status === 'completed' || (e.status as string) === 'success');
   return completed.map(entry => validateResearchFile(entry));
 }
 
