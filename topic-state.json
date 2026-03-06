@@ -2,28 +2,8 @@
   "date": "2026-03-06",
   "topics": [
     {
-      "domain": "agent",
-      "topic": "Agent工具调用与规划策略",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "RLHF人类偏好对齐优化",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "量化交易Agent策略生成",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "vLLM推理优化技术",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "视觉语言Agent交互技术",
+      "domain": "custom",
+      "topic": "openclaw",
       "status": "completed"
     }
   ],
@@ -41,6 +21,7 @@
     "RLHF人类偏好对齐优化",
     "量化交易Agent策略生成",
     "vLLM推理优化技术",
-    "视觉语言Agent交互技术"
+    "视觉语言Agent交互技术",
+    "openclaw"
   ]
 }
