@@ -9,12 +9,15 @@
 ## 功能特点
 
 - **自动读取文章**：自动扫描 `research` 目录下所有子目录中的 `research.md` 文件
+- **每日自动调研**：GitHub Actions 定时任务自动选择领域进行调研并生成文章
+- **Topic 去重管理**：智能检测已生成的 topic，避免重复生成
 - **Markdown 支持**：完整支持 Markdown 格式，包括代码高亮、表格、引用等
 - **搜索功能**：首页支持实时搜索文章标题和描述
 - **GitHub 评论**：集成 Giscus，支持 GitHub Issues 评论系统
 - **深色模式**：自动跟随系统深色/浅色模式切换
 - **响应式设计**：完美适配移动端和桌面端
 - **SEO 友好**：支持自定义文章标题、描述等元数据
+- **静态页面生成**：使用 SSG 预构建静态页面，访问速度更快
 
 ## 项目结构
 
@@ -31,11 +34,20 @@ personal_blogs/
 │   └── GitHubComments.js    # GitHub Issues 评论组件
 ├── lib/
 │   └── posts.js             # 文章数据读取和解析工具
+├── scripts/
+│   ├── daily.ts             # 每日定时任务脚本
+│   └── lib/
+│       ├── topic-manager.ts # Topic 去重管理模块
+│       └── research-agent.ts # 研究内容生成模块
 ├── research/                # 博客文章目录
 │   ├── <article-folder>/
 │   │   └── research.md      # 每篇文章的 markdown 文件
-│   └── example-post/
-│       └── research.md      # 示例文章
+│   │   └── daily-log-*.md   # 每日生成日志
+│   └── topics-history.json  # Topic 历史记录
+├── .github/workflows/
+│   ├── daily-task.yml       # 每日任务工作流
+│   └── build.yml            # 静态构建工作流
+├── .env.example             # 环境变量模板
 ├── next.config.js           # Next.js 配置
 ├── package.json             # 项目依赖
 ├── vercel.json              # Vercel 部署配置
@@ -74,6 +86,65 @@ tags: ["标签 1", "标签 2"]  # 可选
 ```
 
 4. 编写 Markdown 正文内容
+
+## 每日自动调研
+
+博客系统支持每日自动选择技术领域进行调研并生成文章。
+
+### 配置环境变量
+
+在 GitHub Secrets 中添加以下环境变量：
+
+| 变量名 | 说明 | 获取方式 |
+|--------|------|---------|
+| `ANTHROPIC_API_KEY` | Anthropic API 密钥 | [Anthropic Console](https://console.anthropic.com/) |
+
+**可选：使用云服务**
+
+| 云服务 | 环境变量 | 说明 |
+|--------|---------|------|
+| Amazon Bedrock | `CLAUDE_CODE_USE_BEDROCK=1` | 需要配置 AWS 凭证 |
+| Google Vertex AI | `CLAUDE_CODE_USE_VERTEX=1` | 需要配置 Google Cloud 凭证 |
+| Azure AI Foundry | `CLAUDE_CODE_USE_FOUNDRY=1` | 需要配置 Azure 凭证 |
+
+**注意**：Claude Agent SDK 不支持阿里云百炼 API，请使用 Anthropic API 或其他云服务。
+
+### 手动触发每日任务
+
+1. 访问 GitHub 仓库的 Actions 页面
+2. 选择 "Daily Research Task" 工作流
+3. 点击 "Run workflow" 按钮
+4. 等待任务执行完成
+
+### 查看 Topic 统计
+
+在本地运行以下命令查看 Topic 完成情况：
+
+```bash
+npx tsx -e "import { getTopicStats } from './scripts/lib/topic-manager'; console.log(getTopicStats());"
+```
+
+### 预定义的研究领域
+
+系统预定义了 15 个研究领域：
+
+- AI Agent
+- MCP (Model Context Protocol)
+- RAG (Retrieval-Augmented Generation)
+- LLM Fine-tuning
+- Prompt Engineering
+- Vector Database
+- AI Workflow
+- Code Generation
+- Multi-Agent System
+- AI Memory
+- Function Calling
+- Semantic Search
+- Knowledge Graph
+- AI Evaluation
+- Edge AI
+
+当所有领域都完成后，系统会自动循环复用。
 
 ## 部署
 

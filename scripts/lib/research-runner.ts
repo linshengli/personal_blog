@@ -319,10 +319,24 @@ export interface ResearchResult {
   error?: string;
 }
 
-// Keep the topic as-is for the directory name so it matches what the Claude agent
-// naturally writes when it sees the topic string in the prompt.
+// Convert a topic string to a URL-safe ASCII directory name.
+// Strips non-ASCII chars, lowercases, hyphenates spaces, appends a short hash
+// to keep names unique even when multiple topics share the same English prefix.
 export function topicToDirName(topic: string): string {
-  return topic.trim();
+  const ascii = topic
+    .trim()
+    .toLowerCase()
+    .replace(/[^\x00-\x7F]+/g, ' ')  // non-ASCII (CJK, etc.) → space
+    .replace(/[^a-z0-9\s]+/g, ' ')   // punctuation → space
+    .trim()
+    .replace(/\s+/g, '-');           // spaces → hyphens
+
+  // 4-char base36 hash for disambiguation
+  let h = 0;
+  for (let i = 0; i < topic.length; i++) h = (Math.imul(31, h) + topic.charCodeAt(i)) | 0;
+  const suffix = Math.abs(h).toString(36).slice(0, 4);
+
+  return ascii.length >= 2 ? `${ascii}-${suffix}` : `topic-${suffix}`;
 }
 
 // Worker-pool concurrency limiter

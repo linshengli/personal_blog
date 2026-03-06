@@ -25,7 +25,13 @@
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:catalyst.bytedance.com)",
       "Bash(ls:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npx tsc:*)",
+      "Bash(npm show:*)",
+      "Bash(npx tsx:*)",
+      "Bash(gh run:*)",
+      "Bash(gh:*)",
+      "Bash(mv:*)"
     ]
   }
 }

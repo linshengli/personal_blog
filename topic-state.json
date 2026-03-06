@@ -17,11 +17,11 @@
     "multi-agent",
     "prompt-engineering",
     "rag",
-    "Agent工具调用与规划策略",
-    "RLHF人类偏好对齐优化",
-    "量化交易Agent策略生成",
-    "vLLM推理优化技术",
-    "视觉语言Agent交互技术",
+    "agent-tool-planning",
+    "rlhf-alignment",
+    "trading-agent",
+    "vllm-inference",
+    "vision-language-agent",
     "openclaw"
   ]
 }
