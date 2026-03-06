@@ -4,11 +4,22 @@ on:
   schedule:
     # 每天 UTC 时间 0:00 执行 (北京时间 8:00)
     - cron: '0 0 * * *'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
+    inputs:
+      topics:
+        description: '自定义调研主题，逗号分隔（留空则自动选取）'
+        required: false
+        type: string
+        default: ''
+
+env:
+  NODE_VERSION: '20'
 
 jobs:
   daily-research:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -17,23 +28,49 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Claude Code CLI (required for Agent SDK)
+        run: |
+          npm install -g @anthropic-ai/claude-code
+
       - name: Run daily research script
         run: npm run daily
+        env:
+          ANTHROPIC_BASE_URL: ${{ vars.ANTHROPIC_BASE_URL || 'https://api.anthropic.com' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-opus-4-6' }}
+          RESEARCH_TOPICS: ${{ github.event.inputs.topics }}
 
       - name: Commit and push if there are changes
+        id: commit-changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A
           if ! git diff --staged --quiet; then
-            git commit -m "chore: add daily research log - $(date +%Y-%m-%d)"
+            git commit -m "chore: add daily research - $(date +%Y-%m-%d)"
             git push
+            echo "changes_committed=true" >> $GITHUB_OUTPUT
           else
+            echo "changes_committed=false" >> $GITHUB_OUTPUT
             echo "No changes to commit"
           fi
+
+      - name: Trigger static build
+        if: steps.commit-changes.outputs.changes_committed == 'true'
+        run: |
+          # 检查是否有 research 内容变化
+          if git diff --name-only HEAD~1..HEAD 2>/dev/null | grep -q "research/"; then
+            echo "Research content changed, triggering static build workflow..."
+            # 触发 build.yml workflow
+            gh workflow run build.yml
+          else
+            echo "No research content changes, skipping static build trigger"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,46 @@
+{
+  "date": "2026-03-06",
+  "topics": [
+    {
+      "domain": "agent",
+      "topic": "Agent工具调用与规划策略",
+      "status": "success"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "RLHF人类偏好对齐优化",
+      "status": "success"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "量化交易Agent策略生成",
+      "status": "success"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "vLLM推理优化技术",
+      "status": "success"
+    },
+    {
+      "domain": "agent",
+      "topic": "视觉语言Agent交互技术",
+      "status": "success"
+    }
+  ],
+  "history": [
+    "agent-evaluation",
+    "agent-framework",
+    "agent-memory",
+    "agent-sandbox",
+    "agentloop",
+    "mcp",
+    "multi-agent",
+    "prompt-engineering",
+    "rag",
+    "Agent工具调用与规划策略",
+    "RLHF人类偏好对齐优化",
+    "量化交易Agent策略生成",
+    "vLLM推理优化技术",
+    "视觉语言Agent交互技术"
+  ]
+}
