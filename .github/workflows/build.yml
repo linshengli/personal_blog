@@ -11,6 +11,7 @@ on:
       - 'components/**'
       - 'package*.json'
       - 'next.config.*'
+      - 'tsconfig.json'
   workflow_dispatch:
   workflow_run:
     workflows: ["Daily Research Task"]
