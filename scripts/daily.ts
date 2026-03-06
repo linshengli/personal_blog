@@ -98,6 +98,8 @@ async function runDailyTask() {
     if (runnableCount > 0 && succeeded.length === 0) {
       throw new Error('All topic research failed');
     }
+
+    process.exit(0);
   } catch (error) {
     console.error('\nDaily pipeline error:', error);
     process.exit(1);
