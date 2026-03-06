@@ -62,16 +62,7 @@ jobs:
             echo "No changes to commit"
           fi
 
-      - name: Trigger static build
+      - name: Log build trigger status
         if: steps.commit-changes.outputs.changes_committed == 'true'
         run: |
-          # 检查是否有 research 内容变化
-          if git diff --name-only HEAD~1..HEAD 2>/dev/null | grep -q "research/"; then
-            echo "Research content changed, triggering static build workflow..."
-            # 触发 build.yml workflow
-            gh workflow run build.yml
-          else
-            echo "No research content changes, skipping static build trigger"
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "Research committed. build.yml will auto-trigger via workflow_run."
