@@ -1,9 +1,29 @@
 {
-  "date": "2026-03-06",
+  "date": "2026-03-07",
   "topics": [
     {
-      "domain": "custom",
-      "topic": "openclaw",
+      "domain": "agent",
+      "topic": "Agent自主规划与任务分解技术",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体代码生成与执行能力",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型高效微调LoRA技术",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型持续学习防遗忘技术",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理显存优化技术",
       "status": "completed"
     }
   ],
@@ -22,6 +42,11 @@
     "trading-agent",
     "vllm-inference",
     "vision-language-agent",
-    "openclaw"
+    "openclaw",
+    "Agent自主规划与任务分解技术",
+    "智能体代码生成与执行能力",
+    "大模型高效微调LoRA技术",
+    "大模型持续学习防遗忘技术",
+    "大模型推理显存优化技术"
   ]
 }
