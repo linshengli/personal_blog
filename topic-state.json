@@ -2,28 +2,8 @@
   "date": "2026-03-08",
   "topics": [
     {
-      "domain": "agent",
-      "topic": "智能体工具调用可靠性与错误恢复",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "多模态智能体感知与决策融合技术",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "高质量训练数据自动筛选与清洗",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "分布式训练通信效率优化技术",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "量化策略自动发现与动态优化",
+      "domain": "custom",
+      "topic": "Harness Engineering",
       "status": "completed"
     }
   ],
@@ -57,6 +37,7 @@
     "多模态智能体感知与决策融合技术",
     "高质量训练数据自动筛选与清洗",
     "分布式训练通信效率优化技术",
-    "量化策略自动发现与动态优化"
+    "量化策略自动发现与动态优化",
+    "Harness Engineering"
   ]
 }
