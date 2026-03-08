@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-07",
+  "date": "2026-03-08",
   "topics": [
     {
       "domain": "agent",
-      "topic": "Agent自主规划与任务分解技术",
+      "topic": "智能体工具调用可靠性与错误恢复",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "智能体代码生成与执行能力",
+      "topic": "多模态智能体感知与决策融合技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型高效微调LoRA技术",
+      "topic": "高质量训练数据自动筛选与清洗",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型持续学习防遗忘技术",
+      "topic": "分布式训练通信效率优化技术",
       "status": "completed"
     },
     {
-      "domain": "大模型框架",
-      "topic": "大模型推理显存优化技术",
+      "domain": "quant+agent",
+      "topic": "量化策略自动发现与动态优化",
       "status": "completed"
     }
   ],
@@ -47,6 +47,16 @@
     "智能体代码生成与执行能力",
     "大模型高效微调LoRA技术",
     "大模型持续学习防遗忘技术",
-    "大模型推理显存优化技术"
+    "大模型推理显存优化技术",
+    "agent-r8i7",
+    "lora-fx49",
+    "topic-lxtb",
+    "topic-ovsd",
+    "topic-x0q9",
+    "智能体工具调用可靠性与错误恢复",
+    "多模态智能体感知与决策融合技术",
+    "高质量训练数据自动筛选与清洗",
+    "分布式训练通信效率优化技术",
+    "量化策略自动发现与动态优化"
   ]
 }
