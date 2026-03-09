@@ -1,9 +1,24 @@
 {
-  "date": "2026-03-08",
+  "date": "2026-03-09",
   "topics": [
     {
-      "domain": "custom",
-      "topic": "Harness Engineering",
+      "domain": "agent",
+      "topic": "智能体自我反思与迭代优化机制",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型课程学习策略设计",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推测解码加速推理技术",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "AI 驱动的市场异常检测与响应",
       "status": "completed"
     }
   ],
@@ -38,6 +53,16 @@
     "高质量训练数据自动筛选与清洗",
     "分布式训练通信效率优化技术",
     "量化策略自动发现与动态优化",
-    "Harness Engineering"
+    "Harness Engineering",
+    "harness-engineering-1osk",
+    "topic-9xhy",
+    "topic-a975",
+    "topic-cki8",
+    "topic-eggr",
+    "topic-nx1e",
+    "智能体自我反思与迭代优化机制",
+    "大模型课程学习策略设计",
+    "大模型推测解码加速推理技术",
+    "AI 驱动的市场异常检测与响应"
   ]
 }
