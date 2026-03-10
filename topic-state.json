@@ -1,24 +1,29 @@
 {
-  "date": "2026-03-09",
+  "date": "2026-03-10",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体自我反思与迭代优化机制",
+      "topic": "智能体人机协作交互设计机制",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "Agent 安全边界与价值对齐技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型课程学习策略设计",
+      "topic": "大模型知识蒸馏压缩方法",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推测解码加速推理技术",
+      "topic": "边缘设备轻量级部署优化",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "AI 驱动的市场异常检测与响应",
+      "topic": "高频交易中 Agent 低延迟决策",
       "status": "completed"
     }
   ],
@@ -63,6 +68,15 @@
     "智能体自我反思与迭代优化机制",
     "大模型课程学习策略设计",
     "大模型推测解码加速推理技术",
-    "AI 驱动的市场异常检测与响应"
+    "AI 驱动的市场异常检测与响应",
+    "ai-142i",
+    "topic-aesz",
+    "topic-mmni",
+    "topic-ycd7",
+    "智能体人机协作交互设计机制",
+    "Agent 安全边界与价值对齐技术",
+    "大模型知识蒸馏压缩方法",
+    "边缘设备轻量级部署优化",
+    "高频交易中 Agent 低延迟决策"
   ]
 }
