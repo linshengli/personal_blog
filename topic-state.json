@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-10",
+  "date": "2026-03-11",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体人机协作交互设计机制",
+      "topic": "智能体工具动态选择与推荐机制",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "Agent 安全边界与价值对齐技术",
+      "topic": "多智能体竞争协作博弈机制",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型知识蒸馏压缩方法",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "边缘设备轻量级部署优化",
+      "topic": "大模型训练数据配比优化策略",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "高频交易中 Agent 低延迟决策",
+      "topic": "量化策略回测评估自动化框架",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理KV缓存优化管理",
       "status": "completed"
     }
   ],
@@ -77,6 +77,16 @@
     "Agent 安全边界与价值对齐技术",
     "大模型知识蒸馏压缩方法",
     "边缘设备轻量级部署优化",
-    "高频交易中 Agent 低延迟决策"
+    "高频交易中 Agent 低延迟决策",
+    "agent-56c7",
+    "agent-ip4j",
+    "topic-2l47",
+    "topic-5l1s",
+    "topic-w8kp",
+    "智能体工具动态选择与推荐机制",
+    "多智能体竞争协作博弈机制",
+    "大模型训练数据配比优化策略",
+    "量化策略回测评估自动化框架",
+    "大模型推理KV缓存优化管理"
   ]
 }
