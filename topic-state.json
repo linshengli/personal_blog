@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-11",
+  "date": "2026-03-12",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体工具动态选择与推荐机制",
+      "topic": "具身智能体多模态感知行动循环",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "多智能体竞争协作博弈机制",
+      "topic": "大模型代码自主修复与调试能力",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练数据配比优化策略",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "量化策略回测评估自动化框架",
+      "topic": "混合精度训练稳定性优化策略",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理KV缓存优化管理",
+      "topic": "大模型推理动态批处理调度",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "新闻情绪分析驱动量化交易策略",
       "status": "completed"
     }
   ],
@@ -87,6 +87,16 @@
     "多智能体竞争协作博弈机制",
     "大模型训练数据配比优化策略",
     "量化策略回测评估自动化框架",
-    "大模型推理KV缓存优化管理"
+    "大模型推理KV缓存优化管理",
+    "kv-tyqm",
+    "topic-m8uf",
+    "topic-o2x4",
+    "topic-q6ap",
+    "topic-ynyy",
+    "具身智能体多模态感知行动循环",
+    "大模型代码自主修复与调试能力",
+    "混合精度训练稳定性优化策略",
+    "大模型推理动态批处理调度",
+    "新闻情绪分析驱动量化交易策略"
   ]
 }
