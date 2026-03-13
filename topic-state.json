@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-12",
+  "date": "2026-03-13",
   "topics": [
     {
       "domain": "agent",
-      "topic": "具身智能体多模态感知行动循环",
+      "topic": "智能体长周期任务持续执行与状态保持",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "大模型代码自主修复与调试能力",
+      "topic": "Agent 跨设备协同与上下文同步机制",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "混合精度训练稳定性优化策略",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理动态批处理调度",
+      "topic": "大模型训练超参数自动调优技术",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "新闻情绪分析驱动量化交易策略",
+      "topic": "AI 驱动的投资组合动态风险管理",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型多实例推理负载均衡调度",
       "status": "completed"
     }
   ],
@@ -97,6 +97,16 @@
     "大模型代码自主修复与调试能力",
     "混合精度训练稳定性优化策略",
     "大模型推理动态批处理调度",
-    "新闻情绪分析驱动量化交易策略"
+    "新闻情绪分析驱动量化交易策略",
+    "topic-tiaz",
+    "topic-tlr0",
+    "topic-uc04",
+    "topic-vza2",
+    "topic-xxft",
+    "智能体长周期任务持续执行与状态保持",
+    "Agent 跨设备协同与上下文同步机制",
+    "大模型训练超参数自动调优技术",
+    "AI 驱动的投资组合动态风险管理",
+    "大模型多实例推理负载均衡调度"
   ]
 }
