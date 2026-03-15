@@ -71,11 +71,31 @@ export default function ClientHome({ allPostsData }: ClientHomeProps) {
   const [selectedDomain, setSelectedDomain] = useState<string>('all');
   const [selectedDate, setSelectedDate] = useState<string>('all');
 
+  // 过滤掉无意义的 topic id 格式
+  const isValidDomain = (domain: string): boolean => {
+    // 过滤掉像 agent-xxx, topic-xxx, ai-xxx, kv-xxx, lora-xxx, harness-xxx 这样的格式
+    // 保留有意义的中文 domain
+    const invalidPatterns = [
+      /^agent-[a-z0-9]+$/i,
+      /^topic-[a-z0-9]+$/i,
+      /^ai-[a-z0-9]+$/i,
+      /^kv-[a-z0-9]+$/i,
+      /^lora-[a-z0-9]+$/i,
+      /^harness-[a-z0-9]+$/i,
+    ];
+    // 如果匹配无效模式，返回 false
+    if (invalidPatterns.some(pattern => pattern.test(domain))) {
+      return false;
+    }
+    // 包含中文字符的 domain 是有效的
+    return /[\u4e00-\u9fa5]/.test(domain);
+  };
+
   // 获取所有唯一的领域和时间
   const domains = useMemo(() => {
     const domainSet = new Set<string>();
     allPostsData.forEach(post => {
-      if (post.domain) {
+      if (post.domain && isValidDomain(post.domain)) {
         domainSet.add(post.domain);
       }
     });
@@ -147,50 +167,36 @@ export default function ClientHome({ allPostsData }: ClientHomeProps) {
       </div>
 
       <div className="filter-section">
-        <div className="filter-group filter-group-full">
+        <div className="filter-group">
           <label className="filter-label">领域：</label>
-          <div className="domain-tags">
-            <button
-              className={`domain-tag ${selectedDomain === 'all' ? 'active' : ''}`}
-              onClick={() => setSelectedDomain('all')}
-            >
-              全部
-            </button>
+          <select
+            className="filter-select"
+            value={selectedDomain}
+            onChange={(e) => setSelectedDomain(e.target.value)}
+          >
+            <option value="all">全部</option>
             {domains.map(domain => (
-              <button
-                key={domain}
-                className={`domain-tag ${selectedDomain === domain ? 'active' : ''}`}
-                onClick={() => setSelectedDomain(domain)}
-                style={{
-                  backgroundColor: selectedDomain === domain ? getDomainTextColor(domain) : getDomainColor(domain),
-                  color: selectedDomain === domain ? '#fff' : getDomainTextColor(domain),
-                }}
-              >
+              <option key={domain} value={domain}>
                 {domain}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
-        <div className="filter-group filter-group-full">
+        <div className="filter-group">
           <label className="filter-label">时间：</label>
-          <div className="domain-tags">
-            <button
-              className={`domain-tag time-tag ${selectedDate === 'all' ? 'active' : ''}`}
-              onClick={() => setSelectedDate('all')}
-            >
-              全部
-            </button>
+          <select
+            className="filter-select"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
+            <option value="all">全部</option>
             {dates.map(date => (
-              <button
-                key={date}
-                className={`domain-tag time-tag ${selectedDate === date ? 'active' : ''}`}
-                onClick={() => setSelectedDate(date)}
-              >
+              <option key={date} value={date}>
                 {date}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
         </div>
       </div>
 
