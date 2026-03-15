@@ -22,7 +22,22 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 分钟缓存过期时间
 function extractResearchScope(content: string): string | null {
   const lines = content.split('\n');
   for (const line of lines) {
-    const match = line.match(/\*\*研究范围\*\*:\s*(.+)/);
+    // 支持多种格式：**研究范围**、**调研主题**、**研究主题**
+    const match = line.match(/\*\*(?:研究范围|调研主题|研究主题)\*\*:?\s*(.+)/);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+  return null;
+}
+
+/**
+ * 从 Markdown 内容中提取文章主标题（从第一个 # 标题行）
+ */
+function extractMainTitle(content: string): string | null {
+  const lines = content.split('\n');
+  for (const line of lines) {
+    const match = line.match(/^#\s+(.+)/);
     if (match) {
       return match[1].trim();
     }
@@ -154,9 +169,10 @@ export function getSortedPostsData(): PostData[] {
       const scope = extractResearchScope(content);
       const researchDate = extractResearchDate(content);
       const researchTopic = extractResearchTopic(content);
+      const mainTitle = extractMainTitle(content);
 
-      // 使用研究范围作为标题（如果有），否则使用 frontmatter 中的 title
-      const title = scope || data.title || topic;
+      // 优先使用主标题 > 研究范围 > frontmatter title > topic id
+      const title = mainTitle || scope || data.title || topic;
       const date = researchDate || data.date || '';
       const id = topic;
 
@@ -246,8 +262,9 @@ export async function getPostData(id: string): Promise<CachedPostData | null> {
   const scope = extractResearchScope(content);
   const researchDate = extractResearchDate(content);
   const researchTopic = extractResearchTopic(content);
+  const mainTitle = extractMainTitle(content);
 
-  const title = scope || data.title || id;
+  const title = mainTitle || scope || data.title || id;
   const date = researchDate || data.date || '';
 
   const contentHtml = await markdownToHtml(content, actualFilePath);
