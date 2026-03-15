@@ -47,16 +47,17 @@ function extractMainTitle(content: string): string | null {
 
 /**
  * 从内容中提取调研日期
- * 格式：> 调研日期：YYYY-MM-DD  或  **调研日期**：YYYY-MM-DD
+ * 格式：> 调研日期：YYYY-MM-DD  或  **调研日期**：YYYY-MM-DD  或  **调研日期：** YYYY-MM-DD
  */
 function extractResearchDate(content: string): string | null {
   // Try blockquote format first: > 调研日期：YYYY-MM-DD
-  const blockquoteMatch = content.match(/>\s*调研日期：(\d{4}-\d{2}-\d{2})/);
+  const blockquoteMatch = content.match(/>\s*调研日期[：:]\s*(\d{4}-\d{2}-\d{2})/);
   if (blockquoteMatch) {
     return blockquoteMatch[1];
   }
-  // Try bold format: **调研日期**：YYYY-MM-DD
-  const boldMatch = content.match(/\*\*调研日期\*\*：\s*(\d{4}-\d{2}-\d{2})/);
+  // Try bold format: **调研日期**：YYYY-MM-DD 或 **调研日期：** YYYY-MM-DD
+  // 使用 .* 来匹配中间的 ** 或其他字符
+  const boldMatch = content.match(/\*\*调研日期.*?(\d{4}-\d{2}-\d{2})/);
   if (boldMatch) {
     return boldMatch[1];
   }
@@ -65,18 +66,22 @@ function extractResearchDate(content: string): string | null {
 
 /**
  * 从内容中提取调研主题
- * 格式：> 调研主题：XXX  或  **调研主题**：XXX
+ * 格式：> 调研主题：XXX  或  **调研主题**：XXX  或  **所属域**：XXX  或  **所属领域**：XXX
  */
 function extractResearchTopic(content: string): string | null {
   // Try blockquote format first: > 调研主题：XXX
-  const blockquoteMatch = content.match(/>\s*调研主题：(.+)/);
+  const blockquoteMatch = content.match(/>\s*(?:调研主题|所属域|所属领域)[：:]\s*(.+)/);
   if (blockquoteMatch) {
     return blockquoteMatch[1].trim();
   }
-  // Try bold format: **调研主题**：XXX
-  const boldMatch = content.match(/\*\*调研主题\*\*：\s*(.+)/);
+  // Try bold format: **调研主题**：XXX 或 **所属域**：XXX 或 **所属领域**：XXX 或 **调研领域**：XXX
+  // 使用 .* 来匹配中间的 ** 或其他字符，然后去掉 ** 前缀
+  const boldMatch = content.match(/\*\*(?:调研主题|所属域|所属领域|调研领域).*?[:：]\s*(.+)/);
   if (boldMatch) {
-    return boldMatch[1].trim();
+    let topic = boldMatch[1].trim();
+    // 去掉可能存在的 ** 前缀
+    topic = topic.replace(/^\*\*\s*/, '');
+    return topic;
   }
   return null;
 }
