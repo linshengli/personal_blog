@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-17",
+  "date": "2026-03-18",
   "topics": [
     {
       "domain": "agent",
-      "topic": "多智能体通信协议与语义交换机制",
+      "topic": "智能体多模态信息对齐与融合技术",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "智能体群体智能涌现与协作行为研究",
+      "topic": "Agent 复杂指令理解与意图识别优化",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理动态批处理与负载均衡",
+      "topic": "大模型训练数据去重与多样性增强",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于大模型的市场微观结构分析与交易",
+      "topic": "AI Agent 驱动的量化因子有效性评估",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理动态图编译与优化技术",
       "status": "completed"
     }
   ],
@@ -146,6 +146,16 @@
     "智能体群体智能涌现与协作行为研究",
     "联邦学习场景下大模型隐私保护训练",
     "大模型推理动态批处理与负载均衡",
-    "基于大模型的市场微观结构分析与交易"
+    "基于大模型的市场微观结构分析与交易",
+    "topic-205j",
+    "topic-cchq",
+    "topic-hlj1",
+    "topic-i1h9",
+    "topic-rwhw",
+    "智能体多模态信息对齐与融合技术",
+    "Agent 复杂指令理解与意图识别优化",
+    "大模型训练数据去重与多样性增强",
+    "AI Agent 驱动的量化因子有效性评估",
+    "大模型推理动态图编译与优化技术"
   ]
 }
