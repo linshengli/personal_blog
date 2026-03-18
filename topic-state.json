@@ -2,28 +2,8 @@
   "date": "2026-03-18",
   "topics": [
     {
-      "domain": "agent",
-      "topic": "智能体多模态信息对齐与融合技术",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "Agent 复杂指令理解与意图识别优化",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型训练数据去重与多样性增强",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "AI Agent 驱动的量化因子有效性评估",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理动态图编译与优化技术",
+      "domain": "custom",
+      "topic": "Agent基础设施",
       "status": "completed"
     }
   ],
@@ -156,6 +136,7 @@
     "Agent 复杂指令理解与意图识别优化",
     "大模型训练数据去重与多样性增强",
     "AI Agent 驱动的量化因子有效性评估",
-    "大模型推理动态图编译与优化技术"
+    "大模型推理动态图编译与优化技术",
+    "Agent基础设施"
   ]
 }
