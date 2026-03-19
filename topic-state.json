@@ -1,9 +1,24 @@
 {
-  "date": "2026-03-18",
+  "date": "2026-03-19",
   "topics": [
     {
-      "domain": "custom",
-      "topic": "Agent基础设施",
+      "domain": "agent",
+      "topic": "智能体长周期任务持续执行与状态保持",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "联邦学习场景下大模型隐私保护训练",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "新闻情绪分析驱动量化交易策略",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理动态图编译与优化技术",
       "status": "completed"
     }
   ],
@@ -137,6 +152,12 @@
     "大模型训练数据去重与多样性增强",
     "AI Agent 驱动的量化因子有效性评估",
     "大模型推理动态图编译与优化技术",
-    "Agent基础设施"
+    "Agent基础设施",
+    "agent-gkjw",
+    "agent-rzin",
+    "ai-agent-14nw",
+    "topic-oq95",
+    "topic-slrp",
+    "topic-vusr"
   ]
 }
