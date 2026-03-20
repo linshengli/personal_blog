@@ -1,24 +1,29 @@
 {
-  "date": "2026-03-19",
+  "date": "2026-03-20",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体长周期任务持续执行与状态保持",
+      "topic": "智能体跨 API 平台认证与授权管理机制",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
+      "topic": "大模型稀疏激活 MoE 训练负载均衡策略",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "课程学习难度自动评估与样本排序",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "新闻情绪分析驱动量化交易策略",
+      "topic": "基于强化学习的量化交易仓位动态调整",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理动态图编译与优化技术",
+      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
       "status": "completed"
     }
   ],
@@ -158,6 +163,11 @@
     "ai-agent-14nw",
     "topic-oq95",
     "topic-slrp",
-    "topic-vusr"
+    "topic-vusr",
+    "智能体跨 API 平台认证与授权管理机制",
+    "大模型稀疏激活 MoE 训练负载均衡策略",
+    "课程学习难度自动评估与样本排序",
+    "基于强化学习的量化交易仓位动态调整",
+    "大模型推理 CPU-GPU 异构计算协同调度"
   ]
 }
