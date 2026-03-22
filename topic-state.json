@@ -1,5 +1,5 @@
 {
-  "date": "2026-03-21",
+  "date": "2026-03-22",
   "topics": [
     {
       "domain": "agent",
@@ -13,17 +13,17 @@
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型小样本高效微调方法研究",
+      "topic": "联邦学习场景下大模型隐私保护训练",
       "status": "completed"
     },
     {
-      "domain": "quant+agent",
-      "topic": "量化策略可解释性自动生成技术",
+      "domain": "大模型训练",
+      "topic": "大模型稀疏激活 MoE 训练负载均衡策略",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理服务弹性伸缩机制",
+      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
       "status": "completed"
     }
   ],
@@ -178,6 +178,11 @@
     "智能体人类偏好对齐与个性化适应",
     "大模型小样本高效微调方法研究",
     "量化策略可解释性自动生成技术",
-    "大模型推理服务弹性伸缩机制"
+    "大模型推理服务弹性伸缩机制",
+    "topic-1flv",
+    "topic-2xru",
+    "topic-gohi",
+    "topic-gqww",
+    "topic-kvox"
   ]
 }
