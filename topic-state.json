@@ -2,23 +2,8 @@
   "date": "2026-03-23",
   "topics": [
     {
-      "domain": "agent",
-      "topic": "智能体多源知识整合与推理技术",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型课程学习难度自适应调整",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "基于大模型情绪分析的组合优化",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型分布式推理调度优化",
+      "domain": "custom",
+      "topic": "多智能体营销系统",
       "status": "completed"
     }
   ],
@@ -182,6 +167,7 @@
     "智能体多源知识整合与推理技术",
     "大模型课程学习难度自适应调整",
     "基于大模型情绪分析的组合优化",
-    "大模型分布式推理调度优化"
+    "大模型分布式推理调度优化",
+    "多智能体营销系统"
   ]
 }
