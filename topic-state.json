@@ -1,29 +1,24 @@
 {
-  "date": "2026-03-22",
+  "date": "2026-03-23",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体可解释决策与推理过程可视化",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体人类偏好对齐与个性化适应",
+      "topic": "智能体多源知识整合与推理技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
+      "topic": "大模型课程学习难度自适应调整",
       "status": "completed"
     },
     {
-      "domain": "大模型训练",
-      "topic": "大模型稀疏激活 MoE 训练负载均衡策略",
+      "domain": "quant+agent",
+      "topic": "基于大模型情绪分析的组合优化",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
+      "topic": "大模型分布式推理调度优化",
       "status": "completed"
     }
   ],
@@ -183,6 +178,10 @@
     "topic-2xru",
     "topic-gohi",
     "topic-gqww",
-    "topic-kvox"
+    "topic-kvox",
+    "智能体多源知识整合与推理技术",
+    "大模型课程学习难度自适应调整",
+    "基于大模型情绪分析的组合优化",
+    "大模型分布式推理调度优化"
   ]
 }
