@@ -1,9 +1,29 @@
 {
-  "date": "2026-03-23",
+  "date": "2026-03-24",
   "topics": [
     {
-      "domain": "custom",
-      "topic": "多智能体营销系统",
+      "domain": "agent",
+      "topic": "智能体安全边界与价值对齐技术",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "大模型代码自主修复与调试能力",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "联邦学习场景下大模型隐私保护训练",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理动态图编译与优化技术",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "量化策略可解释性自动生成技术",
       "status": "completed"
     }
   ],
@@ -168,6 +188,12 @@
     "大模型课程学习难度自适应调整",
     "基于大模型情绪分析的组合优化",
     "大模型分布式推理调度优化",
-    "多智能体营销系统"
+    "多智能体营销系统",
+    "topic-3pju",
+    "topic-8r87",
+    "topic-t8wc",
+    "topic-ye86",
+    "topic-z8al",
+    "智能体安全边界与价值对齐技术"
   ]
 }
