@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-24",
+  "date": "2026-03-25",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体安全边界与价值对齐技术",
+      "topic": "智能体实时动态规划与重规划机制",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "大模型代码自主修复与调试能力",
+      "topic": "智能体工具链组合与自动编排技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理动态图编译与优化技术",
+      "topic": "大模型自动化课程样本生成与排序",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "量化策略可解释性自动生成技术",
+      "topic": "AI Agent 驱动的 Alpha 因子自动挖掘",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理自适应计算资源分配",
       "status": "completed"
     }
   ],
@@ -194,6 +194,12 @@
     "topic-t8wc",
     "topic-ye86",
     "topic-z8al",
-    "智能体安全边界与价值对齐技术"
+    "智能体安全边界与价值对齐技术",
+    "topic-yr35",
+    "智能体实时动态规划与重规划机制",
+    "智能体工具链组合与自动编排技术",
+    "大模型自动化课程样本生成与排序",
+    "AI Agent 驱动的 Alpha 因子自动挖掘",
+    "大模型推理自适应计算资源分配"
   ]
 }
