@@ -2,28 +2,8 @@
   "date": "2026-03-26",
   "topics": [
     {
-      "domain": "agent",
-      "topic": "智能体跨任务迁移学习与元适应机制",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体多模态感知行动闭环与具身交互",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型训练灾难性遗忘缓解与知识保留",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "多因子智能融合与动态权重配置策略",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理能效优化与绿色计算技术",
+      "domain": "custom",
+      "topic": "Autonomous SRE Agent",
       "status": "completed"
     }
   ],
@@ -210,6 +190,7 @@
     "智能体多模态感知行动闭环与具身交互",
     "大模型训练灾难性遗忘缓解与知识保留",
     "多因子智能融合与动态权重配置策略",
-    "大模型推理能效优化与绿色计算技术"
+    "大模型推理能效优化与绿色计算技术",
+    "Autonomous SRE Agent"
   ]
 }
