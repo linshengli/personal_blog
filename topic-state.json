@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-25",
+  "date": "2026-03-26",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体实时动态规划与重规划机制",
+      "topic": "智能体跨任务迁移学习与元适应机制",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "智能体工具链组合与自动编排技术",
+      "topic": "智能体多模态感知行动闭环与具身交互",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型自动化课程样本生成与排序",
+      "topic": "大模型训练灾难性遗忘缓解与知识保留",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "AI Agent 驱动的 Alpha 因子自动挖掘",
+      "topic": "多因子智能融合与动态权重配置策略",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理自适应计算资源分配",
+      "topic": "大模型推理能效优化与绿色计算技术",
       "status": "completed"
     }
   ],
@@ -200,6 +200,16 @@
     "智能体工具链组合与自动编排技术",
     "大模型自动化课程样本生成与排序",
     "AI Agent 驱动的 Alpha 因子自动挖掘",
-    "大模型推理自适应计算资源分配"
+    "大模型推理自适应计算资源分配",
+    "ai-agent-alpha-ivu9",
+    "topic-7r4y",
+    "topic-aoj0",
+    "topic-ektv",
+    "topic-qqnc",
+    "智能体跨任务迁移学习与元适应机制",
+    "智能体多模态感知行动闭环与具身交互",
+    "大模型训练灾难性遗忘缓解与知识保留",
+    "多因子智能融合与动态权重配置策略",
+    "大模型推理能效优化与绿色计算技术"
   ]
 }
