@@ -1,9 +1,29 @@
 {
-  "date": "2026-03-26",
+  "date": "2026-03-27",
   "topics": [
     {
-      "domain": "custom",
-      "topic": "Autonomous SRE Agent",
+      "domain": "agent",
+      "topic": "智能体工具使用安全与风险防控机制",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型训练数据质量评估与增强技术",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "MoE 架构专家路由负载均衡优化",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "基于大模型情绪分析的组合优化策略",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理能效优化与绿色计算技术",
       "status": "completed"
     }
   ],
@@ -191,6 +211,16 @@
     "大模型训练灾难性遗忘缓解与知识保留",
     "多因子智能融合与动态权重配置策略",
     "大模型推理能效优化与绿色计算技术",
-    "Autonomous SRE Agent"
+    "Autonomous SRE Agent",
+    "autonomous-sre-agent-6tyi",
+    "topic-44zx",
+    "topic-frpo",
+    "topic-kpf4",
+    "topic-mlbu",
+    "topic-pub5",
+    "智能体工具使用安全与风险防控机制",
+    "大模型训练数据质量评估与增强技术",
+    "MoE 架构专家路由负载均衡优化",
+    "基于大模型情绪分析的组合优化策略"
   ]
 }
