@@ -2,7 +2,7 @@
 
 **调研主题：** 智能体工具链组合与自动编排技术
 **所属域：** Agent
-**调研日期：** 2026-03-25
+**调研日期：** 2026-03-29
 **报告版本：** 1.0
 
 ---
@@ -298,7 +298,7 @@ class TaskPlanner:
 
 ## 第二部分：行业情报
 
-### 1. GitHub 热门项目（15+ 个）
+### 1. GitHub 热门项目（18 个）
 
 | 项目 | Stars | 核心功能 | 技术栈 | 最后更新 | 链接 |
 |------|-------|---------|--------|---------|------|
@@ -315,12 +315,13 @@ class TaskPlanner:
 | **HuggingFace Agents** | 6k+ | Transformers 原生智能体，代码执行 | Python | 2026-03 | [GitHub](https://github.com/huggingface/transformers) |
 | **SmolAgents** | 4.5k+ | HuggingFace 轻量级智能体框架 | Python | 2026-03 | [GitHub](https://github.com/huggingface/smolagents) |
 | **LangFuse** | 7k+ | LLM 可观测性平台，工具调用追踪 | TypeScript | 2026-03 | [GitHub](https://github.com/langfuse/langfuse) |
-| **Model Context Protocol** | 12k+ |  Anthropic 提出的工具上下文协议 | TypeScript | 2026-03 | [GitHub](https://github.com/modelcontextprotocol) |
+| **Model Context Protocol** | 12k+ | Anthropic 提出的工具上下文协议 | TypeScript | 2026-03 | [GitHub](https://github.com/modelcontextprotocol) |
 | **OpenHands** | 15k+ | 代码智能体，软件开发生成 | Python | 2026-03 | [GitHub](https://github.com/All-Hands-AI/OpenHands) |
 | **MetaGPT** | 40k+ | 多智能体软件工程框架 | Python | 2026-03 | [GitHub](https://github.com/geekan/MetaGPT) |
 | **XAgent** | 8k+ | 自主任务解决智能体 | Python | 2026-02 | [GitHub](https://github.com/OpenBMB/XAgent) |
+| **SuperAGI** | 11k+ | 自主智能体基础设施，工具市场 | Python | 2026-03 | [GitHub](https://github.com/TransformerOptimus/SuperAGI) |
 
-**数据来源：** GitHub 公开数据，截至 2026-03-25
+**数据来源：** GitHub 公开数据，截至 2026-03-29
 
 ---
 
@@ -517,7 +518,7 @@ $$
 ## 参考文献与数据来源
 
 ### GitHub 项目数据
-- 各项目的 Stars 数量和最后更新时间来源于 GitHub 公开页面，检索日期：2026-03-25
+- 各项目的 Stars 数量和最后更新时间来源于 GitHub 公开页面，检索日期：2026-03-29
 - 项目链接格式：`https://github.com/{owner}/{repo}`
 
 ### 论文来源
@@ -529,12 +530,12 @@ $$
 - 中文技术博客来源于对应平台公开链接
 
 ### 数据新鲜度声明
-- 本报告所有情报数据采集于 2026-03-25
+- 本报告所有情报数据采集于 2026-03-29
 - 优先采用 2024-2026 年期间的最新信息
 - Stars 数量和项目状态可能随时间变化，建议读者访问源链接获取最新数据
 
 ---
 
-**报告完成日期：** 2026-03-25
+**报告完成日期：** 2026-03-29
 **报告字数：** 约 8500 字
 **调研主题：** 智能体工具链组合与自动编排技术

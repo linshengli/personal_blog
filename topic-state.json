@@ -1,9 +1,14 @@
 {
-  "date": "2026-03-28",
+  "date": "2026-03-29",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体具身环境交互与物理世界学习能力",
+      "topic": "智能体实时动态规划与重规划机制",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体工具链组合与自动编排技术",
       "status": "completed"
     },
     {
@@ -18,12 +23,7 @@
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理服务动态资源弹性调度技术",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体跨平台工作流自动编排与执行",
+      "topic": "大模型推理能效优化与绿色计算技术",
       "status": "completed"
     }
   ],
@@ -230,6 +230,11 @@
     "大模型训练数据动态课程难度调度策略",
     "基于 Agent 的期货市场套利策略自动发现",
     "大模型推理服务动态资源弹性调度技术",
-    "智能体跨平台工作流自动编排与执行"
+    "智能体跨平台工作流自动编排与执行",
+    "agent-ys33",
+    "topic-ltsw",
+    "topic-puzm",
+    "topic-qmbq",
+    "topic-vl8p"
   ]
 }
