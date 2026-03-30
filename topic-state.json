@@ -1,29 +1,29 @@
 {
-  "date": "2026-03-29",
+  "date": "2026-03-30",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体实时动态规划与重规划机制",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体工具链组合与自动编排技术",
+      "topic": "智能体跨领域工作流自动编排与协同执行",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练数据动态课程难度调度策略",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "基于 Agent 的期货市场套利策略自动发现",
+      "topic": "大模型训练课程样本自动评估与动态调度",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理能效优化与绿色计算技术",
+      "topic": "大模型推理服务无服务器架构弹性伸缩",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "AI 驱动的加密货币套利策略自动发现",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体对抗性攻击鲁棒性与防御机制",
       "status": "completed"
     }
   ],
@@ -235,6 +235,11 @@
     "topic-ltsw",
     "topic-puzm",
     "topic-qmbq",
-    "topic-vl8p"
+    "topic-vl8p",
+    "智能体跨领域工作流自动编排与协同执行",
+    "大模型训练课程样本自动评估与动态调度",
+    "大模型推理服务无服务器架构弹性伸缩",
+    "AI 驱动的加密货币套利策略自动发现",
+    "智能体对抗性攻击鲁棒性与防御机制"
   ]
 }
