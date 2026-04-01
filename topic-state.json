@@ -1,24 +1,29 @@
 {
-  "date": "2026-03-31",
+  "date": "2026-04-01",
   "topics": [
     {
       "domain": "agent",
-      "topic": "具身智能体物理环境交互与学习能力",
+      "topic": "智能体群体智能涌现与协作行为研究",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "智能体对抗攻击鲁棒性与防御机制",
-      "status": "failed"
+      "topic": "基于大模型的自动化测试生成智能体",
+      "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练灾难性遗忘缓解与知识保留",
+      "topic": "联邦学习场景下大模型隐私保护训练",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理算子融合与图编译优化",
+      "topic": "大模型推理能效优化与绿色计算技术",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "AI Agent 驱动的量化因子有效性评估",
       "status": "completed"
     }
   ],
@@ -243,6 +248,8 @@
     "topic-modo",
     "具身智能体物理环境交互与学习能力",
     "智能体对抗攻击鲁棒性与防御机制",
-    "大模型推理算子融合与图编译优化"
+    "大模型推理算子融合与图编译优化",
+    "topic-get9",
+    "topic-v2d9"
   ]
 }
