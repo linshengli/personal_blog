@@ -1,30 +1,30 @@
 {
-  "date": "2026-04-01",
+  "date": "2026-04-02",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体群体智能涌现与协作行为研究",
+      "topic": "智能体自动化解与动态优先级调度机制",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "基于大模型的自动化测试生成智能体",
+      "topic": "智能体多角色切换与情境感知适应",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
+      "topic": "大模型训练中数据价值动态评估方法",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理能效优化与绿色计算技术",
+      "topic": "大模型推理请求预测与预处理技术",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "AI Agent 驱动的量化因子有效性评估",
-      "status": "completed"
+      "topic": "多时间尺度量化信号融合决策框架",
+      "status": "failed"
     }
   ],
   "history": [
@@ -250,6 +250,11 @@
     "智能体对抗攻击鲁棒性与防御机制",
     "大模型推理算子融合与图编译优化",
     "topic-get9",
-    "topic-v2d9"
+    "topic-v2d9",
+    "智能体自动化解与动态优先级调度机制",
+    "智能体多角色切换与情境感知适应",
+    "大模型训练中数据价值动态评估方法",
+    "大模型推理请求预测与预处理技术",
+    "多时间尺度量化信号融合决策框架"
   ]
 }
