@@ -1,30 +1,25 @@
 {
-  "date": "2026-04-02",
+  "date": "2026-04-03",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体自动化解与动态优先级调度机制",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体多角色切换与情境感知适应",
+      "topic": "智能体实时环境感知与动态响应机制",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练中数据价值动态评估方法",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理请求预测与预处理技术",
+      "topic": "大模型训练损失曲线异常检测与干预",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "多时间尺度量化信号融合决策框架",
-      "status": "failed"
+      "topic": "基于 Agent 的跨市场套利机会自动识别",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理请求热点预测与缓存预热",
+      "status": "completed"
     }
   ],
   "history": [
@@ -255,6 +250,14 @@
     "智能体多角色切换与情境感知适应",
     "大模型训练中数据价值动态评估方法",
     "大模型推理请求预测与预处理技术",
-    "多时间尺度量化信号融合决策框架"
+    "多时间尺度量化信号融合决策框架",
+    "topic-29tv",
+    "topic-3wjl",
+    "topic-f79d",
+    "topic-mdd1",
+    "智能体实时环境感知与动态响应机制",
+    "大模型训练损失曲线异常检测与干预",
+    "基于 Agent 的跨市场套利机会自动识别",
+    "大模型推理请求热点预测与缓存预热"
   ]
 }
