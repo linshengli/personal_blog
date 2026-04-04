@@ -1,24 +1,29 @@
 {
-  "date": "2026-04-03",
+  "date": "2026-04-04",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体实时环境感知与动态响应机制",
+      "topic": "智能体代码自主修复与调试能力",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练损失曲线异常检测与干预",
+      "topic": "联邦学习场景下大模型隐私保护训练",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于 Agent 的跨市场套利机会自动识别",
+      "topic": "量化策略可解释性自动生成技术",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理请求热点预测与缓存预热",
+      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理能效优化与绿色计算技术",
       "status": "completed"
     }
   ],
@@ -258,6 +263,11 @@
     "智能体实时环境感知与动态响应机制",
     "大模型训练损失曲线异常检测与干预",
     "基于 Agent 的跨市场套利机会自动识别",
-    "大模型推理请求热点预测与缓存预热"
+    "大模型推理请求热点预测与缓存预热",
+    "agent-4wzl",
+    "topic-1dhj",
+    "topic-b93o",
+    "topic-y0xd",
+    "智能体代码自主修复与调试能力"
   ]
 }

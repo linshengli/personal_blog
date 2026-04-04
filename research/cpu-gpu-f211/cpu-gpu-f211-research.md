@@ -1,8 +1,9 @@
 # 大模型推理 CPU-GPU 异构计算协同调度深度调研报告
 
-**调研日期：** 2026-03-20
-**所属域：** 大模型框架
-**版本：** 1.0
+**调研主题：** 大模型推理 CPU-GPU 异构计算协同调度
+**所属领域：** 大模型框架
+**调研日期：** 2026-04-04
+**版本：** 2.0（2026 年 4 月更新版）
 
 ---
 
@@ -23,16 +24,21 @@
 
 **大模型推理 CPU-GPU 异构计算协同调度**是指在大型语言模型（LLM）推理服务中，通过智能调度算法动态分配计算任务到 CPU 和 GPU 两类异构计算资源上，以实现内存容量扩展、计算效率优化和成本控制的技术体系。其核心思想是打破"所有计算必须在 GPU 上完成"的传统范式，利用 CPU 的大内存容量和 GPU 的高计算吞吐能力，通过精细化的任务切分、数据布局和流水线调度，在满足延迟约束的前提下最大化系统吞吐。
 
+2025-2026 年的新发展将这一概念扩展为"**异步并行异构执行**"：CPU 和 GPU 不再仅仅是主从 offload 关系，而是可以真正并行执行不同阶段的计算（如 APEX 方案中 CPU 负责预填充、GPU 负责解码），通过计算重叠实现延迟优化。
+
 #### 常见误解
 
 1. **误解一："CPU-GPU 协同就是简单地把部分层放到 CPU 上"**
-   实际上，协同调度涉及复杂的内存管理（如 PagedAttention）、算子融合、通信隐藏和预测性预取，远非简单的层分配问题。
+   实际上，协同调度涉及复杂的内存管理（如 PagedAttention）、算子融合、通信隐藏和预测性预取，远非简单的层分配问题。2025 年的 APEX 方案更是实现了预填充和解码的异步并行，而非简单的层切分。
 
 2. **误解二："CPU 参与计算一定会显著降低性能"**
-   在内存受限场景下，合理的 CPU offloading 可以通过避免 GPU OOM 和减少数据重传，反而提升整体吞吐。对于 decode 阶段的部分算子，CPU 执行可能不会成为瓶颈。
+   在内存受限场景下，合理的 CPU offloading 可以通过避免 GPU OOM 和减少数据重传，反而提升整体吞吐。对于 decode 阶段的部分算子，CPU 执行可能不会成为瓶颈。Prima.cpp（2025）证明通过智能调度，CPU-GPU 协同可实现接近纯 GPU 的延迟。
 
 3. **误解三："异构调度只适用于超大模型"**
-   实际上，在高并发多租户场景下，即使是 7B-13B 模型也能通过异构调度实现更好的资源利用率和 QoS 保障。
+   实际上，在高并发多租户场景下，即使是 7B-13B 模型也能通过异构调度实现更好的资源利用率和 QoS 保障。SageSched（2026）展示了混合负载场景下异构调度的成本优势。
+
+4. **误解四："只有边缘设备才需要 CPU-GPU 协同"**
+   数据中心场景同样受益：CPU-GPU 协同可用于服务混合负载（在线 + 离线请求）、实现 SLO 保证、降低 TCO（总体拥有成本）。
 
 #### 边界辨析
 
@@ -42,6 +48,7 @@
 | **动态批处理（Continuous Batching）** | 关注请求级别的调度，而异构调度关注算子/层级别的资源分配 |
 | **量化推理（Quantized Inference）** | 关注降低精度减少内存，而异构调度关注跨设备资源利用 |
 | **推测解码（Speculative Decoding）** | 关注加速生成过程，而异构调度关注计算资源的跨设备调度 |
+| **CPU Offload（ZeRO-Inference）** | 单向将数据从 GPU 卸载到 CPU；异构调度是双向协作，CPU 主动参与计算 |
 
 ---
 
@@ -123,13 +130,13 @@ $$
 
 **解释：** 系统吞吐随请求率 $\lambda$ 变化，$P_{\text{offload}}$ 是触发 offload 的概率，$\beta_{\text{overhead}}$ 是 offload 带来的额外开销系数。该模型揭示了高负载下 offload 对吞吐的影响。
 
-#### 3.4 计算 - 通信重叠效率
+#### 3.4 计算 - 通信重叠效率（APEX 模型）
 
 $$
 \eta_{\text{overlap}} = \frac{T_{\text{compute}}}{\max(T_{\text{compute}}, T_{\text{transfer}})} \times 100\%
 $$
 
-**解释：** 重叠效率衡量计算与数据传输的并行程度。理想情况下 $T_{\text{transfer}} < T_{\text{compute}}$，$\eta_{\text{overlap}} \approx 100\%$；否则通信成为瓶颈。
+**解释：** 重叠效率衡量计算与数据传输的并行程度。理想情况下 $T_{\text{transfer}} < T_{\text{compute}}$，$\eta_{\text{overlap}} \approx 100\%$；否则通信成为瓶颈。APEX 通过异步执行使 CPU 预填充与 GPU 解码重叠，显著提升效率。
 
 #### 3.5 成本效益比
 
@@ -138,6 +145,14 @@ $$
 $$
 
 **解释：** 每单位成本产生的 token 吞吐量，其中 $C_G$ 和 $C_C$ 分别是 GPU 和 CPU 的单位时间成本。该指标用于评估异构调度的经济性。
+
+#### 3.6 MoE 专家分配效率（2025 年新模型）
+
+$$
+\text{Efficiency}_{\text{MoE}} = \frac{\sum_{e \in \text{Active}} T_e^{\text{GPU}}}{\sum_{e \in \text{Active}} T_e^{\text{GPU}} + \sum_{e \in \text{Inactive}} T_e^{\text{CPU-offload}}}
+$$
+
+**解释：** MoE 模型的效率取决于激活专家在 GPU 上的执行时间与非激活专家 CPU 卸载开销的比值。对于 671B 的 DeepSeek-V3，每 token 仅激活约 37B 参数，其余可安全 offload。
 
 ---
 
@@ -299,6 +314,37 @@ class PagedMemoryPool:
         """将请求的 KV Cache 从 CPU/SSD swap 回 GPU"""
         # 与 swap_out 对称的操作
         pass
+
+
+class APEXScheduler(HeterogeneousScheduler):
+    """
+    APEX 异步并行调度器（2025 年新方案）
+    核心思想：CPU 负责预填充，GPU 负责解码，两者并行执行
+    """
+    def __init__(self, config):
+        super().__init__(config)
+        self.prefill_queue = asyncio.Queue()
+        self.decode_queue = asyncio.Queue()
+
+    def schedule_apex(self, request: Request) -> AsyncExecutionPlan:
+        """
+        APEX 调度：预填充和解码异步并行
+        """
+        # CPU 异步执行预填充
+        prefill_task = asyncio.create_task(
+            self._cpu_prefill(request.prompt)
+        )
+
+        # GPU 准备解码（等待 prefill 完成）
+        decode_task = asyncio.create_task(
+            self._gpu_decode(request, prefill_task)
+        )
+
+        return AsyncExecutionPlan(
+            prefill=prefill_task,
+            decode=decode_task,
+            overlap_expected=True
+        )
 ```
 
 ---
@@ -316,6 +362,7 @@ class PagedMemoryPool:
 | **计算 - 通信重叠率** | > 80% | 性能剖析工具 | 通信隐藏的有效性 |
 | **QoS 达成率** | > 99% | SLO 监控 | 满足延迟承诺的请求比例 |
 | **成本效率** | > 2x (对比纯 GPU) | 成本/吞吐核算 | 单位成本的吞吐产出 |
+| **CPU-GPU 并行效率** | > 70% | APEX 模式专用 | CPU 和 GPU 同时工作的时间占比 |
 
 ---
 
@@ -327,7 +374,7 @@ class PagedMemoryPool:
 
 1. **多 GPU 数据并行**：通过请求分片将不同请求分配到不同 GPU，每个 GPU 独立进行 CPU-GPU 协同调度
 2. **模型并行 + 异构**：超大模型采用 tensor parallelism 跨多 GPU，同时在每个 GPU 节点上启用 CPU offload
-3. **分布式 KV Cache**：跨节点的 KV Cache 共享，利用远端 CPU 内存扩展本地容量
+3. **分布式 KV Cache**：跨节点的 KV Cache 共享，利用远端 CPU 内存扩展本地容量（LLMServingSim 2.0, 2026）
 4. **弹性扩缩容**：基于负载预测动态调整 CPU offload 比例，实现资源的弹性伸缩
 
 扩展瓶颈主要在于：
@@ -370,45 +417,52 @@ class PagedMemoryPool:
 
 ## 第二部分：行业情报
 
-### 1. GitHub 热门项目（15+ 个）
+### 1. GitHub 热门项目（16 个）
 
 | 项目 | Stars | 核心功能 | 技术栈 | 最后更新 | 链接 |
 |------|-------|---------|--------|---------|------|
-| **vLLM** | 70k+ | PagedAttention 连续批处理，支持 CPU offload | Python/CUDA | 2026-03 | [GitHub](https://github.com/vllm-project/vllm) |
-| **Text Generation Inference (TGI)** | 15k+ | HuggingFace 官方推理框架，支持量化 offload | Rust/Python | 2026-03 | [GitHub](https://github.com/huggingface/text-generation-inference) |
-| **TensorRT-LLM** | 25k+ | NVIDIA 高性能推理引擎，支持多 GPU 和 offload | C++/CUDA | 2026-03 | [GitHub](https://github.com/NVIDIA/TensorRT-LLM) |
-| **SGLang** | 12k+ | 结构化生成语言，高效调度与内存管理 | Python/Triton | 2026-03 | [GitHub](https://github.com/sgl-project/sglang) |
-| **DeepSpeed-MII** | 8k+ | 微软深度优化推理，支持 ZeRO-Offload | Python/CUDA | 2026-02 | [GitHub](https://github.com/microsoft/DeepSpeed-MII) |
-| **FlexFlow Serve** | 3k+ | 推测解码 + 异构调度，学术界前沿 | C++/Python | 2026-01 | [GitHub](https://github.com/flexflow/FlexFlow) |
-| **DistServe** | 2k+ | 解耦 prefill 和 decode，支持异构部署 | Python | 2025-12 | [GitHub](https://github.com/distserve/distserve) |
-| **Alpa Serve** | 1.5k+ | 自动并行策略搜索，支持 CPU offload | Python/JAX | 2026-02 | [GitHub](https://github.com/alpa-projects/alpa) |
-| **Petals** | 5k+ | 分布式推理，利用多节点 CPU/GPU 资源 | Python/PyTorch | 2026-03 | [GitHub](https://github.com/bigscience-workshop/petals) |
-| **llama.cpp** | 65k+ | 纯 CPU 推理优化，支持 GPU offload | C/CUDA | 2026-03 | [GitHub](https://github.com/ggerganov/llama.cpp) |
-| **Ollama** | 55k+ | 本地 LLM 运行框架，自动 CPU/GPU 调度 | Go/CUDA | 2026-03 | [GitHub](https://github.com/ollama/ollama) |
-| **MLC LLM** | 12k+ | 端到端编译部署，支持异构后端 | TVM/Python | 2026-03 | [GitHub](https://github.com/mlc-ai/mlc-llm) |
-| **vLLM-CPU** | 1.2k+ | vLLM 的 CPU 优化分支，专注异构场景 | Python/C++ | 2026-02 | [GitHub](https://github.com/vllm-project/vllm/tree/main) |
-| **Orca** | 2.5k+ | 微服务化推理架构，支持弹性 offload | Python | 2025-11 | [GitHub](https://github.com/microsoft/orca) |
-| **FastTransformer** | 4k+ | Facebook 高效推理，支持动态 offload | C++/Python | 2026-01 | [GitHub](https://github.com/facebookresearch/fairseq) |
-| **DeepSpeed-FastGen** | 3.5k+ | 微软最新推理加速，集成异构调度 | Python/CUDA | 2026-03 | [GitHub](https://github.com/microsoft/DeepSpeed) |
+| **vLLM** | 70,000+ | PagedAttention、Continuous Batching、CPU offload 支持 | Python/CUDA | 2026-04 | [GitHub](https://github.com/vllm-project/vllm) |
+| **llama.cpp** | 65,000+ | 纯 CPU 推理优化、Metal/Vulkan 后端、GPU offload | C/CUDA | 2026-04 | [GitHub](https://github.com/ggml-org/llama.cpp) |
+| **Ollama** | 55,000+ | 本地 LLM 运行、自动 CPU/GPU 调度 | Go/CUDA | 2026-04 | [GitHub](https://github.com/ollama/ollama) |
+| **DeepSpeed** | 40,000+ | ZeRO-Offload、MoE 支持、训练/推理优化 | Python/CUDA | 2026-04 | [GitHub](https://github.com/microsoft/DeepSpeed) |
+| **TensorRT-LLM** | 25,000+ | NVIDIA 高性能推理、In-flight Batching、多 GPU | C++/CUDA | 2026-04 | [GitHub](https://github.com/NVIDIA/TensorRT-LLM) |
+| **TGI** | 14,600+ | HuggingFace 官方、维护模式、推荐转向 vLLM/SGLang | Rust/Python | 2025-12 | [GitHub](https://github.com/huggingface/text-generation-inference) |
+| **SGLang** | 15,000+ | 结构化生成、RadixAttention、Agentic 工作流标准 | Python/CUDA | 2026-04 | [GitHub](https://github.com/sgl-project/sglang) |
+| **Petals** | 12,000+ | 分布式推理、BitTorrent 式模型并行 | Python/PyTorch | 2026-03 | [GitHub](https://github.com/bigscience-workshop/petals) |
+| **MLC LLM** | 12,000+ | 跨平台编译、WebGPU 支持、移动端优化 | Python/TVM | 2026-04 | [GitHub](https://github.com/mlc-ai/mlc-llm) |
+| **WebLLM** | 8,000+ | 浏览器内推理、WebGPU 加速、离线运行 | TypeScript | 2026-04 | [GitHub](https://github.com/mlc-ai/web-llm) |
+| **IPEX-LLM** | 8,000+ | Intel XPU 加速、CPU-GPU 协同、MoE 优化（FlashMoE） | Python/C++ | 2026-04 | [GitHub](https://github.com/intel/ipex-llm) |
+| **LMDeploy** | 6,000+ | 量化推理、多后端支持、高性能服务 | Python/C++ | 2026-04 | [GitHub](https://github.com/InternLM/lmdeploy) |
+| **FasterTransformer** | 7,000+ | NVIDIA 优化、Transformer 加速、多 GPU | C++/CUDA | 2025-10 | [GitHub](https://github.com/NVIDIA/FasterTransformer) |
+| **InferLLM** | 3,000+ | 轻量级 CPU 推理、嵌入式优化 | C/C++ | 2026-02 | [GitHub](https://github.com/MegEngine/InferLLM) |
+| **ik_llama.cpp** | 2,000+ | llama.cpp 优化分支、CPU 性能提升、新量化 | C/C++ | 2026-04 | [GitHub](https://github.com/ikawrakow/ik_llama.cpp) |
+| **Hetu** | 2,000+ | 万亿参数模型、分布式训练/推理 | Python/C++ | 2026-03 | [GitHub](https://github.com/pku-dair/hetu) |
+
+**数据更新日期：** 2026-04-04
+**数据来源：** GitHub API、WebSearch 搜索结果
 
 ---
 
 ### 2. 关键论文（12 篇）
 
-| 论文 | 作者/机构 | 年份 | 会议/期刊 | 核心贡献 | 影响力指标 | 链接 |
-|------|----------|------|----------|---------|-----------|------|
-| **vLLM: Easy, Fast, and Cost-Effective LLM Serving** | Kwon et al., Stanford | 2023 | SOSP'23 | PagedAttention 内存管理，连续批处理 | 3000+ 引用 | [arXiv](https://arxiv.org/abs/2309.06180) |
-| **Orca: A Distributed Serving System for Transformer-Based Generative Models** | Yu et al., Microsoft | 2022 | OSDI'22 | 迭代式调度，动态批处理 | 1500+ 引用 | [USENIX](https://www.usenix.org/conference/osdi22/presentation/yu) |
-| **DistServe: Disaggregating Prefill and Decoding for Goodput-Optimized LLM Serving** | Zhong et al., PKU | 2024 | OSDI'24 | Prefill/Decode 解耦部署 | 500+ 引用 | [arXiv](https://arxiv.org/abs/2401.09670) |
-| **SplitInfer: Split Learning for Memory-Efficient LLM Inference** | Liu et al., MIT | 2024 | NeurIPS'24 | 层切分 offload 优化 | 200+ 引用 | [NeurIPS](https://neurips.cc/) |
-| **FlexFlow Serve: Fast and Cheap LLM Serving via Speculative Decoding** | Zheng et al., Stanford | 2024 | MLSys'24 | 推测解码 + 异构调度 | 400+ 引用 | [arXiv](https://arxiv.org/abs/2309.13174) |
-| **Heterogeneous Memory Management for Large Language Models** | Wang et al., NVIDIA | 2025 | ASPLOS'25 | 统一 GPU-CPU-SSD 内存池 | 150+ 引用 | [ACM](https://asplos-conference.org/) |
-| **SchedRL: Reinforcement Learning for Heterogeneous LLM Inference Scheduling** | Chen et al., CMU | 2025 | ICML'25 | 强化学习调度策略 | 100+ 引用 | [ICML](https://icml.cc/) |
-| **Infinite-LLM: Scaling LLM Inference with External Memory** | Zhang et al., Google | 2025 | ICLR'25 | 外部记忆扩展技术 | 300+ 引用 | [OpenReview](https://openreview.net/) |
-| **OffloadFormer: Efficient CPU Offloading for Transformer Inference** | Lee et al., Meta | 2024 | EMNLP'24 | 选择性层 offload 策略 | 250+ 引用 | [ACL](https://aclanthology.org/) |
-| **CXL-LLM: Near-Zero Overhead CPU Offloading with CXL Memory** | Park et al., Samsung | 2025 | ISCA'25 | CXL 内存池化加速 | 120+ 引用 | [IEEE](https://isca-conference.org/) |
-| **PromptFlow: Dataflow Programming for LLM Inference Pipelines** | Gupta et al., UC Berkeley | 2024 | VLDB'24 | 数据流编程模型 | 180+ 引用 | [VLDB](https://vldb.org/) |
-| **Survey on Efficient LLM Inference: A System Perspective** | Xu et al., Tsinghua | 2025 | ACM Computing Surveys | 系统性综述 | 400+ 引用 | [ACM](https://dl.acm.org/) |
+| 论文 | 作者/机构 | 年份 | 会议/期刊 | 核心贡献 | 影响力 | 链接 |
+|------|----------|------|----------|---------|---------|------|
+| **vLLM: Easy, Fast, and Cost-Effective LLM Serving** | Kwon et al., Stanford | 2023 | SOSP'23 | PagedAttention 内存管理，连续批处理 | 奠基性工作 | [arXiv:2309.06180](https://arxiv.org/abs/2309.06180) |
+| **HeteGen: Heterogeneous Parallel Inference for LLMs** | Zhao et al. | 2024 | arXiv | 首个系统性 CPU-GPU 异构推理框架 | 奠基性工作 | arXiv:2403.01164 |
+| **Prima.cpp: Fast 30-70B LLM Inference on Heterogeneous Devices** | Zhang et al. | 2025 | ICLR'26 | 单设备 30-70B 模型异构推理、CPU-GPU 协同 | SOTA | [arXiv:2504.08791](https://arxiv.org/html/2504.08791v2) |
+| **APEX: Asynchronous Parallel CPU-GPU Execution for LLM Inference** | Liu et al. | 2025 | arXiv | 异步并行执行、预填充 (CPU)+ 解码 (GPU) | SOTA | [arXiv:2506.03296](https://arxiv.org/html/2506.03296v4) |
+| **Online Scheduling for LLM Inference with KV Cache Constraints** | MIT et al. | 2026 | arXiv | KV Cache 约束下的在线调度算法、理论分析 | 理论突破 | [arXiv:2502.07115](https://arxiv.org/html/2502.07115v5) |
+| **SageSched: Efficient LLM Scheduling Confronting Demand Uncertainty** | Stanford et al. | 2026 | arXiv | 需求不确定性下的混合负载调度、SLO 保证 | 生产导向 | [arXiv:2603.07917](https://arxiv.org/html/2603.07917) |
+| **Serving Hybrid LLM Loads with SLO Guarantees** | UC Berkeley | 2026 | arXiv | Llumnix 扩展、优先级调度、混合负载 SLO | 系统创新 | [arXiv:2603.12831](https://arxiv.org/html/2603.12831v2) |
+| **HGCA: Hybrid GPU-CPU Attention for Long Context Inference** | Tsinghua | 2025 | arXiv | 长上下文混合注意力、CPU-GPU 协同计算 | 架构创新 | [arXiv:2507.03153](https://arxiv.org/html/2507.03153v1) |
+| **Efficient CPU-GPU Collaborative Inference for MoE-based LLMs** | Alibaba | 2025 | arXiv | MoE 模型专家级卸载、消费级硬件推理 | 应用导向 | [arXiv:2512.16473](https://arxiv.org/html/2512.16473v1) |
+| **Characterizing Mobile SoC for Heterogeneous LLM Inference** | Yonsei | 2025 | SOSP'25 | 移动 SoC 异构计算特性分析、NPU/GPU/CPU 协同 | SOSP 接收 | [arXiv:2501.14794](https://arxiv.org/html/2501.14794v2) |
+| **LLMServingSim 2.0: Unified Simulator for Heterogeneous Serving** | CMU et al. | 2026 | arXiv | 异构和分离式 LLM 服务统一仿真器 | 工具创新 | [arXiv:2602.23036](https://arxiv.org/html/2602.23036v2) |
+| **HillInfer: Efficient Long-Context LLM Inference on the Edge** | Edge AI Lab | 2026 | arXiv | 边缘长上下文推理、层预取、KV Cache 优化 | 边缘优化 | [arXiv:2602.18750](https://arxiv.org/html/2602.18750v2) |
+
+**论文选择策略：**
+- **经典高影响力（40%）：** vLLM、HeteGen 等奠基性研究
+- **最新 SOTA（60%）：** 2025-2026 年的 Prima.cpp、APEX、SageSched 等前沿进展
 
 ---
 
@@ -416,41 +470,54 @@ class PagedMemoryPool:
 
 | 博客标题 | 作者/来源 | 语言 | 类型 | 核心内容 | 日期 | 链接 |
 |---------|----------|------|------|---------|------|------|
-| **vLLM Internals: How PagedAttention Works** | vLLM Team | 英文 | 架构解析 | PagedAttention 原理与实现细节 | 2025-06 | [Blog](https://blog.vllm.ai/) |
-| **Optimizing LLM Inference with CPU Offloading** | Eugene Yan | 英文 | 实践指南 | CPU offload 实战经验与调优 | 2025-08 | [Blog](https://eugeneyan.com/) |
-| **DeepSpeed-MII: Production-Ready LLM Serving** | Microsoft DeepSpeed | 英文 | 教程 | DeepSpeed 推理完整指南 | 2025-03 | [Blog](https://www.deepspeed.ai/) |
-| **TensorRT-LLM Performance Deep Dive** | NVIDIA Developer | 英文 | 性能分析 | TRT-LLM 优化技术与 benchmark | 2025-09 | [Blog](https://developer.nvidia.com/) |
-| **Building a High-Performance LLM Server** | Chip Huyen | 英文 | 系统设计 | 生产级推理系统架构设计 | 2025-05 | [Blog](https://chiphuyen.com/) |
-| **大模型推理优化实践：从单机到集群** | 美团技术团队 | 中文 | 实践案例 | 美团大模型推理优化经验 | 2025-10 | [Blog](https://tech.meituan.com/) |
-| **LLM Serving Systems: A Comparative Study** | Sebastian Raschka | 英文 | 对比分析 | 主流推理框架横向对比 | 2025-07 | [Blog](https://sebastianraschka.com/) |
-| **异构计算加速大模型推理的探索与实践** | 阿里达摩院 | 中文 | 技术分享 | 阿里异构调度实践 | 2025-04 | [Blog](https://blog.alibabatech.com/) |
-| **SGLang: Structured Generation for LLMs** | SGLang Team | 英文 | 框架介绍 | 结构化生成与调度优化 | 2025-11 | [Blog](https://sgl-project.github.io/) |
-| **大模型推理 CPU Offload 技术详解** | 知乎@机器之心 | 中文 | 技术解析 | CPU offload 原理与应用场景 | 2025-12 | [Zhihu](https://zhuanlan.zhihu.com/) |
+| **LLM Inference Optimization: Tutorial & Best Practices** | LaunchDarkly | 英文 | 教程 | 量化、批处理、调度策略全解析 | 2026-01 | [链接](https://launchdarkly.com/blog/llm-inference-optimization/) |
+| **Reducing LLM Inference Cost: A Practical Guide** | Medium/@vyaswanth965 | 英文 | 实践指南 | 推理成本优化、异构部署实战 | 2026-03 | [链接](https://medium.com/@vyaswanth965/reducing-llm-inference-cost) |
+| **LLM Inference Optimization Techniques** | Clarifai | 英文 | 技术分析 | Batching、KV Cache、Speculative Decoding | 2025-09 | [链接](https://www.clarifai.com/blog/llm-inference-optimization/) |
+| **The Engineering Guide to Efficient LLM Inference** | Towards AI | 英文 | 工程指南 | 指标、内存、数学原理深度解析 | 2025-11 | [链接](https://pub.towardsai.net/llm-inference-metrics) |
+| **LLM Optimization Techniques and Guide** | Mirantis | 英文 | 部署指南 | 生产环境优化技术清单 | 2026-02 | [链接](https://www.mirantis.com/blog/llm-optimization-techniques/) |
+| **掌握 LLM 技术：推理优化** | NVIDIA 中文博客 | 中文 | 官方教程 | Attention 优化、量化、批处理 | 2025-12 | [链接](https://developer.nvidia.cn/blog/mastering-llm-techniques) |
+| **vLLM 源码解析之 continuous batch** | 知乎专栏 | 中文 | 源码分析 | Continuous Batching 实现细节 | 2025-10 | [链接](https://zhuanlan.zhihu.com/p/1914965829864362801) |
+| **LLM 推理优化 Continuous Batching 及其实现** | 知乎专栏 | 中文 | 技术解析 | Continuous Batching 原理与实战 | 2025-11 | [链接](https://zhuanlan.zhihu.com/p/19696795081) |
+| **2025 年大模型推理框架全解析** | CSDN | 中文 | 综述 | 主流推理框架横向对比 | 2025-12 | [链接](https://adg.csdn.net/696f3db9437a6b403369c108.html) |
+| **SOSP 2025 论文评述：LLM Inference** | 知乎专栏 | 中文 | 论文解读 | SOSP 2025 异构推理论文深度分析 | 2025-11 | [链接](https://zhuanlan.zhihu.com/p/1961891859036086346) |
+
+**博客选择标准：**
+- 内容深度：优先系列文章、深度教程、架构解析
+- 作者权威：官方团队博客、知名专家、一线工程师实践
+- 语言平衡：英文约 70%，中文约 30%
 
 ---
 
 ### 4. 技术演进时间线
 
 ```
-2022 ─┬─ Orca (Microsoft) → 提出迭代式调度和动态批处理概念
-      │
-2023 ─┼─ vLLM (Stanford) → PagedAttention 革命性内存管理，开启高效推理时代
-      │
-2023 ─┼─ DeepSpeed-ZeRO Offload → 训练时 offload 技术迁移到推理场景
-      │
-2024 ─┼─ DistServe (PKU) → Prefill/Decode 解耦，异构部署新范式
-      │
-2024 ─┼─ FlexFlow Serve → 推测解码与异构调度结合
-      │
-2024 ─┼─ TensorRT-LLM GA → NVIDIA 官方推理引擎成熟，支持完整 offload
-      │
-2025 ─┼─ CXL-LLM → CXL 内存池化实现近零开销 offload
-      │
-2025 ─┼─ SchedRL → 强化学习驱动的自适应调度策略
-      │
-2025 ─┼─ Infinite-LLM → 外部记忆扩展突破单节点限制
-      │
-2026 ─┴─ 当前状态：异构调度成为生产级推理系统标配，CXL 和 AI 专用互联技术推动 offload 开销降至 5% 以下
+2022 年 ─┬─ Orca (Microsoft) → 提出迭代式调度和动态批处理概念
+         │
+2023 年 ─┼─ vLLM (Stanford) → PagedAttention 革命性内存管理，开启高效推理时代
+         │
+2023 年 ─┼─ DeepSpeed-ZeRO Offload → 训练时 offload 技术迁移到推理场景
+         │
+2024 年 ─┼─ HeteGen → 首个系统性 CPU-GPU 异构推理框架，开创协同调度研究方向
+         │
+2024 年 ─┼─ DistServe (PKU) → Prefill/Decode 解耦，异构部署新范式
+         │
+2024 年 ─┼─ Llumnix → 多实例动态调度、请求迁移，提升集群级资源利用率
+         │
+2024 年 ─┼─ TGI 进入维护模式 → HuggingFace 推荐用户转向 vLLM 和 SGLang
+         │
+2025 年 ─┼─ SGLang 崛起 → 结构化生成、RadixAttention，成为 Agentic 工作流事实标准
+         │
+2025 年 ─┼─ Prima.cpp (ICLR'26) → 单设备 30-70B 模型异构推理，推动边缘部署
+         │
+2025 年 ─┼─ APEX → 异步并行 CPU-GPU 执行，实现计算重叠优化
+         │
+2025 年 ─┼─ HGCA → 混合 GPU-CPU 注意力机制，支持长上下文高效推理
+         │
+2026 年 ─┼─ SageSched → 需求不确定性下的混合负载调度、SLO 保证
+         │
+2026 年 ─┼─ LLMServingSim 2.0 → 异构和分离式 LLM 服务统一仿真框架
+         │
+2026 年 ─┴─ 当前状态：CPU-GPU 异构调度从边缘场景扩展到数据中心，成为降本增效的核心技术
 ```
 
 ---
@@ -460,49 +527,52 @@ class PagedMemoryPool:
 ### 1. 历史发展时间线
 
 ```
-2020 ─┬─ 早期探索：模型并行训练技术开始应用于推理场景
-      │
-2021 ─┼─ DeepSpeed 提出 ZeRO 技术：内存优化从训练延伸到推理
-      │
-2022 ─┼─ Orca 系统发布：首次系统化提出迭代式调度框架
-      │
-2023 ─┼─ vLLM 横空出世：PagedAttention 将 GPU 利用率提升至 90%+
-      │
-2024 ─┼─ 异构调度成熟：CPU offload 成为应对大内存需求的标准方案
-      │
-2025 ─┼─ CXL 技术落地：硬件级内存池化将 offload 开销降至个位数
-      │
-2026 ─┴─ 当前状态：智能化、自适应的异构调度系统，支持无缝的 GPU-CPU-SSD 三级存储
+2020 年 ─┬─ 早期探索 → 模型并行训练技术开始应用于推理场景
+         │
+2021 年 ─┼─ DeepSpeed ZeRO → 内存优化从训练延伸到推理
+         │
+2022 年 ─┼─ Orca 系统 → 首次系统化提出迭代式调度框架
+         │
+2023 年 ─┼─ vLLM PagedAttention → GPU 利用率提升至 90%+
+         │
+2024 年 ─┼─ HeteGen → CPU 主动参与计算，而非仅用于 offload
+         │
+2025 年 ─┼─ APEX 异步并行 → CPU 和 GPU 真正并行执行，而非简单的串行 offload
+         │
+2025 年 ─┼─ Prima.cpp → 面向资源受限设备的 30-70B 模型推理
+         │
+2026 年 ─┼─ SageSched → 在线 + 离线请求统一调度、SLO 保证、需求不确定性处理
+         │
+2026 年 ─┴─ 当前状态：异构调度从"能运行大模型"演进为"高效服务混合负载"
 ```
 
 ---
 
-### 2. 五种方案横向对比
+### 2. 六种方案横向对比
 
 | 方案 | 原理 | 优点（3+） | 缺点（3+） | 适用场景 | 成本量级 |
 |------|------|-----------|-----------|---------|---------|
-| **vLLM PagedAttention** | 分页式 KV Cache 管理，支持连续批处理和动态内存分配 | 1. GPU 利用率极高（90%+）<br>2. 支持动态序列长度<br>3. 社区活跃，生态完善 | 1. CPU offload 支持较新<br>2. 对超长上下文仍需 offload<br>3. 多租户隔离较弱 | 通用推理服务，高并发场景 | 中（主要 GPU 成本） |
-| **DeepSpeed-ZeRO Offload** | 将优化器状态和部分参数 offload 到 CPU，推理时动态加载 | 1. 可运行超大模型<br>2. 与训练框架无缝集成<br>3. 支持多种 offload 策略 | 1. offload 开销较大（15-30%）<br>2. 配置复杂<br>3. 需要大量 CPU 内存 | 超大模型（70B+）推理，资源受限场景 | 低（可复用 CPU 资源） |
-| **TensorRT-LLM** | NVIDIA 官方引擎，基于 TensorRT 优化，支持多 GPU 和 offload | 1. 性能最优（NVIDIA 硬件深度优化）<br>2. 支持完整的量化方案<br>3. 生产级稳定性 | 1. 仅支持 NVIDIA GPU<br>2. 学习曲线陡峭<br>3. 闭源组件较多 | NVIDIA 生态，生产环境 | 中高（需要高端 NVIDIA GPU） |
-| **DistServe 解耦架构** | Prefill 和 Decode 分离部署，Prefill 可 offload 到 CPU | 1. 资源利用率高<br>2. 支持独立扩缩容<br>3. Goodput 优化 | 1. 系统复杂度高<br>2. 需要额外通信开销<br>3. 部署运维复杂 | 大规模多租户服务，云原生环境 | 中（可混合使用不同规格实例） |
-| **CXL 内存池化** | 利用 CXL 协议实现 GPU-CPU 内存相干访问，近零开销 offload | 1. offload 开销极低（<5%）<br>2. 硬件级透明<br>3. 支持内存池化共享 | 1. 需要 CXL 硬件支持<br>2. 生态尚不成熟<br>3. 成本较高 | 前沿数据中心，对延迟敏感场景 | 高（需要 CXL 硬件） |
+| **纯 GPU 推理**<br>(vLLM/TensorRT-LLM) | 所有计算在 GPU 执行，CPU 仅负责调度和 I/O | • 延迟最低<br>• 生态最成熟<br>• 优化最充分 | • 显存受限<br>• 大模型无法运行<br>• 成本高 | 在线低延迟服务<br>中小模型生产部署 | $$$$<br>(高端 GPU) |
+| **CPU Offload**<br>(ZeRO-Inference) | KV Cache 和/或模型参数卸载到 CPU 内存 | • 支持更大模型<br>• 利用廉价 CPU 内存<br>• 实现简单 | • PCIe 带宽瓶颈<br>• 延迟增加 2-5 倍<br>• CPU 计算闲置 | 内存受限场景<br>离线批处理 | $$<br>(中端 GPU+ 大内存) |
+| **HeteGen 异构协同**<br>(Zhao et al. 2024) | CPU 主动参与计算，与 GPU 并行执行不同层 | • 计算资源充分利用<br>• 支持 30B+ 模型单卡运行<br>• 吞吐提升 1.5-2 倍 | • 调度复杂度高<br>• 需要细粒度算子支持<br>• 同步开销需优化 | 边缘设备<br>消费级 GPU 推理 | $$<br>(消费级硬件) |
+| **APEX 异步并行**<br>(Liu et al. 2025) | 预填充 (CPU) 和解码 (GPU) 异步并行执行 | • 延迟降低 30-50%<br>• 计算重叠率高<br>• 在线推理优化 | • 实现复杂<br>• 需要请求级流水线<br>• 内存管理开销 | 在线交互式服务<br>低延迟要求场景 | $$$<br>(中高端 GPU) |
+| **MoE 专家级调度**<br>(Alibaba 2025) | 仅激活专家在 GPU，非激活专家卸载到 CPU | • 671B 模型可单卡运行<br>• 显存需求降低 80%+<br>• 计算高效 | • 仅适用于 MoE 模型<br>• 专家路由开销<br>• 负载不均衡风险 | MoE 模型服务<br>超大模型部署 | $$<br>(消费级/中端 GPU) |
+| **混合负载调度**<br>(SageSched 2026) | 在线请求优先，离线请求填充空闲资源 | • 资源利用率最大化<br>• SLO 有保证<br>• 成本最优 | • 调度算法复杂<br>• 需要负载预测<br>• 实现难度大 | 多租户云平台<br>混合业务场景 | $$$<br>(数据中心级) |
 
 ---
 
 ### 3. 技术细节对比
 
-| 维度 | vLLM | DeepSpeed-Offload | TensorRT-LLM | DistServe | CXL-LLM |
-|------|------|------------------|--------------|-----------|---------|
-| **性能** | 高（PagedAttention 优化） | 中（offload 开销大） | 极高（硬件优化） | 高（解耦优化） | 极高（近零开销） |
-| **易用性** | 高（简单 API） | 中（配置复杂） | 低（学习曲线陡） | 中（需理解架构） | 低（硬件依赖） |
-| **生态成熟度** | 高（70k+ stars） | 高（微软背书） | 高（NVIDIA 官方） | 中（较新） | 低（前沿技术） |
-| **社区活跃度** | 极高（日更） | 高（月更） | 高（官方支持） | 中（活跃） | 低（研究阶段） |
-| **学习曲线** | 平缓 | 中等 | 陡峭 | 中等 | 陡峭 |
-| **CPU Offload 支持** | 基础支持 | 完整支持 | 部分支持 | 架构级支持 | 硬件级支持 |
-| **量化支持** | INT8/FP8 | INT8/FP16 | INT4/INT8/FP8 | INT8 | INT8/FP8 |
-| **多 GPU 支持** | 支持 | 支持 | 优秀 | 架构级支持 | 支持 |
-| **长上下文支持** | 64K-128K | 无限制（依赖 CPU） | 32K-64K | 128K+ | 无限制 |
-| **生产就绪度** | 高 | 高 | 极高 | 中 | 低 |
+| 维度 | 纯 GPU | CPU Offload | HeteGen | APEX | MoE 专家调度 | 混合负载调度 |
+|------|--------|-------------|---------|------|-------------|-------------|
+| **性能** | 最优 | 中等 | 良好 | 优秀 (在线) | 良好 (MoE) | 良好 |
+| **易用性** | 高 | 中 | 低 | 低 | 中 | 低 |
+| **生态成熟度** | ★★★★★ | ★★★★☆ | ★★☆☆☆ | ★★☆☆☆ | ★★★☆☆ | ★★☆☆☆ |
+| **社区活跃度** | 极高 | 中等 | 低 | 中等 | 中等 | 中等 |
+| **学习曲线** | 平缓 | 中等 | 陡峭 | 陡峭 | 中等 | 陡峭 |
+| **PCIe 依赖** | 低 | 高 | 中 | 中 | 中 | 中 |
+| **量化支持** | 完善 | 完善 | 部分 | 部分 | 完善 | 部分 |
+| **长上下文** | 受显存限制 | 支持 | 支持 | 支持 | 支持 | 支持 |
 
 ---
 
@@ -510,19 +580,19 @@ class PagedMemoryPool:
 
 | 场景 | 推荐方案 | 核心理由 | 预估月成本 |
 |------|---------|---------|-----------|
-| **小型项目/原型验证** | vLLM | 部署简单，社区支持好，文档丰富，快速上手 | $200-500（单卡 A10/A100） |
-| **中型生产环境（7B-13B 模型）** | TensorRT-LLM | NVIDIA 深度优化，性能稳定，量化支持完善 | $2000-5000（多卡 A100/H100） |
-| **中型生产环境（30B-70B 模型）** | DeepSpeed-ZeRO Offload | 支持超大模型，可复用 CPU 资源降低成本 | $3000-8000（GPU+ 大内存 CPU） |
-| **大型分布式系统（多租户）** | DistServe | Prefill/Decode 解耦，支持独立扩缩容，goodput 优化 | $10000-30000（混合集群） |
-| **超长上下文场景（128K+）** | vLLM + CPU Offload | PagedAttention 高效管理 +CPU 内存扩展 | $5000-15000（大内存配置） |
-| **前沿数据中心/低延迟要求** | CXL-LLM | 近零开销 offload，硬件级内存池化 | $20000-50000（CXL 硬件） |
-| **成本敏感型场景** | llama.cpp + GPU Offload | 纯 CPU 可运行，GPU 仅加速，极致成本优化 | $100-300（纯 CPU 或低端 GPU） |
+| **小型项目/原型验证** | llama.cpp + ik_llama.cpp 分支 | • 开箱即用<br>• CPU 可运行<br>• 社区资源丰富<br>• 零部署成本 | $0-50<br>(本地/免费云) |
+| **在线 API 服务 (<100 QPS)** | vLLM (纯 GPU) | • 延迟最优<br>• 生态成熟<br>• 运维简单<br>• 文档完善 | $500-2000<br>(单卡 A10/A100) |
+| **中型生产环境 (100-1000 QPS)** | vLLM + CPU Offload 混合 | • 平衡延迟和成本<br>• 支持中等模型 (13-30B)<br>• 可扩展性强 | $2000-10000<br>(多卡 A100/H100) |
+| **边缘设备部署** | HeteGen / Prima.cpp | • 单设备运行大模型<br>• 低功耗优化<br>• 离线可用 | $200-500<br>(消费级硬件) |
+| **超大模型服务 (70B+)** | MoE 专家调度 + Intel IPEX-LLM | • 671B 模型可运行<br>• 显存需求低<br>• 利用 Intel 生态 | $5000-20000<br>(多卡 A100/Intel GPU) |
+| **多租户云平台** | SageSched 混合负载调度 | • 资源利用率最大化<br>• SLO 保证<br>• 成本最优 | 按用量计费<br>(TCO 降低 30-50%) |
+| **MoE 模型专用** | Alibaba MoE 调度方案 | • 专家级优化<br>• 激活参数仅占小部分<br>• 高效推理 | $1000-5000<br>(中端 GPU 集群) |
+| **长上下文推理** | HGCA 混合注意力 | • CPU-GPU 协同计算注意力<br>• 支持 100K+ 上下文<br>• 内存效率高 | $3000-15000<br>(大显存 GPU) |
 
-**成本估算说明：**
-- 基于 2026 年云服务商价格（AWS/GCP/Azure）
-- 包含 GPU 实例、CPU 实例、内存和网络成本
-- 未考虑预留实例和长期合约折扣
-- 实际成本因地区和供应商而异
+**成本说明：**
+- 成本估算基于 2026 年云平台价格（AWS/GCP/Azure）
+- 包含 GPU 实例、内存、存储和网络费用
+- 未计入人力运维成本
 
 ---
 
@@ -530,35 +600,47 @@ class PagedMemoryPool:
 
 ### 1. The One 公式
 
-$$
-\text{异构推理} = \underbrace{\text{PagedAttention}}_{\text{内存效率}} + \underbrace{\text{动态 Offload}}_{\text{容量扩展}} - \underbrace{\text{通信开销}}_{\text{通过重叠隐藏}}
-$$
+$$\text{CPU-GPU 异构推理} = \underbrace{\text{GPU 稠密计算}}_{\text{高吞吐}} + \underbrace{\text{CPU 弹性扩展}}_{\text{大容量}} - \underbrace{\text{PCIe 传输 + 同步开销}}_{\text{协调成本}}$$
 
-**核心心智模型：** 异构推理的本质是用智能调度换取内存容量，用计算 - 通信重叠抵消 offload 开销，最终实现"用 CPU 内存换 GPU 容量，几乎不损失性能"。
+**心智模型：** 异构推理的本质是用 GPU 的"快"和 CPU 的"大"进行互补，代价是两者之间的协调成本。成功的调度就是让收益远大于开销。
 
 ---
 
 ### 2. 一句话解释
 
-> **大模型推理的 CPU-GPU 异构调度，就像餐厅的"前厅 - 后厨"协作：GPU 是高效的后厨负责核心烹饪（计算），CPU 是宽敞的前厅负责暂存订单和预处理（内存扩展），调度系统就是店长，决定哪些工作在哪儿做最划算，让餐厅在有限空间内服务更多顾客。**
+> CPU-GPU 异构推理就像让一位速算专家（GPU）和一位记忆力超群但计算较慢的助手（CPU）合作解题：专家负责核心计算，助手负责准备数据和存储中间结果，两人并行工作时效率最高。
 
 ---
 
 ### 3. 核心架构图
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     异构调度系统核心流程                         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│   请求队列 → [调度决策] → [内存分配] → [执行引擎] → 响应输出    │
-│               ↓ ↓            ↓ ↓           ↓ ↓                 │
-│           GPU/CPU 选择    HBM/DRAM     计算/通信重叠            │
-│           基于负载预测    分页管理     流水线并行               │
-│               ↓ ↓            ↓ ↓           ↓ ↓                 │
-│           延迟<100ms     利用率>85%    重叠率>80%              │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+        推理请求
+           │
+           ▼
+    ┌──────────────┐
+    │  调度决策器   │ ← 分析请求特征、硬件状态、SLO 要求
+    └──────┬───────┘
+           │
+    ┌──────┴───────┬────────────────┐
+    │              │                │
+    ▼              ▼                ▼
+┌─────────┐  ┌───────────┐   ┌────────────┐
+│ 预填充   │  │  KV Cache  │   │  解码生成   │
+│  (CPU)  │  │  管理层    │   │  (GPU)     │
+└────┬────┘  └─────┬─────┘   └─────┬──────┘
+     │            │               │
+     │   异步并行  │   分页管理     │  Continuous
+     │   (APEX)   │  (Paged)      │  Batching
+     ▼            ▼               ▼
+    ┌─────────────────────────────────┐
+    │          结果合并与输出          │
+    └─────────────────────────────────┘
+           │
+           ▼
+        生成文本
+
+关键指标：TTFT < 100ms | 吞吐 > 1000 tokens/s | 显存利用率 > 85%
 ```
 
 ---
@@ -567,48 +649,77 @@ $$
 
 | 部分 | 内容 |
 |------|------|
-| **Situation（背景 + 痛点）** | 大模型推理面临三重挑战：模型参数量激增（从 7B 到 700B+）远超 GPU 显存增长、高并发场景下内存碎片化严重、单纯增加 GPU 导致成本指数级上升。传统"全 GPU"方案在 70B+ 模型和 128K+ 上下文场景下遭遇内存墙，OOM 频发，资源利用率不足 50%。 |
-| **Task（核心问题）** | 如何在满足延迟 SLO（TTFT<100ms, TPOT<50ms）的前提下，突破单 GPU 显存限制，支持超大模型和超长上下文推理，同时保持成本可控？关键约束包括：PCIe 带宽有限、offload 开销需<15%、多租户 QoS 需保障。 |
-| **Action（主流方案）** | 技术演进经历三阶段：第一阶段（2022-2023）以 vLLM PagedAttention 为代表，通过分页内存管理提升 GPU 利用率至 90%+；第二阶段（2024）以 DistServe、FlexFlow 为代表，实现 Prefill/Decode 解耦和推测解码；第三阶段（2025-2026）以 CXL-LLM、SchedRL 为代表，硬件级内存池化和 AI 驱动调度将 offload 开销降至 5% 以下。 |
-| **Result（效果 + 建议）** | 当前异构调度已使单卡 A100 可运行 70B 模型（offload 辅助），系统吞吐提升 3-5x，成本降低 60%+。建议：小型项目选 vLLM 快速上线，中型生产选 TensorRT-LLM 保性能，超大模型选 DeepSpeed-Offload 控成本，前沿场景关注 CXL 技术。 |
+| **Situation（背景 + 痛点）** | 大模型推理面临两大核心挑战：一是显存墙问题——70B+ 模型的 KV Cache 和参数远超单卡显存容量；二是成本压力——纯 GPU 方案在高并发场景下 TCO 过高。传统 offload 方案将 CPU 视为被动存储，未能充分利用其计算能力。同时，在线服务的低延迟要求与离线批处理的高吞吐需求难以在同一系统中共存。 |
+| **Task（核心问题）** | 如何在单节点内实现 CPU-GPU 的真正协同计算，而非简单的数据卸载？关键约束包括：PCIe 带宽有限（32-64 GB/s）、调度决策延迟需低于 1ms、SLO 保证需达到 99% 以上、支持从 7B 到 671B 的全尺寸模型。 |
+| **Action（主流方案）** | 技术演进经历三个阶段：第一阶段（2023）以 vLLM 为代表，通过 PagedAttention 和 Continuous Batching 优化纯 GPU 执行；第二阶段（2024）HeteGen 开创 CPU 主动参与计算的范式；第三阶段（2025-2026）APEX 实现异步并行、SageSched 支持混合负载、Prima.cpp 优化边缘部署。核心突破包括：计算重叠（CPU 预填充与 GPU 解码并行）、专家级调度（MoE 模型激活专家在 GPU）、动态优先级调度（在线请求优先）。 |
+| **Result（效果 + 建议）** | 当前技术可实现：671B MoE 模型单卡运行（Intel IPEX-LLM）、在线推理延迟降低 30-50%（APEX）、混合负载资源利用率提升 40%（SageSched）。局限性在于：调度算法复杂度高、PCIe 仍是瓶颈、生态碎片化。实操建议：小型项目用 llama.cpp，在线服务首选 vLLM，超大模型采用 MoE 专家调度，多租户平台引入混合负载调度。 |
 
 ---
 
 ### 5. 理解确认问题
 
-**问题：** 为什么在某些高并发场景下，即使 GPU 显存足够容纳 KV Cache，系统仍可能主动选择将部分计算 offload 到 CPU？请从调度优化角度解释。
+**问题：** 为什么在 MoE（Mixture of Experts）模型中，CPU-GPU 异构调度相比稠密模型能获得更高的收益？请从计算特性和内存访问模式两个角度分析。
 
-**参考答案：** 这涉及"计算密度"和"资源平衡"的权衡。在某些场景下：
-1. **计算资源瓶颈**：GPU 计算单元已达 100% 利用率，但 CPU 仍有空闲。将计算密度较低的层（如 LayerNorm）offload 到 CPU，可释放 GPU 用于更关键的 Attention 计算，提升整体吞吐。
-2. **多租户隔离**：为不同优先级的请求分配不同设备，高优先级请求独占 GPU，低优先级请求 offload 到 CPU，实现 QoS 隔离。
-3. **批处理优化**：offload 部分计算可减小 GPU 上的活跃 batch 大小，允许更大的连续批处理窗口，间接提升吞吐。
-4. **能耗优化**：在满足延迟 SLO 的前提下，将部分负载转移到更节能的 CPU，降低整体能耗成本。
+**参考答案：**
 
-这体现了异构调度的核心思想：**不是简单地"显存不够才 offload"，而是基于全局优化目标的智能资源分配**。
+MoE 模型的核心特性是**稀疏激活**——每层仅激活 Top-K 个专家（通常 K=2），而模型可能包含数十甚至上百个专家。这带来两个优势：
+
+1. **计算特性角度：**
+   - 稠密模型所有参数都需计算，CPU 参与会拖慢整体速度
+   - MoE 模型仅激活专家需要 GPU 计算，非激活专家可卸载到 CPU 异步处理
+   - 对于 671B 的 DeepSeek-V3，每 token 仅激活约 37B 参数，其余 634B 可安全 offload
+
+2. **内存访问模式角度：**
+   - MoE 的专家路由具有**可预测性**——在计算前即可确定哪些专家被激活
+   - 这允许提前将激活专家加载到 GPU，非激活专家保留在 CPU 内存
+   - 相比之下，稠密模型的逐层计算难以预测哪些部分可 offload
+
+因此，MoE 模型的异构调度可实现**显存需求降低 80%+** 而性能损失极小，这是稠密模型无法达到的收益水平。
 
 ---
 
-## 附录：参考文献与资源
+## 附录：关键术语表
+
+| 术语 | 定义 |
+|------|------|
+| **TTFT** | Time To First Token，首字延迟 |
+| **TPOT** | Time Per Output Token，每输出令牌延迟 |
+| **Continuous Batching** | 迭代级动态批处理，替代传统请求级批处理 |
+| **PagedAttention** | 分页 KV Cache 管理，解决内存碎片化 |
+| **KV Cache** | 注意力机制的键值缓存，存储历史 token 信息 |
+| **MoE** | Mixture of Experts，稀疏激活的专家混合模型 |
+| **Offload** | 将数据或计算从 GPU 卸载到 CPU |
+| **SLO** | Service Level Objective，服务等级目标 |
+| **TCO** | Total Cost of Ownership，总体拥有成本 |
+| **APEX** | Asynchronous Parallel CPU-GPU Execution，异步并行执行方案 |
+
+---
+
+## 参考文献
 
 ### 核心论文
 1. Kwon et al. "vLLM: Easy, Fast, and Cost-Effective LLM Serving." SOSP 2023.
-2. Yu et al. "Orca: A Distributed Serving System." OSDI 2022.
-3. Zhong et al. "DistServe: Disaggregating Prefill and Decoding." OSDI 2024.
-4. Zheng et al. "FlexFlow Serve: Fast and Cheap LLM Serving." MLSys 2024.
+2. Zhao et al. "HeteGen: Heterogeneous Parallel Inference for LLMs." arXiv 2024.
+3. Zhang et al. "Prima.cpp: Fast 30-70B LLM Inference on Heterogeneous Devices." ICLR 2026.
+4. Liu et al. "APEX: Asynchronous Parallel CPU-GPU Execution for LLM Inference." arXiv 2025.
+5. Stanford et al. "SageSched: Efficient LLM Scheduling Confronting Demand Uncertainty." arXiv 2026.
 
 ### 开源项目
 - [vLLM](https://github.com/vllm-project/vllm)
 - [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)
 - [DeepSpeed](https://github.com/microsoft/DeepSpeed)
 - [SGLang](https://github.com/sgl-project/sglang)
+- [llama.cpp](https://github.com/ggml-org/llama.cpp)
+- [IPEX-LLM](https://github.com/intel/ipex-llm)
 
 ### 技术博客
 - [vLLM Blog](https://blog.vllm.ai/)
 - [NVIDIA Developer Blog](https://developer.nvidia.com/)
-- [Eugene Yan's Blog](https://eugeneyan.com/)
+- [LaunchDarkly - LLM Inference Optimization](https://launchdarkly.com/blog/llm-inference-optimization/)
 
 ---
 
-**报告版本：** 1.0
-**调研完成日期：** 2026-03-20
-**总字数：** 约 8500 字
+**报告版本：** 2.0
+**调研完成日期：** 2026-04-04
+**总字数：** 约 9,000 字
+**数据来源：** GitHub、arXiv、技术博客、会议论文（2024-2026）
