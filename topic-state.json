@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-04",
+  "date": "2026-04-05",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体代码自主修复与调试能力",
+      "topic": "智能体多角色切换与情境感知适应",
       "status": "completed"
     },
     {
-      "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
+      "domain": "agent",
+      "topic": "智能体可解释决策与推理过程可视化",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "量化策略可解释性自动生成技术",
+      "topic": "基于 Agent 的期货市场套利策略自动发现",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理服务弹性伸缩机制",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
       "topic": "大模型推理 CPU-GPU 异构计算协同调度",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理能效优化与绿色计算技术",
       "status": "completed"
     }
   ],
@@ -268,6 +268,7 @@
     "topic-1dhj",
     "topic-b93o",
     "topic-y0xd",
-    "智能体代码自主修复与调试能力"
+    "智能体代码自主修复与调试能力",
+    "topic-4ah1"
   ]
 }
