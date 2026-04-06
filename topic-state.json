@@ -1,29 +1,24 @@
 {
-  "date": "2026-04-05",
+  "date": "2026-04-06",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体多角色切换与情境感知适应",
+      "topic": "智能体动态目标设定与优先级调整机制",
       "status": "completed"
     },
     {
-      "domain": "agent",
-      "topic": "智能体可解释决策与推理过程可视化",
+      "domain": "大模型训练",
+      "topic": "大模型训练损失地形分析与优化策略",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理请求预测与预调度技术",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于 Agent 的期货市场套利策略自动发现",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理服务弹性伸缩机制",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
+      "topic": "基于 Agent 的事件驱动交易策略生成",
       "status": "completed"
     }
   ],
@@ -269,6 +264,10 @@
     "topic-b93o",
     "topic-y0xd",
     "智能体代码自主修复与调试能力",
-    "topic-4ah1"
+    "topic-4ah1",
+    "智能体动态目标设定与优先级调整机制",
+    "大模型训练损失地形分析与优化策略",
+    "大模型推理请求预测与预调度技术",
+    "基于 Agent 的事件驱动交易策略生成"
   ]
 }
