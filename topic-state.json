@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-07",
+  "date": "2026-04-08",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体多机器人协同控制与任务分配",
+      "topic": "Agent 跨模态协同与知识迁移机制",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "基于大模型的 API 调用链自动构建技术",
+      "topic": "智能体多模态任务分解与执行监控",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练动态学习率自适应调整策略",
+      "topic": "大模型训练梯度压缩通信优化策略",
       "status": "completed"
     },
     {
-      "domain": "quant+agent",
-      "topic": "基于 Agent 的期权定价与对冲策略优化",
+      "domain": "大模型训练",
+      "topic": "大模型动态样本加权与重要性采样",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理 speculative decoding 优化技术",
+      "topic": "大模型推理动态内存管理与优化",
       "status": "completed"
     }
   ],
@@ -282,6 +282,16 @@
     "基于大模型的 API 调用链自动构建技术",
     "大模型训练动态学习率自适应调整策略",
     "基于 Agent 的期权定价与对冲策略优化",
-    "大模型推理 speculative decoding 优化技术"
+    "大模型推理 speculative decoding 优化技术",
+    "agent-pf5f",
+    "api-qm2k",
+    "speculative-decoding-sm8i",
+    "topic-3t7m",
+    "topic-6ftm",
+    "Agent 跨模态协同与知识迁移机制",
+    "智能体多模态任务分解与执行监控",
+    "大模型训练梯度压缩通信优化策略",
+    "大模型动态样本加权与重要性采样",
+    "大模型推理动态内存管理与优化"
   ]
 }
