@@ -1,24 +1,19 @@
 {
-  "date": "2026-04-08",
+  "date": "2026-04-09",
   "topics": [
     {
       "domain": "agent",
-      "topic": "Agent 跨模态协同与知识迁移机制",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体多模态任务分解与执行监控",
+      "topic": "智能体动态环境感知与实时响应机制",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练梯度压缩通信优化策略",
+      "topic": "大模型训练数据价值动态评估方法",
       "status": "completed"
     },
     {
-      "domain": "大模型训练",
-      "topic": "大模型动态样本加权与重要性采样",
+      "domain": "quant+agent",
+      "topic": "基于 Agent 的跨市场套利机会自动识别",
       "status": "completed"
     },
     {
@@ -292,6 +287,13 @@
     "智能体多模态任务分解与执行监控",
     "大模型训练梯度压缩通信优化策略",
     "大模型动态样本加权与重要性采样",
-    "大模型推理动态内存管理与优化"
+    "大模型推理动态内存管理与优化",
+    "agent-r9r8",
+    "topic-fw5d",
+    "topic-tnqd",
+    "topic-yipq",
+    "topic-z7n4",
+    "智能体动态环境感知与实时响应机制",
+    "大模型训练数据价值动态评估方法"
   ]
 }
