@@ -1,9 +1,9 @@
 {
-  "date": "2026-04-09",
+  "date": "2026-04-10",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体动态环境感知与实时响应机制",
+      "topic": "智能体跨模态协同与知识迁移机制",
       "status": "completed"
     },
     {
@@ -13,7 +13,7 @@
     },
     {
       "domain": "quant+agent",
-      "topic": "基于 Agent 的跨市场套利机会自动识别",
+      "topic": "AI 驱动的加密货币套利策略自动发现",
       "status": "completed"
     },
     {
@@ -294,6 +294,9 @@
     "topic-yipq",
     "topic-z7n4",
     "智能体动态环境感知与实时响应机制",
-    "大模型训练数据价值动态评估方法"
+    "大模型训练数据价值动态评估方法",
+    "topic-o0wc",
+    "topic-qmwy",
+    "智能体跨模态协同与知识迁移机制"
   ]
 }
