@@ -1,24 +1,29 @@
 {
-  "date": "2026-04-10",
+  "date": "2026-04-11",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体跨模态协同与知识迁移机制",
+      "topic": "智能体多机器人协同控制与任务分配",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体对抗攻击鲁棒性与防御机制",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练数据价值动态评估方法",
+      "topic": "联邦学习场景下大模型隐私保护训练",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理服务弹性伸缩机制",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
       "topic": "AI 驱动的加密货币套利策略自动发现",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理动态内存管理与优化",
       "status": "completed"
     }
   ],
@@ -297,6 +302,7 @@
     "大模型训练数据价值动态评估方法",
     "topic-o0wc",
     "topic-qmwy",
-    "智能体跨模态协同与知识迁移机制"
+    "智能体跨模态协同与知识迁移机制",
+    "topic-rqri"
   ]
 }
