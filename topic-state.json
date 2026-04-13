@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-12",
+  "date": "2026-04-13",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体群体智能涌现与协作行为研究",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "联邦学习场景下大模型隐私保护训练",
+      "topic": "智能体自我改进与元学习机制研究",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练动态课程难度调度策略",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理能效优化与绿色计算技术",
+      "topic": "大模型训练梯度噪声动态注入优化",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于大模型情绪分析的组合优化策略",
+      "topic": "AI 驱动的尾部风险预警与对冲系统",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理服务稳定性保障机制",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体多版本并行测试与验证框架",
       "status": "completed"
     }
   ],
@@ -305,6 +305,12 @@
     "智能体跨模态协同与知识迁移机制",
     "topic-rqri",
     "topic-va8v",
-    "大模型训练动态课程难度调度策略"
+    "大模型训练动态课程难度调度策略",
+    "topic-mggg",
+    "智能体自我改进与元学习机制研究",
+    "大模型训练梯度噪声动态注入优化",
+    "AI 驱动的尾部风险预警与对冲系统",
+    "大模型推理服务稳定性保障机制",
+    "智能体多版本并行测试与验证框架"
   ]
 }
