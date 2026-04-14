@@ -1,9 +1,19 @@
 {
-  "date": "2026-04-13",
+  "date": "2026-04-14",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体自我改进与元学习机制研究",
+      "topic": "智能体跨 API 平台认证与授权管理机制",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体多版本并行测试与验证框架",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型训练数据价值动态评估方法",
       "status": "completed"
     },
     {
@@ -12,18 +22,8 @@
       "status": "completed"
     },
     {
-      "domain": "quant+agent",
-      "topic": "AI 驱动的尾部风险预警与对冲系统",
-      "status": "completed"
-    },
-    {
       "domain": "大模型框架",
-      "topic": "大模型推理服务稳定性保障机制",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体多版本并行测试与验证框架",
+      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
       "status": "completed"
     }
   ],
@@ -311,6 +311,11 @@
     "大模型训练梯度噪声动态注入优化",
     "AI 驱动的尾部风险预警与对冲系统",
     "大模型推理服务稳定性保障机制",
-    "智能体多版本并行测试与验证框架"
+    "智能体多版本并行测试与验证框架",
+    "ai-h9p4",
+    "topic-hiq4",
+    "topic-rxsh",
+    "topic-uiiq",
+    "topic-uoo0"
   ]
 }
