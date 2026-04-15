@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-14",
+  "date": "2026-04-15",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体跨 API 平台认证与授权管理机制",
+      "topic": "智能体多轮谈判与协商策略优化机制",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "智能体多版本并行测试与验证框架",
+      "topic": "智能体跨文化语境自适应交互技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练数据价值动态评估方法",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型训练梯度噪声动态注入优化",
+      "topic": "大模型混合精度训练溢出防护技术",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
+      "topic": "大模型推理服务 QoS 保障机制研究",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "Agent 驱动的交易成本优化执行策略",
       "status": "completed"
     }
   ],
@@ -316,6 +316,11 @@
     "topic-hiq4",
     "topic-rxsh",
     "topic-uiiq",
-    "topic-uoo0"
+    "topic-uoo0",
+    "智能体多轮谈判与协商策略优化机制",
+    "智能体跨文化语境自适应交互技术",
+    "大模型混合精度训练溢出防护技术",
+    "大模型推理服务 QoS 保障机制研究",
+    "Agent 驱动的交易成本优化执行策略"
   ]
 }
