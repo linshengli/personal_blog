@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-15",
+  "date": "2026-04-16",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体多轮谈判与协商策略优化机制",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体跨文化语境自适应交互技术",
+      "topic": "智能体自我改进与元学习机制研究",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型混合精度训练溢出防护技术",
+      "topic": "大模型小样本高效微调方法研究",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "联邦学习场景下大模型隐私保护训练",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理服务 QoS 保障机制研究",
+      "topic": "大模型推理服务无服务器架构弹性伸缩",
       "status": "completed"
     },
     {
-      "domain": "quant+agent",
-      "topic": "Agent 驱动的交易成本优化执行策略",
+      "domain": "大模型框架",
+      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
       "status": "completed"
     }
   ],
@@ -321,6 +321,11 @@
     "智能体跨文化语境自适应交互技术",
     "大模型混合精度训练溢出防护技术",
     "大模型推理服务 QoS 保障机制研究",
-    "Agent 驱动的交易成本优化执行策略"
+    "Agent 驱动的交易成本优化执行策略",
+    "agent-x7fw",
+    "qos-8z0v",
+    "topic-4ycb",
+    "topic-k5sg",
+    "topic-z4l8"
   ]
 }
