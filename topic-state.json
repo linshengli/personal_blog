@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-16",
+  "date": "2026-04-17",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体自我改进与元学习机制研究",
+      "topic": "智能体长期记忆存储与高效检索机制",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体多模态输入理解与语义对齐技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型小样本高效微调方法研究",
+      "topic": "大模型训练中动态梯度裁剪与稳定性控制",
       "status": "completed"
     },
     {
-      "domain": "大模型训练",
-      "topic": "联邦学习场景下大模型隐私保护训练",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理服务无服务器架构弹性伸缩",
+      "domain": "quant+agent",
+      "topic": "基于智能体的市场流动性预测与交易执行",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
+      "topic": "大模型推理服务多租户资源隔离与调度",
       "status": "completed"
     }
   ],
@@ -326,6 +326,11 @@
     "qos-8z0v",
     "topic-4ycb",
     "topic-k5sg",
-    "topic-z4l8"
+    "topic-z4l8",
+    "智能体长期记忆存储与高效检索机制",
+    "智能体多模态输入理解与语义对齐技术",
+    "大模型训练中动态梯度裁剪与稳定性控制",
+    "基于智能体的市场流动性预测与交易执行",
+    "大模型推理服务多租户资源隔离与调度"
   ]
 }
