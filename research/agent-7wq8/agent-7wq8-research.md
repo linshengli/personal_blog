@@ -1,9 +1,10 @@
 # 基于 Agent 的事件驱动交易策略生成深度调研报告
 
 **调研主题**：基于 Agent 的事件驱动交易策略生成
-**所属领域**：quant + agent
-**调研日期**：2026-04-06
-**报告版本**：v1.0
+**所属领域**：quant + agent（量化交易 × 智能体）
+**调研日期**：2026-04-18
+**报告版本**：v2.0（更新版）
+**调研负责人**：AI Research Agent
 
 ---
 
@@ -296,6 +297,8 @@ class MultiAgentTeam:
 | **AI Trading Agent** | 780 | TreeHacks 2025 项目，实时新闻驱动交易 | Python, Claude API | 2025-02 | [GitHub](https://github.com/andrewgcodes/ai-trading-agent) |
 | **AI Agents for Trading** | 1,100+ | 人工金融智能探索，交易与投资研究 | Python, Streamlit | 2026-02 | [GitHub](https://github.com/MrFadiAi/ai-agents-for-trading) |
 | **VeighNa** | 12,000+ | 国产量化交易框架，2026 年整合 LLM | Python, C++ | 2026-02 | [GitHub](https://github.com/vnpy/vnpy) |
+| **Freqtrade** | 11,000+ | 加密货币交易机器人，策略回测 + 实盘 | Python | 2026-Q1 | [GitHub](https://github.com/freqtrade/freqtrade) |
+| **Hummingbot** | 4,500+ | 做市与套利交易机器人框架 | Python | 持续更新 | [GitHub](https://github.com/hummingbot/hummingbot) |
 
 ---
 
@@ -499,5 +502,5 @@ $$
 
 ---
 
-**报告生成日期**：2026-04-06
+**报告生成日期**：2026-04-18
 **总字数**：约 8,500 字
