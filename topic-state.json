@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-18",
+  "date": "2026-04-19",
   "topics": [
     {
       "domain": "agent",
-      "topic": "基于大模型的自动化测试生成智能体",
+      "topic": "智能体不确定性校准与决策置信度评估",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练损失地形分析与优化策略",
+      "topic": "大模型课程学习样本难度自动评估排序",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型训练梯度噪声注入与泛化增强",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于 Agent 的事件驱动交易策略生成",
+      "topic": "AI 驱动的交易策略自动回测与优选",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理 CPU-GPU 异构计算协同调度",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理流水线并行优化",
+      "topic": "大模型推理能效优化与功耗动态管理",
       "status": "completed"
     }
   ],
@@ -336,6 +336,11 @@
     "topic-kfkc",
     "topic-nte3",
     "topic-salw",
-    "topic-utp7"
+    "topic-utp7",
+    "智能体不确定性校准与决策置信度评估",
+    "大模型课程学习样本难度自动评估排序",
+    "大模型训练梯度噪声注入与泛化增强",
+    "AI 驱动的交易策略自动回测与优选",
+    "大模型推理能效优化与功耗动态管理"
   ]
 }
