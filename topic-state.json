@@ -1,6 +1,11 @@
 {
-  "date": "2026-04-19",
+  "date": "2026-04-20",
   "topics": [
+    {
+      "domain": "agent",
+      "topic": "智能体多模态输入理解与语义对齐技术",
+      "status": "completed"
+    },
     {
       "domain": "agent",
       "topic": "智能体不确定性校准与决策置信度评估",
@@ -8,22 +13,17 @@
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型课程学习样本难度自动评估排序",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型训练梯度噪声注入与泛化增强",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "AI 驱动的交易策略自动回测与优选",
+      "topic": "大模型训练中动态梯度裁剪与稳定性控制",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理能效优化与功耗动态管理",
+      "topic": "大模型推理服务多租户资源隔离与调度",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "基于智能体的市场流动性预测与交易执行",
       "status": "completed"
     }
   ],
@@ -341,6 +341,11 @@
     "大模型课程学习样本难度自动评估排序",
     "大模型训练梯度噪声注入与泛化增强",
     "AI 驱动的交易策略自动回测与优选",
-    "大模型推理能效优化与功耗动态管理"
+    "大模型推理能效优化与功耗动态管理",
+    "ai-4iba",
+    "topic-bp30",
+    "topic-cb8f",
+    "topic-hivj",
+    "topic-sftk"
   ]
 }
