@@ -1,29 +1,29 @@
 {
-  "date": "2026-04-20",
+  "date": "2026-04-21",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体多模态输入理解与语义对齐技术",
+      "topic": "智能体因果推理与反事实决策能力",
       "status": "completed"
     },
     {
       "domain": "agent",
-      "topic": "智能体不确定性校准与决策置信度评估",
+      "topic": "资源约束下智能体任务优先级动态调度",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练中动态梯度裁剪与稳定性控制",
+      "topic": "大模型训练自动化数据增强与合成",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型零样本跨域迁移学习方法",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理服务多租户资源隔离与调度",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "基于智能体的市场流动性预测与交易执行",
+      "topic": "大模型推理服务可观测性与调试工具",
       "status": "completed"
     }
   ],
@@ -346,6 +346,11 @@
     "topic-bp30",
     "topic-cb8f",
     "topic-hivj",
-    "topic-sftk"
+    "topic-sftk",
+    "智能体因果推理与反事实决策能力",
+    "资源约束下智能体任务优先级动态调度",
+    "大模型训练自动化数据增强与合成",
+    "大模型零样本跨域迁移学习方法",
+    "大模型推理服务可观测性与调试工具"
   ]
 }
