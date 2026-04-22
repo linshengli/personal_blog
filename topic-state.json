@@ -1,24 +1,24 @@
 {
-  "date": "2026-04-21",
+  "date": "2026-04-22",
   "topics": [
+    {
+      "domain": "agent",
+      "topic": "智能体不确定性校准与决策置信度评估",
+      "status": "completed"
+    },
     {
       "domain": "agent",
       "topic": "智能体因果推理与反事实决策能力",
       "status": "completed"
     },
     {
-      "domain": "agent",
-      "topic": "资源约束下智能体任务优先级动态调度",
+      "domain": "大模型训练",
+      "topic": "大模型零样本跨域迁移学习方法",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
       "topic": "大模型训练自动化数据增强与合成",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型零样本跨域迁移学习方法",
       "status": "completed"
     },
     {
@@ -351,6 +351,11 @@
     "资源约束下智能体任务优先级动态调度",
     "大模型训练自动化数据增强与合成",
     "大模型零样本跨域迁移学习方法",
-    "大模型推理服务可观测性与调试工具"
+    "大模型推理服务可观测性与调试工具",
+    "topic-6p1s",
+    "topic-89pb",
+    "topic-aw92",
+    "topic-ijrf",
+    "topic-ozfj"
   ]
 }
