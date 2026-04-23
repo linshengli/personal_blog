@@ -1,29 +1,24 @@
 {
-  "date": "2026-04-22",
+  "date": "2026-04-23",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体不确定性校准与决策置信度评估",
-      "status": "completed"
-    },
-    {
-      "domain": "agent",
-      "topic": "智能体因果推理与反事实决策能力",
+      "topic": "Agent自主网页浏览与信息抽取技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型零样本跨域迁移学习方法",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型训练自动化数据增强与合成",
+      "topic": "联邦学习下大模型微调隐私保护",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理服务可观测性与调试工具",
+      "topic": "推测解码采样验证优化策略",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "基于因果发现的量化因子挖掘",
       "status": "completed"
     }
   ],
@@ -356,6 +351,10 @@
     "topic-89pb",
     "topic-aw92",
     "topic-ijrf",
-    "topic-ozfj"
+    "topic-ozfj",
+    "Agent自主网页浏览与信息抽取技术",
+    "联邦学习下大模型微调隐私保护",
+    "推测解码采样验证优化策略",
+    "基于因果发现的量化因子挖掘"
   ]
 }
