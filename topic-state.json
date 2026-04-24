@@ -1,24 +1,24 @@
 {
-  "date": "2026-04-23",
+  "date": "2026-04-24",
   "topics": [
     {
       "domain": "agent",
-      "topic": "Agent自主网页浏览与信息抽取技术",
+      "topic": "LLM智能体在代码仓库中的自主导航与搜索技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "联邦学习下大模型微调隐私保护",
+      "topic": "大模型训练数据污染检测与过滤方法",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "推测解码采样验证优化策略",
-      "status": "completed"
+      "topic": "大模型推理推测解码自适应验证策略",
+      "status": "failed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于因果发现的量化因子挖掘",
+      "topic": "市场 regime 识别与量化策略自适应切换",
       "status": "completed"
     }
   ],
@@ -355,6 +355,14 @@
     "Agent自主网页浏览与信息抽取技术",
     "联邦学习下大模型微调隐私保护",
     "推测解码采样验证优化策略",
-    "基于因果发现的量化因子挖掘"
+    "基于因果发现的量化因子挖掘",
+    "agent-wxky",
+    "topic-4u19",
+    "topic-81pl",
+    "topic-dv7i",
+    "LLM智能体在代码仓库中的自主导航与搜索技术",
+    "大模型训练数据污染检测与过滤方法",
+    "大模型推理推测解码自适应验证策略",
+    "市场 regime 识别与量化策略自适应切换"
   ]
 }
