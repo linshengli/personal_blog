@@ -1,25 +1,20 @@
 {
-  "date": "2026-04-24",
+  "date": "2026-04-25",
   "topics": [
     {
       "domain": "agent",
-      "topic": "LLM智能体在代码仓库中的自主导航与搜索技术",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型训练数据污染检测与过滤方法",
+      "topic": "LLM原生函数调用与结构化输出技术",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理推测解码自适应验证策略",
-      "status": "failed"
+      "topic": "长上下文推理的Chunked Prefill技术",
+      "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "市场 regime 识别与量化策略自适应切换",
-      "status": "completed"
+      "topic": "量化因子正交性检测与冗余去除",
+      "status": "failed"
     }
   ],
   "history": [
@@ -363,6 +358,12 @@
     "LLM智能体在代码仓库中的自主导航与搜索技术",
     "大模型训练数据污染检测与过滤方法",
     "大模型推理推测解码自适应验证策略",
-    "市场 regime 识别与量化策略自适应切换"
+    "市场 regime 识别与量化策略自适应切换",
+    "llm-7vig",
+    "regime-pj6l",
+    "topic-tamh",
+    "LLM原生函数调用与结构化输出技术",
+    "长上下文推理的Chunked Prefill技术",
+    "量化因子正交性检测与冗余去除"
   ]
 }
