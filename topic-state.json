@@ -1,20 +1,30 @@
 {
-  "date": "2026-04-25",
+  "date": "2026-04-26",
   "topics": [
     {
       "domain": "agent",
-      "topic": "LLM原生函数调用与结构化输出技术",
+      "topic": "智能体GUI界面理解与自动化操作技术",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "指令微调合成数据生成与质量控制",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型偏好对齐DPO与ORPO方法",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "长上下文推理的Chunked Prefill技术",
+      "topic": "大模型推理连续批处理与乱序调度",
       "status": "completed"
     },
     {
-      "domain": "quant+agent",
-      "topic": "量化因子正交性检测与冗余去除",
-      "status": "failed"
+      "domain": "大模型框架",
+      "topic": "大模型推理服务Benchmark评估体系",
+      "status": "completed"
     }
   ],
   "history": [
@@ -364,6 +374,13 @@
     "topic-tamh",
     "LLM原生函数调用与结构化输出技术",
     "长上下文推理的Chunked Prefill技术",
-    "量化因子正交性检测与冗余去除"
+    "量化因子正交性检测与冗余去除",
+    "chunked-prefill-93ba",
+    "llm-gd0m",
+    "智能体GUI界面理解与自动化操作技术",
+    "指令微调合成数据生成与质量控制",
+    "大模型偏好对齐DPO与ORPO方法",
+    "大模型推理连续批处理与乱序调度",
+    "大模型推理服务Benchmark评估体系"
   ]
 }
