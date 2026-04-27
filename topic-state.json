@@ -1,30 +1,20 @@
 {
-  "date": "2026-04-26",
+  "date": "2026-04-27",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体GUI界面理解与自动化操作技术",
-      "status": "completed"
+      "topic": "智能体工具调用前推理与预条件验证机制",
+      "status": "failed"
     },
     {
       "domain": "大模型训练",
-      "topic": "指令微调合成数据生成与质量控制",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型偏好对齐DPO与ORPO方法",
+      "topic": "预训练语料质量筛选与去重策略",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
       "topic": "大模型推理连续批处理与乱序调度",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理服务Benchmark评估体系",
-      "status": "completed"
+      "status": "failed"
     }
   ],
   "history": [
@@ -381,6 +371,13 @@
     "指令微调合成数据生成与质量控制",
     "大模型偏好对齐DPO与ORPO方法",
     "大模型推理连续批处理与乱序调度",
-    "大模型推理服务Benchmark评估体系"
+    "大模型推理服务Benchmark评估体系",
+    "benchmark-r25m",
+    "dpo-orpo-ixxx",
+    "gui-wnpp",
+    "topic-efwp",
+    "topic-g19y",
+    "智能体工具调用前推理与预条件验证机制",
+    "预训练语料质量筛选与去重策略"
   ]
 }
