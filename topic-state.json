@@ -1,20 +1,25 @@
 {
-  "date": "2026-04-27",
+  "date": "2026-04-28",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体工具调用前推理与预条件验证机制",
-      "status": "failed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "预训练语料质量筛选与去重策略",
+      "topic": "智能体调试与执行轨迹可视化分析技术",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理连续批处理与乱序调度",
-      "status": "failed"
+      "topic": "大模型推理KV缓存智能驱逐与复用策略",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型指令微调合成数据质量控制方法",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "多时间尺度量化信号融合决策框架",
+      "status": "completed"
     }
   ],
   "history": [
@@ -378,6 +383,10 @@
     "topic-efwp",
     "topic-g19y",
     "智能体工具调用前推理与预条件验证机制",
-    "预训练语料质量筛选与去重策略"
+    "预训练语料质量筛选与去重策略",
+    "topic-cpjn",
+    "智能体调试与执行轨迹可视化分析技术",
+    "大模型推理KV缓存智能驱逐与复用策略",
+    "大模型指令微调合成数据质量控制方法"
   ]
 }
