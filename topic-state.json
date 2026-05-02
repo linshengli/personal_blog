@@ -3,7 +3,7 @@
   "topics": [
     {
       "domain": "custom",
-      "topic": "Agent Person Nature",
+      "topic": "Synthetic User Agent For Market Prediction",
       "status": "completed"
     }
   ],
@@ -373,6 +373,7 @@
     "智能体调试与执行轨迹可视化分析技术",
     "大模型推理KV缓存智能驱逐与复用策略",
     "大模型指令微调合成数据质量控制方法",
-    "Agent Person Nature"
+    "Agent Person Nature",
+    "Synthetic User Agent For Market Prediction"
   ]
 }
