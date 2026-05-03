@@ -1,9 +1,24 @@
 {
-  "date": "2026-05-02",
+  "date": "2026-05-03",
   "topics": [
     {
-      "domain": "custom",
-      "topic": "Synthetic User Agent For Market Prediction",
+      "domain": "agent",
+      "topic": "智能体思考链结构化验证与回溯机制",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型训练",
+      "topic": "大模型长上下文训练位置编码优化技术",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理前缀缓存与缓存复用优化技术",
+      "status": "completed"
+    },
+    {
+      "domain": "quant+agent",
+      "topic": "另类数据与AI Agent因子挖掘技术",
       "status": "completed"
     }
   ],
@@ -374,6 +389,16 @@
     "大模型推理KV缓存智能驱逐与复用策略",
     "大模型指令微调合成数据质量控制方法",
     "Agent Person Nature",
-    "Synthetic User Agent For Market Prediction"
+    "Synthetic User Agent For Market Prediction",
+    "agent-person-nature-lhw4",
+    "kv-u3re",
+    "synthetic-user-agent-for-market-prediction-v8c1",
+    "topic-2fzm",
+    "topic-gu88",
+    "topic-j16q",
+    "智能体思考链结构化验证与回溯机制",
+    "大模型长上下文训练位置编码优化技术",
+    "大模型推理前缀缓存与缓存复用优化技术",
+    "另类数据与AI Agent因子挖掘技术"
   ]
 }
