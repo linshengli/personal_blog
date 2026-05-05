@@ -1,24 +1,24 @@
 {
-  "date": "2026-05-03",
+  "date": "2026-05-05",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体思考链结构化验证与回溯机制",
+      "topic": "智能体工作流编排与DAG执行引擎",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型长上下文训练位置编码优化技术",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理前缀缓存与缓存复用优化技术",
+      "topic": "大模型强化学习GRPO与R1训练方法",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "另类数据与AI Agent因子挖掘技术",
+      "topic": "基于Agent的订单簿与市场微观结构分析",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理MLA注意力与Mamba架构优化",
       "status": "completed"
     }
   ],
@@ -399,6 +399,14 @@
     "智能体思考链结构化验证与回溯机制",
     "大模型长上下文训练位置编码优化技术",
     "大模型推理前缀缓存与缓存复用优化技术",
-    "另类数据与AI Agent因子挖掘技术"
+    "另类数据与AI Agent因子挖掘技术",
+    "ai-agent-yy4t",
+    "topic-q6tu",
+    "topic-t51i",
+    "topic-v24y",
+    "智能体工作流编排与DAG执行引擎",
+    "大模型强化学习GRPO与R1训练方法",
+    "基于Agent的订单簿与市场微观结构分析",
+    "大模型推理MLA注意力与Mamba架构优化"
   ]
 }
