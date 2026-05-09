@@ -1,24 +1,29 @@
 {
-  "date": "2026-05-05",
+  "date": "2026-05-09",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体工作流编排与DAG执行引擎",
+      "topic": "智能体联邦协同与隐私保护训练",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型强化学习GRPO与R1训练方法",
+      "topic": "长上下文位置编码外推与插值技术",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "基于Agent的订单簿与市场微观结构分析",
+      "topic": "深度强化学习量化交易执行优化",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理MLA注意力与Mamba架构优化",
+      "topic": "推理服务成本优化与弹性计费模型",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体知识图谱增强推理技术",
       "status": "completed"
     }
   ],
@@ -407,6 +412,15 @@
     "智能体工作流编排与DAG执行引擎",
     "大模型强化学习GRPO与R1训练方法",
     "基于Agent的订单簿与市场微观结构分析",
-    "大模型推理MLA注意力与Mamba架构优化"
+    "大模型推理MLA注意力与Mamba架构优化",
+    "agent-i47r",
+    "dag-3y6z",
+    "grpo-r1-3dds",
+    "mla-mamba-ptko",
+    "智能体联邦协同与隐私保护训练",
+    "长上下文位置编码外推与插值技术",
+    "深度强化学习量化交易执行优化",
+    "推理服务成本优化与弹性计费模型",
+    "智能体知识图谱增强推理技术"
   ]
 }
