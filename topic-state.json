@@ -1,29 +1,29 @@
 {
-  "date": "2026-05-19",
+  "date": "2026-05-21",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体持续学习与知识自适应更新机制",
+      "topic": "智能体任务感知上下文窗口动态扩展技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练损失函数设计与优化方法",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型训练",
-      "topic": "大模型持续预训练与领域适应技术",
-      "status": "completed"
-    },
-    {
-      "domain": "大模型框架",
-      "topic": "大模型推理框架算子自动调优技术",
+      "topic": "大模型训练中知识注入与编辑技术",
       "status": "completed"
     },
     {
       "domain": "quant+agent",
-      "topic": "AI驱动的统计套利策略自动发现",
+      "topic": "AI Agent驱动的量化策略压力测试框架",
+      "status": "completed"
+    },
+    {
+      "domain": "大模型框架",
+      "topic": "大模型推理服务分布式缓存一致性技术",
+      "status": "completed"
+    },
+    {
+      "domain": "agent",
+      "topic": "智能体API版本兼容适配与动态降级机制",
       "status": "completed"
     }
   ],
@@ -477,6 +477,16 @@
     "大模型训练损失函数设计与优化方法",
     "大模型持续预训练与领域适应技术",
     "大模型推理框架算子自动调优技术",
-    "AI驱动的统计套利策略自动发现"
+    "AI驱动的统计套利策略自动发现",
+    "ai-ftu0",
+    "topic-eorn",
+    "topic-ju27",
+    "topic-qgse",
+    "topic-u61i",
+    "智能体任务感知上下文窗口动态扩展技术",
+    "大模型训练中知识注入与编辑技术",
+    "AI Agent驱动的量化策略压力测试框架",
+    "大模型推理服务分布式缓存一致性技术",
+    "智能体API版本兼容适配与动态降级机制"
   ]
 }
