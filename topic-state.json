@@ -1,29 +1,24 @@
 {
-  "date": "2026-05-21",
+  "date": "2026-05-22",
   "topics": [
     {
       "domain": "agent",
-      "topic": "智能体任务感知上下文窗口动态扩展技术",
+      "topic": "智能体任务依赖建模与关键路径优化技术",
       "status": "completed"
     },
     {
       "domain": "大模型训练",
-      "topic": "大模型训练中知识注入与编辑技术",
-      "status": "completed"
-    },
-    {
-      "domain": "quant+agent",
-      "topic": "AI Agent驱动的量化策略压力测试框架",
+      "topic": "大模型稀疏训练计算效率与精度平衡",
       "status": "completed"
     },
     {
       "domain": "大模型框架",
-      "topic": "大模型推理服务分布式缓存一致性技术",
+      "topic": "大模型推理GPU显存分层与池化管理技术",
       "status": "completed"
     },
     {
-      "domain": "agent",
-      "topic": "智能体API版本兼容适配与动态降级机制",
+      "domain": "quant+agent",
+      "topic": "基于强化学习的动态投资组合再平衡策略",
       "status": "completed"
     }
   ],
@@ -487,6 +482,15 @@
     "大模型训练中知识注入与编辑技术",
     "AI Agent驱动的量化策略压力测试框架",
     "大模型推理服务分布式缓存一致性技术",
-    "智能体API版本兼容适配与动态降级机制"
+    "智能体API版本兼容适配与动态降级机制",
+    "ai-agent-493t",
+    "api-8tvz",
+    "topic-b8rp",
+    "topic-e41t",
+    "topic-vlxx",
+    "智能体任务依赖建模与关键路径优化技术",
+    "大模型稀疏训练计算效率与精度平衡",
+    "大模型推理GPU显存分层与池化管理技术",
+    "基于强化学习的动态投资组合再平衡策略"
   ]
 }
